@@ -9,6 +9,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BrandsService {
     private final static Logger logger = LoggerFactory.getLogger(BrandsService.class);
@@ -23,6 +25,11 @@ public class BrandsService {
     public Page<Brands> getAllBrands(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return brandsRepository.findAll(pageable);
+    }
+
+    // Get all Brands without Pagination
+    public List<Brands> getAllBrands() {
+        return brandsRepository.findAll();
     }
 
     //Get Brand by ID

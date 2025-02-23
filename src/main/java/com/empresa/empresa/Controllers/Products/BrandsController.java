@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/brands")
@@ -19,6 +21,7 @@ public class BrandsController {
         this.brandsService = brandsService;
     }
 
+    //Get all Brands with Pagination
     @GetMapping("/getAllBrands")
     public Page<Brands> getAllBrands(
             @RequestParam(defaultValue = "0") int page,
@@ -26,11 +29,22 @@ public class BrandsController {
         return brandsService.getAllBrands(page, size);
     }
 
+    // Get all Brands Images
+    @GetMapping("/getAllBrandsImages")
+    public List<String> getAllBrandsImages(){
+        return brandsService.getAllBrands()
+                .stream()
+                .map(Brands::getBrandImage)
+                .collect(Collectors.toList());
+    }
+
+    //Get Brand by ID
     @GetMapping("/getBrand/{id}")
     public Brands getBrandById(Integer id){
         return brandsService.getBrandById(id);
     }
 
+    //Add Brand
     @PostMapping("/addBrand")
     public ResponseEntity<Map<String, String>> addBrand(Brands brand){
         Brands savedBrand = brandsService.addBrand(brand);
@@ -40,6 +54,7 @@ public class BrandsController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    //Update Brand
     @PutMapping("/updateBrand/{idBrand}")
     public ResponseEntity<Map<String, String>> updateBrand(Integer idBrand, Brands updatedBrand){
         Brands brand = brandsService.updateBrand(idBrand, updatedBrand);
@@ -49,6 +64,7 @@ public class BrandsController {
         return ResponseEntity.ok(response);
     }
 
+    //Deactivate Brand
     @PatchMapping("/deactivateBrand/{idBrand}")
     public ResponseEntity<Map<String, String>> deactivateBrand(Integer idBrand){
         brandsService.deactivateBrand(idBrand);
