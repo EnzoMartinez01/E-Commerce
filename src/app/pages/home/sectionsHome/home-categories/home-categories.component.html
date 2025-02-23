@@ -1,29 +1,13 @@
 <div class="categoria-container">
-    <h2 class="title-categoria">Categorias</h2>
-    <div class="grid-categoria">
-        <a href="categories" class="categoria">
-            <img src="https://i.imgur.com/3dXrFIj.png" alt="">
-            <p>Enchufes</p>
-        </a>
-        <a href="categories" class="categoria">
-            <img src="https://i.imgur.com/3dXrFIj.png" alt="">
-            <p>Enchufes</p>
-        </a>
-        <a href="categories" class="categoria">
-            <img src="https://i.imgur.com/3dXrFIj.png" alt="">
-            <p>Enchufes</p>
-        </a>
-        <a href="categories" class="categoria">
-            <img src="https://i.imgur.com/3dXrFIj.png" alt="">
-            <p>Enchufes</p>
-        </a>
-        <a href="categories" class="categoria">
-            <img src="https://i.imgur.com/3dXrFIj.png" alt="">
-            <p>Enchufes</p>
-        </a>
-        <a href="categories" class="categoria">
-            <img src="https://i.imgur.com/3dXrFIj.png" alt="">
-            <p>Ver mas</p>
-        </a>
-    </div>
+  <h2 class="title-categoria">Categorías</h2>
+  <div class="grid-categoria">
+    <a *ngFor="let category of categories" [routerLink]="['/products', category.value]" class="categoria">
+      <img [src]="category.image" [alt]="category.label">
+      <p>{{ category.label }}</p>
+    </a>
+    <a href="/categories" class="categoria">
+      <img src="https://i.imgur.com/I2vZcc2.jpg" alt="">
+      <p>Ver mas</p>
+    </a>
+  </div>
 </div>

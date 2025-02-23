@@ -13,7 +13,7 @@ export interface CategoryResponse{
 })
 
 export class CategoriesService {
-  private baseUrl = '';
+  private baseUrl = 'http://localhost:8080/api/v1/categories';
 
   constructor(private http: HttpClient) {}
 
@@ -34,6 +34,6 @@ export class CategoriesService {
       .set('page', page.toString())
       .set('size', size.toString());
 
-    return this.http.get<any>(`${this.baseUrl}/categories/getAll`, {headers, params});
+    return this.http.get<any>(`${this.baseUrl}/getAllCategories`, {headers, params});
   }
 }

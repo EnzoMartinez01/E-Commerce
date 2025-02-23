@@ -9,46 +9,21 @@
         Escoga una categoria
     </h3>
 
-    <div class="categorias-grid">
-        <div class="categorias-card">
-            <a href="products"><img src="https://i.imgur.com/PFYHVPC.png" alt="">
-                <p>Categoria Nombre</p>
-            </a>
-        </div>
-        <div class="categorias-card">
-            <a href="products"><img src="https://i.imgur.com/PFYHVPC.png" alt="">
-                <p>Categoria Nombre</p>
-            </a>
-        </div>
-        <div class="categorias-card">
-            <a href="products"><img src="https://i.imgur.com/PFYHVPC.png" alt="">
-                <p>Categoria Nombre</p>
-            </a>
-        </div>
-        <div class="categorias-card">
-            <a href="products"><img src="https://i.imgur.com/PFYHVPC.png" alt="">
-                <p>Categoria Nombre</p>
-            </a>
-        </div>
-        <div class="categorias-card">
-            <a href="products"><img src="https://i.imgur.com/PFYHVPC.png" alt="">
-                <p>Categoria Nombre</p>
-            </a>
-        </div>
-        <div class="categorias-card">
-            <a href="products"><img src="https://i.imgur.com/PFYHVPC.png" alt="">
-                <p>Categoria Nombre</p>
-            </a>
-        </div>
-        <div class="categorias-card">
-            <a href="products"><img src="https://i.imgur.com/PFYHVPC.png" alt="">
-                <p>Categoria Nombre</p>
-            </a>
-        </div>
-        <div class="categorias-card">
-            <a href="products"><img src="https://i.imgur.com/PFYHVPC.png" alt="">
-                <p>Categoria Nombre</p>
-            </a>
-        </div>
+  <div class="categorias-grid">
+    <div class="categorias-card" *ngFor="let category of categories">
+      <a [routerLink]="['/products', category.value]">
+        <img [src]="category.image" alt="{{ category.label }}">
+        <p>{{ category.label }}</p>
+      </a>
     </div>
+  </div>
+
+  <p-paginator
+    (onPageChange)="onPageChange($event)"
+    [first]="first"
+    [rows]="rows"
+    [totalRecords]="totalRecords"
+    [rowsPerPageOptions]="[8, 16, 24]"
+  />
+
 </div>
