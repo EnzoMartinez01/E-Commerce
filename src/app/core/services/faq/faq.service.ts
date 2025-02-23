@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
-import { Faq } from '../../../Models/faq.models';
+import { Faq } from '../../../Models/faq.model';
 
 export interface FaqResponse {
     content: Faq[];
