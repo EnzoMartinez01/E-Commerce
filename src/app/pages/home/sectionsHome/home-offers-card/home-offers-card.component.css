@@ -78,6 +78,14 @@
     font-size: 18px;
 }
 
+.product-name {
+  font-size: clamp(0.8rem, 4vw, 1.2rem);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
 .price-offer {
     text-align: center;
     font-weight: 600;
