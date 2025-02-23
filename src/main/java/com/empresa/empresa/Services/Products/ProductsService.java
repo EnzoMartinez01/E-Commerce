@@ -35,14 +35,15 @@ public class ProductsService {
     }
 
     //Get Products by Filters
-    public Page<ProductsDto> getFilteredProducts(String productName,
+    public Page<ProductsDto> getFilteredProducts(String searchTerms,
                                                  Double price, Integer stock,
                                                  Boolean isOffer, Integer brandId,
                                                  Integer categoryId, Boolean isActive,
                                                  int page, int size) {
         try {
             Pageable pageable = PageRequest.of(page, size);
-            return productsRepository.findByFilters(productName, price, stock, isOffer, brandId, categoryId, isActive, pageable).map(this::mapToDto);
+            String search = (searchTerms != null && !searchTerms.trim().isEmpty()) ? searchTerms.trim() : null;
+            return productsRepository.findByFilters(searchTerms, price, stock, isOffer, brandId, categoryId, isActive, pageable).map(this::mapToDto);
         } catch (Exception e) {
             logger.error("Error al obtener los productos", e);
             throw new RuntimeException("Error al obtener los productos", e);

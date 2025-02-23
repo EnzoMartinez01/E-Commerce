@@ -10,14 +10,17 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductsRepository extends JpaRepository<Products, Integer> {
     @Query("SELECT p FROM Products p " +
-            "WHERE (:productName IS NULL OR p.productName LIKE %:productName%) " +
+            "WHERE (:searchTerms IS NULL OR " +
+            "      LOWER(p.productName) LIKE LOWER(CONCAT('%', :searchTerms, '%')) OR " +
+            "      LOWER(p.category.categoryName) LIKE LOWER(CONCAT('%', :searchTerms, '%')) OR " +
+            "      LOWER(p.brand.brandName) LIKE LOWER(CONCAT('%', :searchTerms, '%'))) " +
             "AND (:price IS NULL OR p.price = :price) " +
             "AND (:stock IS NULL OR p.stock = :stock) " +
             "AND (:isOffer IS NULL OR p.isOffer = :isOffer) " +
             "AND (:brandId IS NULL OR p.brand.idBrand = :brandId) " +
             "AND (:categoryId IS NULL OR p.category.idCategory = :categoryId) " +
             "AND (:isActive IS NULL OR p.isActive = :isActive)")
-    Page<Products> findByFilters(@Param("productName") String productName,
+    Page<Products> findByFilters(@Param("searchTerms") String searchTerms,
                                  @Param("price") Double price,
                                  @Param("stock") Integer stock,
                                  @Param("isOffer") Boolean isOffer,
@@ -25,4 +28,5 @@ public interface ProductsRepository extends JpaRepository<Products, Integer> {
                                  @Param("categoryId") Integer categoryId,
                                  @Param("isActive") Boolean isActive,
                                  Pageable pageable);
+
 }

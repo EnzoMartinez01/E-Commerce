@@ -31,7 +31,7 @@ public class ProductsController {
     //Get Products by Filter
     @GetMapping("/getProductsByFilters")
     public Page<ProductsDto> getProductsByFilters(
-            @RequestParam(required = false) String productName,
+            @RequestParam(required = false) String searchTerms,
             @RequestParam(required = false) Double price,
             @RequestParam(required = false) Integer stock,
             @RequestParam(required = false) Boolean isOffer,
@@ -41,7 +41,7 @@ public class ProductsController {
             @RequestParam(defaultValue = "0")int page,
             @RequestParam(defaultValue = "10")int size){
 
-        return productsService.getFilteredProducts(productName,price,stock,isOffer,brandId,categoryId,isActive,page,size);
+        return productsService.getFilteredProducts(searchTerms,price,stock,isOffer,brandId,categoryId,isActive,page,size);
     }
 
     //Add Product
