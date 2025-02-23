@@ -15,6 +15,9 @@
         font-size: 36px;
     }
 }
+.product-container {
+  background: #fff;
+}
 
 ::ng-deep .p-carousel {
     width: 80%;
@@ -35,6 +38,16 @@
         text-decoration: underline;
         font-size: 22px;
     }
+}
+
+.product-image {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+.img-container {
+  text-align: center;
 }
 
 .offer {
@@ -87,4 +100,9 @@
 
 .justify-between {
     text-align: center;
+}
+.names-container {
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
 }

@@ -13,7 +13,7 @@ export interface ProductsResponse {
 })
 export class ProductsService {
 
-  private baseUrl = '';
+  private baseUrl = 'http://localhost:8080/api/v1/products';
 
   constructor(private http: HttpClient) { }
 
@@ -70,6 +70,6 @@ export class ProductsService {
       params = params.set('searchTerms', searchTerms);
     }
 
-    return this.http.get<any>(`${this.baseUrl}/products/getAll`, { headers, params });
+    return this.http.get<any>(`${this.baseUrl}/getProductsByFilters`, { headers, params });
   }
 }
