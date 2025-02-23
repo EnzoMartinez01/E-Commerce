@@ -1,0 +1,34 @@
+<section class="home-section-brands">
+    <div class="title-sections">
+        <h2>Ofertas Destacadas</h2>
+    </div>
+    <p-carousel [value]="products" [numVisible]="4" [numScroll]="1" [responsiveOptions]="responsiveOptions" [autoplayInterval]="10000" [showIndicators]="true" [showNavigators]="false">
+        <ng-template let-product pTemplate="item">
+            <div class="border border-surface-200 dark:border-surface-700 rounded m-2 p-4">
+                <div class="product-header">
+                    <div class="category">
+                        <h4>Categoria</h4>
+                    </div>
+                    <div class="offer">
+                        <h4>-25%</h4>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <div class="relative mx-auto">
+                        <img src="https://primefaces.org/cdn/primeng/images/demo/product/{{ product.image }}" [alt]="product.name" class="w-full rounded-border" />
+                        <p-tag *ngIf="product.inventoryStatus" [value]="product.inventoryStatus">
+                        </p-tag>
+                    </div>
+                </div>
+                <div class=" mb-4 font-medium ">{{ product.name }}</div>
+                <div class="flex justify-between items-center ">
+                    <div class="mt-0 font-semibold text-xl ">{{ 'S/.' + product.price }}</div>
+                    <div class="price-offer">{{ 'S/.' + product.price }}</div>
+                    <span>
+                        <p-button icon="pi pi-shopping-cart " styleClass="ml-2 ">Agregar</p-button>
+                    </span>
+                </div>
+            </div>
+        </ng-template>
+    </p-carousel>
+</section>

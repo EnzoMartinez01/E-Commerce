@@ -1,0 +1,33 @@
+.contact-info-section {
+    width: 100%;
+    padding: 50px;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-info-title {
+    color: #48828d;
+    h2 {
+        font-size: 80px;
+        font-weight: 500;
+    }
+}
+
+.contact-info-lists {
+    h3 {
+        color: #48828d;
+        font-weight: 400;
+    }
+    ul {
+        a {
+            color: #757575;
+            text-decoration: none;
+            font-weight: 100;
+            font-size: 15px;
+        }
+        a:hover {
+            color: #252525;
+        }
+    }
+}

@@ -1,0 +1,24 @@
+import { Routes } from '@angular/router';
+import { ProductsComponent } from './pages/products/products.component';
+import { AboutComponent } from './pages/about/about.component';
+import { CartComponent } from './pages/cart/cart.component';
+import { CategoriesComponent } from './pages/categories/categories.component';
+import { ContactComponent } from './pages/contact/contact.component';
+import { FAQComponent } from './pages/FAQ/faq.component';
+import { HomeComponent } from './pages/home/home.component';
+import { LoginComponent } from './pages/login/login.component';
+import { ProductsInfoComponent } from './pages/products/sectionsProducts/products-info/products-info.component';
+
+
+export const routes: Routes = [
+    {path: '', redirectTo: 'home', pathMatch:'full'},
+    {path:'products', component: ProductsComponent},
+    {path:'categories', component: CategoriesComponent},
+    {path:'about', component: AboutComponent},
+    {path:'cart', component: CartComponent},
+    {path:'contact', component: ContactComponent},
+    {path:'FAQ', component: FAQComponent},
+    {path:'home', component: HomeComponent},
+    {path:'login', component: LoginComponent},
+    {path:'products-info', component: ProductsInfoComponent},
+];
