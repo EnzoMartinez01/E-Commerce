@@ -1,1 +1,104 @@
-<p>products-filter works!</p>
+<div class="container">
+    <aside class="filtros-container">
+        <h3>FILTRAR POR</h3>
+        <div *ngFor="let filtro of filtros" class="filtro-categoria">
+            <h4 (click)="toggleFiltro(filtro)">
+                {{ filtro.nombre }} <span>{{ filtro.abierto ? '▲' : '▼' }}</span>
+            </h4>
+            <div class="filtro-opciones" *ngIf="filtro.abierto">
+                <label *ngFor="let opcion of filtro.opciones">
+          <input type="checkbox" [(ngModel)]="opcion.seleccionado">
+          {{ opcion.nombre }}
+        </label>
+            </div>
+        </div>
+    </aside>
+    <div class="product-section">
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-category">Electrónica</div>
+                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
+                <div class="product-name">Arduino Nano</div>
+                <div class="product-price">S/. 15.00</div>
+                <button class="add-to-cart">Agregar</button>
+            </div>
+            <div class="product-card">
+                <div class="product-category">Electrónica</div>
+                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
+                <div class="product-name">Arduino Nano</div>
+                <div class="product-price">S/. 15.00</div>
+                <button class="add-to-cart">Agregar</button>
+            </div>
+            <div class="product-card">
+                <div class="product-category">Electrónica</div>
+                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
+                <div class="product-name">Arduino Nano</div>
+                <div class="product-price">S/. 15.00</div>
+                <button class="add-to-cart">Agregar</button>
+            </div>
+            <div class="product-card">
+                <div class="product-category">Electrónica</div>
+                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
+                <div class="product-name">Arduino Nano</div>
+                <div class="product-price">S/. 15.00</div>
+                <button class="add-to-cart">Agregar</button>
+            </div>
+            <div class="product-card">
+                <div class="product-category">Electrónica</div>
+                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
+                <div class="product-name">Arduino Nano</div>
+                <div class="product-price">S/. 15.00</div>
+                <button class="add-to-cart">Agregar</button>
+            </div>
+            <div class="product-card">
+                <div class="product-category">Electrónica</div>
+                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
+                <div class="product-name">Arduino Nano</div>
+                <div class="product-price">S/. 15.00</div>
+                <button class="add-to-cart">Agregar</button>
+            </div>
+            <div class="product-card">
+                <div class="product-category">Electrónica</div>
+                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
+                <div class="product-name">Arduino Nano</div>
+                <div class="product-price">S/. 15.00</div>
+                <button class="add-to-cart">Agregar</button>
+            </div>
+            <div class="product-card">
+                <div class="product-category">Electrónica</div>
+                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
+                <div class="product-name">Arduino Nano</div>
+                <div class="product-price">S/. 15.00</div>
+                <button class="add-to-cart">Agregar</button>
+            </div>
+            <div class="product-card">
+                <div class="product-category">Electrónica</div>
+                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
+                <div class="product-name">Arduino Nano</div>
+                <div class="product-price">S/. 15.00</div>
+                <button class="add-to-cart">Agregar</button>
+            </div>
+            <div class="product-card">
+                <div class="product-category">Electrónica</div>
+                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
+                <div class="product-name">Arduino Nano</div>
+                <div class="product-price">S/. 15.00</div>
+                <button class="add-to-cart">Agregar</button>
+            </div>
+            <div class="product-card">
+                <div class="product-category">Electrónica</div>
+                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
+                <div class="product-name">Arduino Nano</div>
+                <div class="product-price">S/. 15.00</div>
+                <button class="add-to-cart">Agregar</button>
+            </div>
+            <div class="product-card">
+                <div class="product-category">Electrónica</div>
+                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
+                <div class="product-name">Arduino Nano</div>
+                <div class="product-price">S/. 15.00</div>
+                <button class="add-to-cart">Agregar</button>
+            </div>
+        </div>
+    </div>
+</div>

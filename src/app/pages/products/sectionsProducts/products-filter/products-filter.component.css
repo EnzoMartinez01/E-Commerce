@@ -1,0 +1,137 @@
+ aside {
+     font-family: "Red Hat Display", serif;
+ }
+ 
+ div {
+     font-family: "Red Hat Display", serif;
+ }
+ 
+ .container {
+     display: flex;
+     gap: 40px;
+     padding: 20px;
+     align-items: flex-start;
+ }
+ 
+ .filtros-container {
+     width: 250px;
+     background: #fff;
+     padding: 15px;
+     border-radius: 5px;
+     position: relative;
+     left: 5%;
+     border-right: 2px solid #48828d;
+     padding-right: 30px;
+ }
+ 
+ .filtros-container h3 {
+     font-size: 18px;
+     margin-bottom: 15px;
+     color: #48828d;
+     font-weight: bold;
+ }
+ 
+ .filtro-categoria {
+     margin-bottom: 15px;
+ }
+ 
+ .filtro-categoria h4 {
+     font-size: 16px;
+     color: #48828d;
+     font-weight: bold;
+     cursor: pointer;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+ }
+ 
+ .filtro-opciones {
+     display: flex;
+     flex-direction: column;
+     gap: 5px;
+ }
+ 
+ .filtro-opciones label {
+     display: flex;
+     align-items: center;
+     gap: 5px;
+ }
+ 
+ .separator {
+     width: 1px;
+     height: 100px;
+     background-color: #48828d;
+ }
+ 
+ .filtro-opciones input[type="checkbox"] {
+     accent-color: #48828d;
+     width: 16px;
+     height: 16px;
+ }
+ 
+ .product-section {
+     flex-grow: 1;
+     margin-left: 50px;
+ }
+ 
+ .product-grid {
+     display: grid;
+     grid-template-columns: repeat(4, 1fr);
+     gap: 20px;
+ }
+ 
+ .product-category {
+     font-size: 14px;
+     font-weight: bold;
+     color: #000;
+     margin-bottom: 5px;
+     display: flex;
+     text-decoration: underline;
+ }
+ 
+ .product-card {
+     border: 1px solid #ccc;
+     padding: 15px;
+     text-align: center;
+     border-radius: 10px;
+     background: #fff;
+ }
+ 
+ .product-image {
+     width: 100px;
+     height: auto;
+     margin-bottom: 10px;
+ }
+ 
+ .product-name {
+     font-size: 18px;
+     font-weight: bold;
+     margin-bottom: 5px;
+ }
+ 
+ .product-price {
+     font-size: 16px;
+     font-weight: bold;
+     color: #48828d;
+     margin-bottom: 10px;
+ }
+ 
+ .add-to-cart {
+     background: #48828d;
+     color: white;
+     border: none;
+     padding: 8px 10px;
+     border-radius: 5px;
+     cursor: pointer;
+ }
+ 
+ .add-to-cart:hover {
+     background: #fff;
+     color: black;
+ }
+ 
+ @media(max-width: 768px) {
+     .separator {
+         display: none;
+     }
+ }
