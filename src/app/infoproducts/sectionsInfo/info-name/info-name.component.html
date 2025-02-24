@@ -1,56 +1,40 @@
 <div class="productos" *ngIf="products.length > 0;">
-    <div class="producto-container" *ngFor="let product of products">
-        <div class="productos-image">
-            <img [src]="product.image" alt="">
-        </div>
-        <div class="productos-detalles">
-            <h1 class="productos-titulo">
-                {{product.name}}
-            </h1>
-            <p class="producto-descripcion">
-                {{product.description}}
-            </p>
-            <div class="productos-precio">
-                <span class="precio">{{product.price}}</span><br><span class="tarjeta-precio">{{product.priceCreditCard}}</span>
-                <p>
-                    Se aplicara un recargo de 5% en caso de pago con tarjeta de credito o debito. <br> Impuestos Incluidos(*)
-                </p>
-            </div>
-            <div class="productos-sku">
-                <span>{{product.sku}}</span>
-                <span class="estado">{{product.isActive}}</span>
-            </div>
-            <div class="productos-marca">
-                <img [src]="product.brandImage" alt="KBA Electric">
-            </div>
-            <div class="productos-cantidad">
-                <label for="quantity"></label>
-                <div class="cantidad-container">
-                    <button class="btn-menos">-</button>
-                    <input type="text" id="quantity" value="1">
-                    <button class="btn-mas">+</button>
-                    <script>
-                        document.addEventListener("DOMContentLoaded", function() {
-                            const btnMenos = document.querySelector(".btn-menos");
-                            const btnMas = document.querySelector(".btn-mas");
-                            const quantityInput = document.getElementById("quantity");
-
-                            btnMenos.addEventListener("click", function() {
-                                let currentValue = parseInt(quantityInput.value);
-                                if (currentValue > 1) {
-                                    quantityInput.value = currentValue - 1;
-                                }
-                            });
-
-                            btnMas.addEventListener("click", function() {
-                                let currentValue = parseInt(quantityInput.value);
-                                quantityInput.value = currentValue + 1;
-                            });
-                        });
-                    </script>
-                </div>
-                <button class="carrito">Añadir al Carrito</button>
-            </div>
-        </div>
+  <div class="producto-container" *ngFor="let product of products">
+    <div class="productos-image">
+      <img [src]="product.image" alt="{{ product.name }}">
     </div>
+    <div class="productos-detalles">
+      <h1 class="productos-titulo">
+        {{ product.name }}
+      </h1>
+      <p class="producto-descripcion">
+        {{ product.description }}
+      </p>
+      <div class="productos-precio">
+        <span class="precio">{{ product.price | currency:'USD' }}</span><br>
+        <span class="tarjeta-precio">{{ product.priceCreditCard | currency:'USD' }}</span>
+        <p>
+          Se aplicará un recargo de 5% en caso de pago con tarjeta de crédito o débito. <br> Impuestos Incluidos (*)
+        </p>
+      </div>
+      <div class="productos-sku">
+        <span>SKU: {{ product.sku }}</span>
+        <span class="estado" [ngClass]="{'activo': product.isActive, 'inactivo': !product.isActive}">
+                    {{ product.isActive ? 'Activo' : 'Inactivo' }}
+                </span>
+      </div>
+      <div class="productos-marca">
+        <img [src]="product.brandImage" alt="Marca">
+      </div>
+      <div class="productos-cantidad">
+        <label for="quantity-{{product.sku}}">Cantidad:</label>
+        <div class="cantidad-container">
+          <button class="btn-menos" (click)="decrementQuantity(product)">-</button>
+          <input type="number" id="quantity-{{product.sku}}" [(ngModel)]="product.quantity" min="1">
+          <button class="btn-mas" (click)="incrementQuantity(product)">+</button>
+        </div>
+        <button class="carrito" (click)="addToCart(product)">Añadir al Carrito</button>
+      </div>
+    </div>
+  </div>
 </div>
