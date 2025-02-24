@@ -18,6 +18,7 @@ public class ProductsDto {
     private Double priceOffer;
     private Integer idBrand;
     private String brandName;
+    private String brandImage;
     private Integer idCategory;
     private String categoryName;
     private String pdfFile;

@@ -11,6 +11,7 @@ import com.empresa.empresa.Services.Reports.AuditLogService;
 
 import javax.management.RuntimeErrorException;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.eclipse.angus.mail.handlers.message_rfc822;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,16 +41,15 @@ public class ProductsService {
     }
 
     //Get Products by Id
-    public ProductsDto geProductsById(Integer idProduct){
-        try{
+    public ProductsDto getProductsById(Integer idProduct) {
+        try {
             return productsRepository.findById(idProduct)
-            .map(this::mapToDto)
-            .orElseThrow(()-> new RuntimeException("Invalid Id Products" + idProduct));
-        } catch(Exception e){
-            logger.error("Error al obtener Productos", e);
-            throw new RuntimeException( "Error al obtener Productos", e);
+                    .map(this::mapToDto)
+                    .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado con ID: " + idProduct));
+        } catch (Exception e) {
+            logger.error("Error al obtener producto con ID: {}", idProduct, e);
+            throw new RuntimeException("Error al obtener producto", e);
         }
-        
     }
 
     //Get Products by Filters
@@ -83,6 +83,7 @@ public class ProductsService {
         dto.setPriceOffer(products.getPriceOffer());
         dto.setIdBrand(products.getBrand().getIdBrand());
         dto.setBrandName(products.getBrand().getBrandName());
+        dto.setBrandImage(products.getBrand().getBrandImage());
         dto.setIdCategory(products.getCategory().getIdCategory());
         dto.setCategoryName(products.getCategory().getCategoryName());
         dto.setPdfFile(products.getPdfFile());

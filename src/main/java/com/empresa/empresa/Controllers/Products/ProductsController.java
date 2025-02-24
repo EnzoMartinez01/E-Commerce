@@ -46,12 +46,11 @@ public class ProductsController {
     }
 
     //Get Products by Id
-    @GetMapping("/getProductsById/{idProducts}")
-    public ProductsDto getProductsByDto
-    (@PathVariable Integer idProducts ) 
-    {
-        return productsService.geProductsById(idProducts);
-    } 
+    @GetMapping("/getProductsById/{idProduct}")
+    public ResponseEntity<ProductsDto> getProductsByDto(@PathVariable Integer idProduct) {
+        ProductsDto product = productsService.getProductsById(idProduct);
+        return ResponseEntity.ok(product);
+    }
 
 
     //Add Product
