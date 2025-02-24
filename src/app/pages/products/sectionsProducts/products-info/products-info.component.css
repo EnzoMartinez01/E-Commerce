@@ -1,21 +1,13 @@
 .container-image {
     width: 100%;
-    position: relative;
     margin-bottom: 20px;
-}
-
-.container-image img {
-    width: 100%;
+    background-image: url("https://i.imgur.com/PJbwVjL.png");
     height: 300px;
-    object-fit: cover;
-    display: block;
+    display: flex;
+    align-items: center;
 }
 
 .container-image h2 {
-    position: absolute;
-    top: 50%;
-    left: 12%;
-    transform: translate(-50%, -50%);
     color: #fff;
     font-size: 40px;
     font-weight: bold;
@@ -23,4 +15,9 @@
     text-align: center;
     width: max-content;
     background-color: #48828d;
+}
+
+.container-image-title {
+  width: 60%;
+  margin: auto;
 }
