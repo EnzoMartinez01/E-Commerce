@@ -1,32 +1,58 @@
 <div class="modal-overlay" (click)="close()">
-    <div class="modal-content" (click)="$event.stopPropagation()">
-        <div class="close-button">
-            <button (click)="close()">
-                <i class="pi pi-times"></i>
-            </button>
-        </div>
-        <h2>Empresa</h2>
-        <form (ngSubmit)="onSubmit()">
-            <input type="text" class="form-control" id="username" name="username" [(ngModel)]="username" placeholder="Username" required />
-
-            <input type="password" class="form-control" id="password" name="password" [(ngModel)]="password" placeholder="Password" required />
-
-            <div class="input-group">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="passwordRemember" />
-                    <label class="form-check-label" for="passwordRemember">
-                        Recordar Contraseña
-                    </label>
-                </div>
-                <a href="#">¿Olvidaste tu contraseña?</a>
-            </div>
-            <div class="button-container">
-                <button type="submit" [disabled]="isLoading">Iniciar Sesión</button>
-                <div class="register">
-                    <a href="#">¿No tienes cuenta? Regístrate</a>
-                </div>
-            </div>
-            <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
-        </form>
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="close-button">
+      <button (click)="close()">
+        <i class="pi pi-times"></i>
+      </button>
     </div>
+
+    <!-- Alternar entre Login y Registro -->
+    <h2 *ngIf="!isRegistering">Iniciar Sesión</h2>
+    <h2 *ngIf="isRegistering">Registro</h2>
+
+    <!-- Formulario de Login -->
+    <form *ngIf="!isRegistering" (ngSubmit)="onSubmit()">
+      <input type="text" class="form-control" id="username" name="username"
+             [(ngModel)]="username" placeholder="Username" required />
+
+      <input type="password" class="form-control" id="password" name="password"
+             [(ngModel)]="password" placeholder="Password" required />
+
+      <div class="input-group">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="passwordRemember" />
+          <label class="form-check-label" for="passwordRemember">Recordar Contraseña</label>
+        </div>
+        <a href="#">¿Olvidaste tu contraseña?</a>
+      </div>
+
+      <div class="button-container">
+        <button type="submit" [disabled]="isLoading">Iniciar Sesión</button>
+        <div class="register">
+          <a (click)="toggleForm()">¿No tienes cuenta? Regístrate</a>
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+    </form>
+
+    <!-- Formulario de Registro -->
+    <form *ngIf="isRegistering" [formGroup]="registerForm">
+      <input type="text" class="form-control" formControlName="names" placeholder="Nombres" required />
+      <input type="text" class="form-control" formControlName="lastName" placeholder="Apellidos" required />
+      <input type="text" class="form-control" formControlName="dni" placeholder="DNI" required />
+      <input type="text" class="form-control" formControlName="telephone" placeholder="Teléfono" required />
+      <input type="email" class="form-control" formControlName="email" placeholder="Correo Electrónico" required />
+      <input type="text" class="form-control" formControlName="username" placeholder="Username" required />
+      <input type="password" class="form-control" formControlName="password" placeholder="Password" required />
+      <input type="date" class="form-control" formControlName="birthDate" required />
+
+      <div class="button-container">
+        <button type="submit" [disabled]="isLoading">Registrarse</button>
+        <div class="register">
+          <a (click)="toggleForm()">¿Ya tienes cuenta? Inicia Sesión</a>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>

@@ -55,7 +55,7 @@ export class HeaderComponent implements OnInit{
 
   allProducts: string[] = [];
   filteredProducts: string[] = [];
-  
+
   dataSource = new MatTableDataSource<Products>();
 
   menuOpen = false;
@@ -68,7 +68,8 @@ export class HeaderComponent implements OnInit{
   ngOnInit(): void {
     this.loadProducts();
   }
-  
+
+
 
   // Navigation - Hamburguer
   toggleMenu(): void {
