@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -43,6 +44,15 @@ public class ProductsController {
 
         return productsService.getFilteredProducts(searchTerms,price,stock,isOffer,brandId,categoryId,isActive,page,size);
     }
+
+    //Get Products by Id
+    @GetMapping("/getProductsById/{idProducts}")
+    public ProductsDto getProductsByDto
+    (@PathVariable Integer idProducts ) 
+    {
+        return productsService.geProductsById(idProducts);
+    } 
+
 
     //Add Product
    @PostMapping("/addProduct")
@@ -81,4 +91,7 @@ public class ProductsController {
         response.put("message", "Product deactivated successfully");
         return ResponseEntity.ok(response);
     }
+
+   
+
 }

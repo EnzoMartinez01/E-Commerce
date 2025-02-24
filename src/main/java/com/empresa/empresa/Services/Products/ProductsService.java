@@ -8,8 +8,13 @@ import com.empresa.empresa.Models.Products.Characteristics;
 import com.empresa.empresa.Models.Products.Products;
 import com.empresa.empresa.Repositories.Products.ProductsRepository;
 import com.empresa.empresa.Services.Reports.AuditLogService;
+
+import javax.management.RuntimeErrorException;
+
+import org.eclipse.angus.mail.handlers.message_rfc822;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +37,19 @@ public class ProductsService {
     public Page<ProductsDto> getAllProducts(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return productsRepository.findAll(pageable).map(this::mapToDto);
+    }
+
+    //Get Products by Id
+    public ProductsDto geProductsById(Integer idProduct){
+        try{
+            return productsRepository.findById(idProduct)
+            .map(this::mapToDto)
+            .orElseThrow(()-> new RuntimeException("Invalid Id Products" + idProduct));
+        } catch(Exception e){
+            logger.error("Error al obtener Productos", e);
+            throw new RuntimeException( "Error al obtener Productos", e);
+        }
+        
     }
 
     //Get Products by Filters
@@ -230,4 +248,8 @@ public class ProductsService {
         products.setIsActive(false);
         productsRepository.save(products);
     }
+
+
+
+   
 }
