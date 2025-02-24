@@ -3,13 +3,15 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DividerModule } from 'primeng/divider';
 import {NgForOf} from '@angular/common';
-
-
+import {ProductsService} from '../../../../core/services/products/products.service';
+import {Paginator} from 'primeng/paginator';
+import {ActivatedRoute} from '@angular/router';
+import {CategoriesService} from '../../../../core/services/products/categories.service';
 
 
 @Component({
   selector: 'app-products-filter',
-  imports: [FormsModule,CommonModule,DividerModule,NgForOf],
+  imports: [FormsModule, CommonModule, DividerModule, NgForOf, Paginator],
   templateUrl: './products-filter.component.html',
   styleUrl: './products-filter.component.css'
 })
@@ -82,10 +84,96 @@ export class ProductsFilterComponent {
     }
   ];
 
+  products: {
+    name: string;
+    price: number;
+    image: string;
+    offer: number;
+    priceOffer: number;
+    category: string;
+    isActive: boolean;
+    isOffer: boolean;
+  }[] = [];
+
+  filters = {
+    brandId: null as number | null,
+    categoryId: 1,
+    price: null as number | null,
+    stock: null as number | null,
+    isOffer: null as boolean | null,
+    isActive: true,
+    page: 0,
+    size: 10,
+    searchTerms: null as string | null
+  }
+
+  first: number = 0;
+  rows: number = 8;
+  totalRecords: number = 0;
+
+  constructor(private productsService: ProductsService,
+              private route: ActivatedRoute,
+              private categoriesService: CategoriesService) {
+  }
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      const categoryName = params.get('categoryName');
+      if (categoryName) {
+        this.categoriesService.getCategoryByName(categoryName).subscribe(category => {
+
+          if (category && category.idCategory) {
+            this.filters.categoryId = category.idCategory;
+
+            setTimeout(() => this.loadProducts(0, this.rows), 100);
+          }
+        });
+      }
+    });
+  }
+
+
+
+  loadProducts(page: number, size: number): void {
+    const { brandId, categoryId, price, stock, isOffer, isActive, searchTerms } = this.filters;
+    this.productsService.getProductsFilter(
+      brandId, categoryId, price, stock, isOffer, isActive, page, size, searchTerms
+    ).subscribe(
+      (data) => {
+
+        if (data && data.content) {
+          this.products = data.content.map((product: any) => ({
+            name: product.productName,
+            price: product.productPrice,
+            image: product.productImg,
+            offer: product.productOfferDiscount,
+            category: product.categoryName,
+            priceOffer: product.priceOffer,
+            isActive: product.isActive,
+            isOffer: product.isOffer
+          }));
+          this.totalRecords = data.totalElements;
+        } else {
+          console.warn('⚠ La API devolvió una lista vacía.');
+        }
+      },
+      (error) => {
+        console.error('Error al cargar productos:', error);
+      }
+    );
+  }
+
+
+  onPageChange(event: any): void {
+    this.first = event.first;
+    this.rows = event.rows;
+    const page = event.first / event.rows;
+    this.loadProducts(page, this.rows);
+  }
+
   toggleFiltro(filtro: any) {
     filtro.abierto = !filtro.abierto;
   }
-
 }
 
 

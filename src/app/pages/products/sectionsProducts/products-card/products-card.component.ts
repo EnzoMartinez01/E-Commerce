@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {ProductsService} from '../../../../core/services/products/products.service';
 
 @Component({
   selector: 'app-products-card',
@@ -8,6 +9,4 @@ import { CommonModule } from '@angular/common';
   styleUrl: './products-card.component.css'
 })
 export class ProductsCardComponent {
-
-
 }

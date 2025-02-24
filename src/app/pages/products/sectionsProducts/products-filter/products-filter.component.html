@@ -13,92 +13,35 @@
             </div>
         </div>
     </aside>
-    <div class="product-section">
-        <div class="product-grid">
-            <div class="product-card">
-                <div class="product-category">Electrónica</div>
-                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
-                <div class="product-name">Arduino Nano</div>
-                <div class="product-price">S/. 15.00</div>
-                <button class="add-to-cart">Agregar</button>
-            </div>
-            <div class="product-card">
-                <div class="product-category">Electrónica</div>
-                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
-                <div class="product-name">Arduino Nano</div>
-                <div class="product-price">S/. 15.00</div>
-                <button class="add-to-cart">Agregar</button>
-            </div>
-            <div class="product-card">
-                <div class="product-category">Electrónica</div>
-                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
-                <div class="product-name">Arduino Nano</div>
-                <div class="product-price">S/. 15.00</div>
-                <button class="add-to-cart">Agregar</button>
-            </div>
-            <div class="product-card">
-                <div class="product-category">Electrónica</div>
-                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
-                <div class="product-name">Arduino Nano</div>
-                <div class="product-price">S/. 15.00</div>
-                <button class="add-to-cart">Agregar</button>
-            </div>
-            <div class="product-card">
-                <div class="product-category">Electrónica</div>
-                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
-                <div class="product-name">Arduino Nano</div>
-                <div class="product-price">S/. 15.00</div>
-                <button class="add-to-cart">Agregar</button>
-            </div>
-            <div class="product-card">
-                <div class="product-category">Electrónica</div>
-                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
-                <div class="product-name">Arduino Nano</div>
-                <div class="product-price">S/. 15.00</div>
-                <button class="add-to-cart">Agregar</button>
-            </div>
-            <div class="product-card">
-                <div class="product-category">Electrónica</div>
-                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
-                <div class="product-name">Arduino Nano</div>
-                <div class="product-price">S/. 15.00</div>
-                <button class="add-to-cart">Agregar</button>
-            </div>
-            <div class="product-card">
-                <div class="product-category">Electrónica</div>
-                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
-                <div class="product-name">Arduino Nano</div>
-                <div class="product-price">S/. 15.00</div>
-                <button class="add-to-cart">Agregar</button>
-            </div>
-            <div class="product-card">
-                <div class="product-category">Electrónica</div>
-                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
-                <div class="product-name">Arduino Nano</div>
-                <div class="product-price">S/. 15.00</div>
-                <button class="add-to-cart">Agregar</button>
-            </div>
-            <div class="product-card">
-                <div class="product-category">Electrónica</div>
-                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
-                <div class="product-name">Arduino Nano</div>
-                <div class="product-price">S/. 15.00</div>
-                <button class="add-to-cart">Agregar</button>
-            </div>
-            <div class="product-card">
-                <div class="product-category">Electrónica</div>
-                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
-                <div class="product-name">Arduino Nano</div>
-                <div class="product-price">S/. 15.00</div>
-                <button class="add-to-cart">Agregar</button>
-            </div>
-            <div class="product-card">
-                <div class="product-category">Electrónica</div>
-                <img src="https://i.imgur.com/pVAsUf3.png" alt="Arduino Nano" class="product-image" />
-                <div class="product-name">Arduino Nano</div>
-                <div class="product-price">S/. 15.00</div>
-                <button class="add-to-cart">Agregar</button>
-            </div>
+  <div class="product-section" *ngIf="products.length > 0; else noProducts">
+    <div class="product-grid">
+      <div class="product-card" *ngFor="let product of products">
+        <div class="product-category">{{ product.category }}</div>
+        <div class="product-image-container">
+          <img [src]="product.image" [alt]="product.name" class="product-image" />
         </div>
+        <div class="product-name">{{ product.name }}</div>
+        <div class="product-price">
+          <span *ngIf="product.isOffer; else regularPrice">
+              <s>S/. {{ product.price }}</s> <strong>S/. {{ product.priceOffer }}</strong>
+          </span>
+          <ng-template #regularPrice>S/. {{ product.price }}</ng-template>
+        </div>
+        <button class="add-to-cart">Agregar</button>
+      </div>
     </div>
+
+    <p-paginator
+      (onPageChange)="onPageChange($event)"
+      [first]="first"
+      [rows]="rows"
+      [totalRecords]="totalRecords"
+      [rowsPerPageOptions]="[8, 16, 24]"
+    />
+  </div>
+
+  <ng-template #noProducts>
+    <p>No hay productos disponibles.</p>
+  </ng-template>
 </div>
+

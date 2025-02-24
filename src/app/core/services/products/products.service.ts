@@ -19,8 +19,8 @@ export class ProductsService {
 
   // Products
   getProductsFilter(
-    brand: number | null,
-    category: number | null,
+    brandId: number | null,
+    categoryId: number | null,
     price: number | null,
     stock: number | null,
     isOffer: boolean | null,
@@ -42,12 +42,12 @@ export class ProductsService {
       .set('page', page.toString())
       .set('size', size.toString());
 
-    if (brand !== null && brand !== undefined) {
-      params = params.set('brand', brand.toString());
+    if (brandId !== null && brandId !== undefined) {
+      params = params.set('brandId', brandId.toString());
     }
 
-    if (category !== null && category !== undefined) {
-      params = params.set('category', category.toString());
+    if (categoryId !== null && categoryId !== undefined) {
+      params = params.set('categoryId', categoryId.toString());
     }
 
     if (price !== null && price !== undefined) {

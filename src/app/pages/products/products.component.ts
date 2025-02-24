@@ -5,7 +5,7 @@ import { ProductsInfoComponent } from './sectionsProducts/products-info/products
 
 @Component({
   selector: 'app-products',
-  imports: [ProductsInfoComponent, ProductsFilterComponent, ProductsCardComponent],
+  imports: [ProductsInfoComponent, ProductsFilterComponent],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })

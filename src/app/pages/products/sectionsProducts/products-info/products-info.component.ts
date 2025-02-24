@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-products-info',
@@ -7,5 +8,13 @@ import { Component } from '@angular/core';
   styleUrl: './products-info.component.css'
 })
 export class ProductsInfoComponent {
+  selectedCategory: string = 'Products';
 
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      this.selectedCategory = params.get('categoryName') || 'Products';
+    })
+  }
 }

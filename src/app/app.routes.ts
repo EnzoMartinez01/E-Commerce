@@ -13,6 +13,7 @@ import { InfoproductsComponent } from './infoproducts/infoproducts.component';
 export const routes: Routes = [
     {path: '', redirectTo: 'home', pathMatch:'full'},
     {path:'products', component: ProductsComponent},
+    {path: ':categoryName/products', component: ProductsComponent},
     {path:'categories', component: CategoriesComponent},
     {path:'about', component: AboutComponent},
     {path:'cart', component: CartComponent},

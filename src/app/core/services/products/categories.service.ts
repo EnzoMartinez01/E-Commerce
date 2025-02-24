@@ -36,4 +36,17 @@ export class CategoriesService {
 
     return this.http.get<any>(`${this.baseUrl}/getAllCategories`, {headers, params});
   }
+
+  getCategoryByName(name: string): Observable<any> {
+    const token = sessionStorage.getItem('authToken');
+
+    if (!token) {
+      throw new Error('Token not found.');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<any>(`${this.baseUrl}/getCategoryByName/${name}`, { headers });
+  }
 }

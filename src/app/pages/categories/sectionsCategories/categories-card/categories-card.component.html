@@ -11,7 +11,7 @@
 
   <div class="categorias-grid">
     <div class="categorias-card" *ngFor="let category of categories">
-      <a [routerLink]="['/products', category.value]">
+      <a [routerLink]="['/', category.label, 'products']">
         <img [src]="category.image" alt="{{ category.label }}">
         <p>{{ category.label }}</p>
       </a>

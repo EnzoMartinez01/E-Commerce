@@ -8,7 +8,9 @@ export interface Products {
     quantity: number;
     productOfferDiscount: number;
     priceOffer: number;
+    categoryId: number;
     categoryName: string;
+    brandId: number;
     brandName: string;
     isOffer: boolean;
     isActive: boolean;
