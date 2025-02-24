@@ -1,40 +1,53 @@
-<div class="productos" *ngIf="products.length > 0;">
-  <div class="producto-container" *ngFor="let product of products">
-    <div class="productos-image">
-      <img [src]="product.image" alt="{{ product.name }}">
-    </div>
-    <div class="productos-detalles">
-      <h1 class="productos-titulo">
-        {{ product.name }}
-      </h1>
-      <p class="producto-descripcion">
-        {{ product.description }}
-      </p>
-      <div class="productos-precio">
-        <span class="precio">{{ product.price | currency:'USD' }}</span><br>
-        <span class="tarjeta-precio">{{ product.priceCreditCard | currency:'USD' }}</span>
-        <p>
-          Se aplicará un recargo de 5% en caso de pago con tarjeta de crédito o débito. <br> Impuestos Incluidos (*)
-        </p>
+<ng-container *ngIf="products.length > 0; else noProducts">
+  <section class="productos">
+    <p-breadcrumb class="max-w-full p-bradcrumb-custom" [model]="items" [home]="home">
+      <ng-template #separator> / </ng-template>
+    </p-breadcrumb>
+    <article class="producto-container" *ngFor="let product of products">
+      <div class="productos-image">
+        <img [src]="product.image" alt="{{ product.name }}">
       </div>
-      <div class="productos-sku">
-        <span>SKU: {{ product.sku }}</span>
-        <span class="estado" [ngClass]="{'activo': product.isActive, 'inactivo': !product.isActive}">
-                    {{ product.isActive ? 'Activo' : 'Inactivo' }}
-                </span>
-      </div>
-      <div class="productos-marca">
-        <img [src]="product.brandImage" alt="Marca">
-      </div>
-      <div class="productos-cantidad">
-        <label for="quantity-{{product.sku}}">Cantidad:</label>
-        <div class="cantidad-container">
-          <button class="btn-menos" (click)="decrementQuantity(product)">-</button>
-          <input type="number" id="quantity-{{product.sku}}" [(ngModel)]="product.quantity" min="1">
-          <button class="btn-mas" (click)="incrementQuantity(product)">+</button>
+
+      <div class="productos-detalles">
+        <h2 class="productos-titulo">{{ product.name }}</h2>
+        <p class="producto-descripcion">{{ product.description }}</p>
+
+        <div class="productos-precio">
+          <span class="precio">{{ product.price | currency:'USD' }}</span><br>
+          <span class="tarjeta-precio">{{ product.priceCreditCard | currency:'USD' }}</span>
+          <p class="nota">
+            Se aplicará un recargo del 5% en caso de pago con tarjeta de crédito o débito. <br>
+            <strong>Impuestos Incluidos (*)</strong>
+          </p>
         </div>
-        <button class="carrito" (click)="addToCart(product)">Añadir al Carrito</button>
+
+        <div class="productos-info">
+          <span class="productos-sku">SKU: {{ product.sku }}</span>
+          <span class="estado" [ngClass]="{'activo': product.isActive, 'inactivo': !product.isActive}">
+            {{ product.isActive ? 'Activo' : 'Inactivo' }}
+          </span>
+        </div>
+
+        <div class="productos-marca">
+          <img [src]="product.brandImage" alt="Marca">
+        </div>
+
+        <div class="productos-cantidad">
+          <label for="quantity-{{product.sku}}">Cantidad:</label>
+          <div class="cantidad-container">
+            <button class="btn-menos" (click)="decrementQuantity(product)">-</button>
+            <input type="number" id="quantity-{{product.sku}}" [(ngModel)]="product.quantity" min="1">
+            <button class="btn-mas" (click)="incrementQuantity(product)">+</button>
+          </div>
+          <button class="carrito" (click)="addToCart(product)">Añadir al Carrito</button>
+        </div>
       </div>
-    </div>
+    </article>
+  </section>
+</ng-container>
+
+<ng-template #noProducts>
+  <div class="productos-vacios">
+    <p>No hay productos disponibles en este momento.</p>
   </div>
-</div>
+</ng-template>

@@ -134,11 +134,18 @@
  ::ng-deep .p-paginator {
    padding-top: 50px !important;
  }
+ .product-buttons {
+   display: flex;
+   flex-direction: column;
+   gap: 20px;
+   width: 80%;
+   margin: auto;
+ }
 
  .add-to-cart {
      background: #48828d;
      color: white;
-     border: none;
+     border: 2px solid #48828d;
      padding: 8px 10px;
      border-radius: 5px;
      cursor: pointer;
@@ -146,7 +153,24 @@
 
  .add-to-cart:hover {
      background: #fff;
-     color: black;
+     color: #48828d;
+     font-weight: bold;
+     border: 2px solid #48828d;
+ }
+
+ .view-info {
+   background: #48828d;
+   color: white;
+   border: 2px solid #48828d;
+   padding: 8px 10px;
+   border-radius: 5px;
+   cursor: pointer;
+ }
+ .view-info:hover {
+   background: #fff;
+   color: #48828d;
+   font-weight: bold;
+   border: 2px solid #48828d;
  }
 
  @media(max-width: 768px) {

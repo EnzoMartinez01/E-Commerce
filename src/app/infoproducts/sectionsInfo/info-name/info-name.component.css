@@ -8,8 +8,15 @@ div {
     gap: 20px;
 }
 
+.p-bradcrumb-custom {
+    width: 80%;
+    margin: auto;
+}
+
 .producto-container {
     display: flex;
+    width: 80%;
+    margin: auto;
     padding: 15px;
     border-radius: 10px;
     background: #fff;
@@ -30,6 +37,9 @@ div {
 
 .productos-detalles {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .productos-titulo {
@@ -40,7 +50,6 @@ div {
 
 .producto-descripcion {
     font-size: 20px;
-    margin-bottom: 50px;
 }
 
 .productos-precio {

@@ -5,13 +5,13 @@ import { DividerModule } from 'primeng/divider';
 import {NgForOf} from '@angular/common';
 import {ProductsService} from '../../../../core/services/products/products.service';
 import {Paginator} from 'primeng/paginator';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {CategoriesService} from '../../../../core/services/products/categories.service';
 
 
 @Component({
   selector: 'app-products-filter',
-  imports: [FormsModule, CommonModule, DividerModule, NgForOf, Paginator],
+  imports: [FormsModule, CommonModule, DividerModule, NgForOf, Paginator, RouterLink],
   templateUrl: './products-filter.component.html',
   styleUrl: './products-filter.component.css'
 })
@@ -85,6 +85,7 @@ export class ProductsFilterComponent {
   ];
 
   products: {
+    idProduct: number,
     name: string;
     price: number;
     image: string;
@@ -143,6 +144,7 @@ export class ProductsFilterComponent {
 
         if (data && data.content) {
           this.products = data.content.map((product: any) => ({
+            idProduct: product.idProduct,
             name: product.productName,
             price: product.productPrice,
             image: product.productImg,

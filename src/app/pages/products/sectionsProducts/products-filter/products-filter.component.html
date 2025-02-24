@@ -27,7 +27,12 @@
           </span>
           <ng-template #regularPrice>S/. {{ product.price }}</ng-template>
         </div>
-        <button class="add-to-cart">Agregar</button>
+        <div class="product-buttons">
+          <button class="add-to-cart">Agregar</button>
+          <button class="view-info" [routerLink]="['/', product.category, 'products', product.idProduct]">
+            Más Información
+          </button>
+        </div>
       </div>
     </div>
 
