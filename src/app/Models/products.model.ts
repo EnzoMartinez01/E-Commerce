@@ -12,6 +12,7 @@ export interface Products {
     categoryName: string;
     brandId: number;
     brandName: string;
+    brandImage: String;
     isOffer: boolean;
     isActive: boolean;
     productImg: string;

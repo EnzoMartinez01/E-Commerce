@@ -1,28 +1,27 @@
-<div class="productos">
-    <div class="producto-container">
+<div class="productos" *ngIf="products.length > 0;">
+    <div class="producto-container" *ngFor="let product of products">
         <div class="productos-image">
-            <img src="https://i.imgur.com/52xTFad.png" alt="">
+            <img [src]="product.image" alt="">
         </div>
         <div class="productos-detalles">
             <h1 class="productos-titulo">
-                Nombre del Producto.
+                {{product.name}}
             </h1>
             <p class="producto-descripcion">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cupiditate et ipsum eveniet adipisci consequuntur iste quo similique magnam, eligendi nihil esse nobis vero quas aliquid nesciunt fugit non placeat ipsam.
+                {{product.description}}
             </p>
             <div class="productos-precio">
-                <span class="precio">S/. 130.80</span><br><span class="tarjeta-precio">S/. 137.34</span>
+                <span class="precio">{{product.price}}</span><br><span class="tarjeta-precio">{{product.priceCreditCard}}</span>
                 <p>
-                    Se aplicara un recargode 5% en caso de pago con tarjeta de credito o debito. <br> Impuestos Incluidos(*)
+                    Se aplicara un recargo de 5% en caso de pago con tarjeta de credito o debito. <br> Impuestos Incluidos(*)
                 </p>
             </div>
-
             <div class="productos-sku">
-                <span>SKU 04280102901</span>
-                <span class="estado">Disponible</span>
+                <span>{{product.sku}}</span>
+                <span class="estado">{{product.isActive}}</span>
             </div>
             <div class="productos-marca">
-                <img src="https://i.imgur.com/Y9Ocfts.png" alt="KBA Electric">
+                <img [src]="product.brandImage" alt="KBA Electric">
             </div>
             <div class="productos-cantidad">
                 <label for="quantity"></label>
