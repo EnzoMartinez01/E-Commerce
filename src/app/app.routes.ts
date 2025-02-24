@@ -7,8 +7,7 @@ import { ContactComponent } from './pages/contact/contact.component';
 import { FAQComponent } from './pages/FAQ/faq.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
-import { ProductsInfoComponent } from './pages/products/sectionsProducts/products-info/products-info.component';
-import { InfoNameComponent } from './infoproducts/sectionsInfo/info-name/info-name.component';
+import { InfoproductsComponent } from './infoproducts/infoproducts.component';
 
 
 export const routes: Routes = [
@@ -21,5 +20,5 @@ export const routes: Routes = [
     {path:'FAQ', component: FAQComponent},
     {path:'home', component: HomeComponent},
     {path:'login', component: LoginComponent},
-    {path:'infoproducts', component: InfoNameComponent }
+    {path:'infoproducts', component: InfoproductsComponent }
 ];

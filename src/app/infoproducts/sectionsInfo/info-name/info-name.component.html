@@ -1,1 +1,57 @@
-<p>info-name works!</p>
+<div class="productos">
+    <div class="producto-container">
+        <div class="productos-image">
+            <img src="https://i.imgur.com/52xTFad.png" alt="">
+        </div>
+        <div class="productos-detalles">
+            <h1 class="productos-titulo">
+                Nombre del Producto.
+            </h1>
+            <p class="producto-descripcion">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cupiditate et ipsum eveniet adipisci consequuntur iste quo similique magnam, eligendi nihil esse nobis vero quas aliquid nesciunt fugit non placeat ipsam.
+            </p>
+            <div class="productos-precio">
+                <span class="precio">S/. 130.80</span><br><span class="tarjeta-precio">S/. 137.34</span>
+                <p>
+                    Se aplicara un recargode 5% en caso de pago con tarjeta de credito o debito. <br> Impuestos Incluidos(*)
+                </p>
+            </div>
+
+            <div class="productos-sku">
+                <span>SKU 04280102901</span>
+                <span class="estado">Disponible</span>
+            </div>
+            <div class="productos-marca">
+                <img src="https://i.imgur.com/Y9Ocfts.png" alt="KBA Electric">
+            </div>
+            <div class="productos-cantidad">
+                <label for="quantity"></label>
+                <div class="cantidad-container">
+                    <button class="btn-menos">-</button>
+                    <input type="text" id="quantity" value="1">
+                    <button class="btn-mas">+</button>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function() {
+                            const btnMenos = document.querySelector(".btn-menos");
+                            const btnMas = document.querySelector(".btn-mas");
+                            const quantityInput = document.getElementById("quantity");
+
+                            btnMenos.addEventListener("click", function() {
+                                let currentValue = parseInt(quantityInput.value);
+                                if (currentValue > 1) {
+                                    quantityInput.value = currentValue - 1;
+                                }
+                            });
+
+                            btnMas.addEventListener("click", function() {
+                                let currentValue = parseInt(quantityInput.value);
+                                quantityInput.value = currentValue + 1;
+                            });
+                        });
+                    </script>
+                </div>
+                <button class="carrito">Añadir al Carrito</button>
+            </div>
+        </div>
+    </div>
+</div>

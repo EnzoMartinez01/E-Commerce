@@ -2,6 +2,25 @@
 <html lang="en">
 
 <head>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const btnMenos = document.querySelector(".btn-menos");
+            const btnMas = document.querySelector(".btn-mas");
+            const quantityInput = document.getElementById("quantity");
+
+            btnMenos.addEventListener("click", function() {
+                let currentValue = parseInt(quantityInput.value);
+                if (currentValue > 1) {
+                    quantityInput.value = currentValue - 1;
+                }
+            });
+
+            btnMas.addEventListener("click", function() {
+                let currentValue = parseInt(quantityInput.value);
+                quantityInput.value = currentValue + 1;
+            });
+        });
+    </script>
     <meta charset="utf-8">
     <title>EmpresaApp</title>
     <base href="/">
