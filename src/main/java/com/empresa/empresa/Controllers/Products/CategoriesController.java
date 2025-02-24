@@ -31,6 +31,11 @@ public class CategoriesController {
         return categoriesService.getCategoryById(id);
     }
 
+    @GetMapping("/getCategoryByName/{name}")
+    public Categories getCategoryByName(@PathVariable String name) {
+        return categoriesService.getCategoryByName(name);
+    }
+
     @PostMapping("/addCategory")
     public ResponseEntity<Map<String, String>> addCategory(@RequestBody Categories category) {
         Categories savedCategory = categoriesService.addCategory(category);

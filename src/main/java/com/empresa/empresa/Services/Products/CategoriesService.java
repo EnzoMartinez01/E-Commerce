@@ -30,6 +30,11 @@ public class CategoriesService {
         return categoriesRepository.findById(id).orElse(null);
     }
 
+    // Get category By Name
+    public Categories getCategoryByName(String name) {
+        return categoriesRepository.findByCategoryName(name).orElse(null);
+    }
+
     // Add category
     public Categories addCategory(Categories category) {
         category.setIsActive(true);
