@@ -11,8 +11,6 @@
                     </div>
                     <button class="hamburger" (click)="toggleMenu()">&#9776;</button>
                 </div>
-
-                <!-- Campo de búsqueda con Autocompletado -->
                 <p-autoComplete class="search-input" [(ngModel)]="filters.searchTerms" [suggestions]="filteredProducts" (completeMethod)="search($event)" (onSelect)="goToProduct($event.value)" field="productName" placeholder="Buscar Producto">
                     <ng-template let-product pTemplate="item">
                         <div class="product-item">
