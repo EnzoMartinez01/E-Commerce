@@ -10,23 +10,16 @@
                     <button class="hamburger" (click)="toggleMenu()">&#9776;</button>
                 </div>
 
-                <div class="filter-container">
-                    <p-iconfield>
-                        <p-inputicon styleClass="pi pi-search"></p-inputicon>
-                        <input type="text" class="search-bar" pInputText placeholder="Buscar Producto" [(ngModel)]="filters.searchTerms" />
-                    </p-iconfield>
+              <!-- Campo de búsqueda con Autocompletado -->
+              <p-autoComplete [(ngModel)]="filters.searchTerms"
+                              [suggestions]="filteredProducts"
+                              (completeMethod)="search($event)"
+                              field="productName"
+                              placeholder="Buscar Producto">
+              </p-autoComplete>
 
-                    <!-- Muestra los productos filtrados debajo del input -->
-                    <div class="resultados">
-                        <ul *ngIf="filteredProducts.length > 0">
-                            <li *ngFor="let producto of filteredProducts">{{ producto }}</li>
-                        </ul>
-                        <p *ngIf="filteredProducts.length === 0">No se encontraron resultados.</p>
-                    </div>
 
-                </div>
-
-                <div class="iconos-container">
+              <div class="iconos-container">
                     <a href="#" (click)="openLoginModal(); $event.preventDefault();" class="me-3">
                         <i class="pi pi-user"></i>
                     </a>

@@ -20,8 +20,28 @@
     align-items: center;
 }
 
+::ng-deep .ng-valid {
+  display: flex !important;
+  width: 50% !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+::ng-deep .p-autocomplete {
+  width: 100% !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+::ng-deep .p-inputtext {
+  width: 100% !important;
+  height: 50px;
+}
+
 .header-navbar {
     width: 100%;
+    gap: 100px;
     display: flex;
     flex-direction: row;
 }
@@ -29,9 +49,9 @@
 .header-content {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    width: 30%;
+    width: 20%;
 }
 
 .header-logo {

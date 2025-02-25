@@ -14,6 +14,9 @@ import { InputIconModule } from 'primeng/inputicon';
 import { RouterModule } from '@angular/router';
 import { Output } from '@angular/core';
 import { LoginModalComponent } from "../login/login-sections/login-modal/login-modal.component";
+import {InputGroupAddon} from 'primeng/inputgroupaddon';
+import {AutoComplete} from 'primeng/autocomplete';
+import {InputGroupModule} from 'primeng/inputgroup';
 
 @Component({
   selector: 'app-header',
@@ -23,13 +26,14 @@ import { LoginModalComponent } from "../login/login-sections/login-modal/login-m
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    NgIf,
     NgFor,
     CommonModule,
     IconFieldModule,
     InputIconModule,
     RouterModule,
-]
+    InputGroupModule,
+    AutoComplete,
+  ]
 
 })
 export class HeaderComponent implements OnInit{
@@ -50,11 +54,11 @@ export class HeaderComponent implements OnInit{
   ];
 
   filters = {
-    searchTerms: ''
-  };
-
-  allProducts: string[] = [];
-  filteredProducts: string[] = [];
+    page: 0,
+    size: 10,
+    searchTerms: '' };
+  products: any[] = [];
+  filteredProducts: any[] = [];
 
   dataSource = new MatTableDataSource<Products>();
 
@@ -66,7 +70,7 @@ export class HeaderComponent implements OnInit{
               private productsService: ProductsService) { }
 
   ngOnInit(): void {
-    this.loadProducts();
+    this.search();
   }
 
 
@@ -82,28 +86,35 @@ export class HeaderComponent implements OnInit{
   }
 
   // Filter Products for Search Input
-  loadProducts(): void {
-    const { searchTerms } = this.filters;
+  search(event?: any): void {
+    const searchTerm = event?.query?.trim().toLowerCase() || '';
+    console.log("🔎 Término de búsqueda:", searchTerm);
 
-    this.productsService.getProductsFilter(null, null, null, null, null, null, 1, 10, searchTerms).subscribe(
-      (data) => {
-        console.log('Productos recibidos:', data);
-        this.allProducts = data.content.map(producto => producto.productName);
-        this.filterProducts();
-      },
-      (error) => {
-        console.error('Error al cargar productos:', error);
-      }
-    );
+    this.productsService.getProductsFilter(null, null, null, null, null, null, 0, 10, this.filters.searchTerms)
+      .subscribe(
+        (data) => {
+          console.log("📢 Respuesta de la API:", data);
+          console.log("🔍 Datos de content:", data.content);
+
+          if (data && Array.isArray(data.content) && data.content.length > 0) {
+            this.filteredProducts = data.content.map((producto: any) => ({
+              productName: producto.productName
+            }));
+          } else {
+            console.warn("⚠️ No se encontraron productos en content.");
+            this.filteredProducts = [];
+          }
+
+          console.log("🔍 Productos filtrados:", this.filteredProducts);
+        },
+        (error) => {
+          console.error("❌ Error al buscar productos:", error);
+        }
+      );
   }
 
-  // Método para filtrar productos dinámicamente
-  filterProducts(): void {
-    const searchTerm = this.filters.searchTerms.toLowerCase();
-    this.filteredProducts = this.allProducts.filter(producto =>
-      producto.toLowerCase().includes(searchTerm)
-    );
-  }
+
+
 
   // Logout
   logout(): void {
@@ -126,5 +137,4 @@ export class HeaderComponent implements OnInit{
       }
     );
   }
-  //Abrir Modal Login
 }

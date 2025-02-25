@@ -6,6 +6,7 @@ import {NgForOf, NgIfContext} from '@angular/common';
 import { CommonModule } from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
+import {MenuItem} from 'primeng/api';
 
 @Component({
   selector: 'app-info-name',
@@ -14,6 +15,9 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
   styleUrl: './info-name.component.css'
 })
 export class InfoNameComponent implements OnInit{
+
+  items: MenuItem[] | undefined;
+  home: MenuItem | undefined;
 
   products: {
     name: string;
@@ -30,15 +34,29 @@ export class InfoNameComponent implements OnInit{
     isOffer: boolean;
     quantity: number;
   }[] = [];
+  idProduct: number | null = null;
 
-  constructor(private productsService: ProductsService) {}
+  constructor(private productsService: ProductsService,
+              private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.loadProducts();
+    this.route.paramMap.subscribe(params => {
+      this.idProduct = Number(params.get('idProduct')); });
+
+    if (this.idProduct) {
+      this.loadProducts(this.idProduct);
+    }
+
+    this.items = [
+      {label: 'Category'},
+      {label: 'Products'},
+      {label: 'ProductName'}
+    ];
+    this.home = {icon: 'pi pi-home', routerLink: "/home"};
   }
 
-  loadProducts(): void {
-    this.productsService.getProductsById(1).subscribe(
+  loadProducts(id: number): void {
+    this.productsService.getProductsById(id).subscribe(
       (data) => {
         console.log("Respuesta API:", data);
 
@@ -54,6 +72,15 @@ export class InfoNameComponent implements OnInit{
           this.products = data.content.map((product: any) => this.mapProduct(product));
         } else {
           this.products = [this.mapProduct(data)];
+
+          if (this.products.length > 0) {
+            const firstProduct = this.products[0];
+            this.items = [
+              { label: firstProduct.category, routerLink: "/categories" },
+              { label: "Productos", routerLink: "/" + firstProduct.category + "/products" },
+              { label: firstProduct.name }
+            ];
+          }
         }
       },
       (error) => {
