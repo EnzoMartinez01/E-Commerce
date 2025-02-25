@@ -1,5 +1,4 @@
 <div class="container">
-
     <aside class="filtros-container">
         <h3>FILTRAR POR</h3>
         <div *ngFor="let filtro of filtros" class="filtro-categoria">
@@ -15,6 +14,13 @@
         </div>
     </aside>
     <div class="product-section" *ngIf="products.length > 0; else noProducts">
+        <div class="ordenar-container">
+            <label for="ordenar">Ordenar por:</label>
+            <select id="ordenar" (change)="ordenarProductos($event)">
+                <option value="asc">Menor a Mayor</option>
+                <option value="desc">Mayor a Menor</option>
+            </select>
+        </div>
         <div class="product-grid">
             <div class="product-card" *ngFor="let product of products">
                 <div class="product-category">{{ product.category }}</div>

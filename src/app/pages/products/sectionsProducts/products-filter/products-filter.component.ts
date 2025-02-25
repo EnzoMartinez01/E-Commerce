@@ -189,6 +189,20 @@ export class ProductsFilterComponent {
     this.filtrosVisibles = !this.filtrosVisibles;
     console.log('Estado de filtrosVisibles:', this.filtrosVisibles); 
   }
+
+  ordenarProductos(event: Event) {
+    
+    const selectElement = event.target as HTMLSelectElement;
+    const criterio = selectElement.value; 
+
+    this.products.sort((a, b) => {
+        const precioA = a.isOffer ? a.priceOffer : a.price;
+        const precioB = b.isOffer ? b.priceOffer : b.price;
+
+        return criterio === 'asc' ? precioA - precioB : precioB - precioA;
+    });
 }
+}
+
 
 
