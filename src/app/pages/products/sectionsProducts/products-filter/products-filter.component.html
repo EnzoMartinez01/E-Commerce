@@ -1,19 +1,21 @@
 <div class="container">
-    <aside class="filtros-container">
-        <h3>FILTRAR POR</h3>
-        <div *ngFor="let filtro of filtros" class="filtro-categoria">
-            <h4 (click)="toggleFiltro(filtro)">
-                {{ filtro.nombre }} <span>{{ filtro.abierto ? '▲' : '▼' }}</span>
-            </h4>
-            <div class="filtro-opciones" *ngIf="filtro.abierto">
-                <label *ngFor="let opcion of filtro.opciones">
-          <input type="checkbox" [(ngModel)]="opcion.seleccionado">
+  <aside class="filtros-container">
+    <h3>FILTRAR POR</h3>
+    <div *ngFor="let filtro of filtros" class="filtro-categoria">
+      <h4 (click)="toggleFiltro(filtro)" class="filtro-titulo">
+        {{ filtro.nombre }}
+        <span class="filtro-icono">{{ filtro.abierto ? '▲' : '▼' }}</span>
+      </h4>
+      <div class="filtro-opciones" [class.abierto]="filtro.abierto">
+        <label *ngFor="let opcion of filtro.opciones" class="filtro-opcion">
+          <input type="checkbox" [(ngModel)]="opcion.seleccionado" (change)="onFilterChange()">
           {{ opcion.nombre }}
         </label>
-            </div>
-        </div>
-    </aside>
-    <div class="product-section" *ngIf="products.length > 0; else noProducts">
+      </div>
+    </div>
+  </aside>
+
+  <div class="product-section" *ngIf="products.length > 0; else noProducts">
         <div class="ordenar-container">
             <label for="ordenar">Ordenar por:</label>
             <select id="ordenar" (change)="ordenarProductos($event)">

@@ -7,6 +7,7 @@ import {ProductsService} from '../../../../core/services/products/products.servi
 import {Paginator} from 'primeng/paginator';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {CategoriesService} from '../../../../core/services/products/categories.service';
+import {SubcategoriesService} from '../../../../core/services/products/subcategories.service';
 
 
 @Component({
@@ -16,73 +17,7 @@ import {CategoriesService} from '../../../../core/services/products/categories.s
   styleUrl: './products-filter.component.css'
 })
 export class ProductsFilterComponent {
-  filtros = [
-    {
-      nombre: 'Categorías',
-      abierto: false,
-      opciones: [
-        { nombre: 'Cajas', seleccionado: false },
-        { nombre: 'Metal', seleccionado: false },
-        { nombre: 'Poliéster', seleccionado: false }
-      ]
-    },
-    {
-      nombre: 'Tipo',
-      abierto: false,
-      opciones: [
-        { nombre: 'Tipo 1', seleccionado: false },
-        { nombre: 'Tipo 2', seleccionado: false }
-      ]
-    },
-    {
-      nombre: 'Marca',
-      abierto: false,
-      opciones: [
-        { nombre: 'Marca 1', seleccionado: false },
-        { nombre: 'Marca 2', seleccionado: false }
-      ]
-    },
-    {
-      nombre: 'Voltaje',
-      abierto: false,
-      opciones: [
-        { nombre: '110V', seleccionado: false },
-        { nombre: '220V', seleccionado: false }
-      ]
-    },
-    {
-      nombre: 'Amperaje',
-      abierto: false,
-      opciones: [
-        { nombre: '10A', seleccionado: false },
-        { nombre: '20A', seleccionado: false }
-      ]
-    },
-    {
-      nombre: 'Medidas',
-      abierto: false,
-      opciones: [
-        { nombre: 'Pequeño', seleccionado: false },
-        { nombre: 'Grande', seleccionado: false }
-      ]
-    },
-    {
-      nombre: 'Color',
-      abierto: false,
-      opciones: [
-        { nombre: 'Blanco', seleccionado: false },
-        { nombre: 'Negro', seleccionado: false }
-      ]
-    },
-    {
-      nombre: 'Material',
-      abierto: false,
-      opciones: [
-        { nombre: 'Plástico', seleccionado: false },
-        { nombre: 'Metal', seleccionado: false }
-      ]
-    }
-  ];
+  filtros: any[] = [];
 
   products: {
     idProduct: number,
@@ -102,6 +37,8 @@ export class ProductsFilterComponent {
     price: null as number | null,
     stock: null as number | null,
     isOffer: null as boolean | null,
+    subCategoryId: null as number | null,
+    attributeIds: null as number[] | null,
     isActive: true,
     page: 0,
     size: 10,
@@ -114,7 +51,8 @@ export class ProductsFilterComponent {
 
   constructor(private productsService: ProductsService,
               private route: ActivatedRoute,
-              private categoriesService: CategoriesService) {
+              private categoriesService: CategoriesService,
+              private subCategoriesService: SubcategoriesService) {
   }
 
   ngOnInit(): void {
@@ -126,6 +64,9 @@ export class ProductsFilterComponent {
           if (category && category.idCategory) {
             this.filters.categoryId = category.idCategory;
 
+            this.loadSubcategories(category.idCategory);
+
+
             setTimeout(() => this.loadProducts(0, this.rows), 100);
           }
         });
@@ -136,12 +77,12 @@ export class ProductsFilterComponent {
 
 
   loadProducts(page: number, size: number): void {
-    const { brandId, categoryId, price, stock, isOffer, isActive, searchTerms } = this.filters;
+    const { brandId, categoryId, subCategoryId, attributeIds, price, stock, isOffer, isActive, searchTerms } = this.filters;
+
     this.productsService.getProductsFilter(
-      brandId, categoryId, price, stock, isOffer, isActive, page, size, searchTerms
+      brandId, categoryId, subCategoryId, attributeIds, price, stock, isOffer, isActive, page, size, searchTerms
     ).subscribe(
       (data) => {
-
         if (data && data.content) {
           this.products = data.content.map((product: any) => ({
             idProduct: product.idProduct,
@@ -165,6 +106,64 @@ export class ProductsFilterComponent {
     );
   }
 
+  loadSubcategories(categoryId: number): void {
+    console.log('Cargando subcategorías para la categoría ID:', categoryId);
+
+    this.subCategoriesService.getSubcategories(
+      null, null, null, null, null, categoryId, null, true
+    ).subscribe(
+      (data) => {
+        console.log('Respuesta de la API:', data);
+
+        if (Array.isArray(data) && data.length > 0) {
+          console.log('Subcategorías encontradas:', data);
+
+          this.filtros = data.map((sub: any) => ({
+            id: sub.id,
+            nombre: sub.subCategoryName,
+            abierto: false,
+            opciones: sub.attributes ? sub.attributes.map((attr: any) => ({
+              id: attr.id,
+              nombre: attr.attributeName,
+              seleccionado: false,
+              subCategoryId: sub.idSubCategory
+            })) : []
+          }));
+
+          console.log('Filtros generados:', this.filtros);
+        } else {
+          console.warn('No se encontraron subcategorías en la respuesta.');
+        }
+      },
+      (error) => {
+        console.error('Error al cargar subcategorías y atributos:', error);
+      }
+    );
+  }
+
+
+
+  onFilterChange(): void {
+    this.filters.attributeIds = this.filtros
+      .flatMap((filtro) => filtro.opciones)
+      .filter((opcion) => opcion.seleccionado)
+      .map((opcion) => opcion.id);
+
+    const selectedAttributes = this.filtros
+      .flatMap((filtro) => filtro.opciones)
+      .filter((opcion) => opcion.seleccionado);
+
+    if (selectedAttributes.length > 0) {
+      this.filters.subCategoryId = selectedAttributes[0].subCategoryId;
+    } else {
+      this.filters.subCategoryId = null;
+    }
+
+    console.log('Filtros actualizados:', JSON.stringify(this.filters, null, 2));
+
+    this.loadProducts(0, this.rows);
+  }
+
 
   onPageChange(event: any): void {
     this.first = event.first;
@@ -177,8 +176,8 @@ export class ProductsFilterComponent {
     filtro.abierto = !filtro.abierto;
   }
 
-  filtrosVisibles = false; 
-  isDesktop = window.innerWidth > 768; 
+  filtrosVisibles = false;
+  isDesktop = window.innerWidth > 768;
 
   @HostListener('window:resize', ['$event'])
   onResize() {
@@ -187,13 +186,13 @@ export class ProductsFilterComponent {
 
   toggleFiltros() {
     this.filtrosVisibles = !this.filtrosVisibles;
-    console.log('Estado de filtrosVisibles:', this.filtrosVisibles); 
+    console.log('Estado de filtrosVisibles:', this.filtrosVisibles);
   }
 
   ordenarProductos(event: Event) {
-    
+
     const selectElement = event.target as HTMLSelectElement;
-    const criterio = selectElement.value; 
+    const criterio = selectElement.value;
 
     this.products.sort((a, b) => {
         const precioA = a.isOffer ? a.priceOffer : a.price;

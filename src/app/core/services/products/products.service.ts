@@ -21,6 +21,8 @@ export class ProductsService {
   getProductsFilter(
     brandId: number | null,
     categoryId: number | null,
+    subCategoryId: number | null,
+    attributeIds: number[] | null,
     price: number | null,
     stock: number | null,
     isOffer: boolean | null,
@@ -34,6 +36,7 @@ export class ProductsService {
     if (!token) {
       throw new Error('Token not found.');
     }
+
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -42,36 +45,45 @@ export class ProductsService {
       .set('page', page.toString())
       .set('size', size.toString());
 
-    if (brandId !== null && brandId !== undefined) {
+    if (brandId !== null) {
       params = params.set('brandId', brandId.toString());
     }
 
-    if (categoryId !== null && categoryId !== undefined) {
+    if (categoryId !== null) {
       params = params.set('categoryId', categoryId.toString());
     }
 
-    if (price !== null && price !== undefined) {
+    if (subCategoryId !== null) {
+      params = params.set('subCategoryId', subCategoryId.toString());
+    }
+
+    if (attributeIds !== null && attributeIds.length > 0) {
+      params = params.set('attributeIds', attributeIds.join(','));
+    }
+
+    if (price !== null) {
       params = params.set('price', price.toString());
     }
 
-    if (stock !== null && stock !== undefined) {
+    if (stock !== null) {
       params = params.set('stock', stock.toString());
     }
 
-    if (isOffer !== null && isOffer !== undefined) {
+    if (isOffer !== null) {
       params = params.set('isOffer', isOffer.toString());
     }
 
-    if (isActive !== null && isActive !== undefined) {
+    if (isActive !== null) {
       params = params.set('isActive', isActive.toString());
     }
 
-    if (searchTerms !== null && searchTerms !== undefined) {
+    if (searchTerms !== null) {
       params = params.set('searchTerms', searchTerms);
     }
 
-    return this.http.get<any>(`${this.baseUrl}/getProductsByFilters`, { headers, params });
+    return this.http.get<ProductsResponse>(`${this.baseUrl}/getProductsByFilters`, { headers, params });
   }
+
 
   getProductsById(idProducts:number): Observable<any> {
     const token = sessionStorage.getItem('authToken');
