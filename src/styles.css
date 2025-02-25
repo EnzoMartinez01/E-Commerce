@@ -37,7 +37,3 @@ body {
     background: #48828d !important;
     transition: 250mscubic-bezier(0.35, 0, 0.25, 1);
 }
-
-.p-inputtext:enabled:focus {
-    border-color: #48828d !important;
-}
