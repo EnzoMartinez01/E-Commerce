@@ -22,7 +22,7 @@ public class CategoriesService {
     // Get all categories
     public Page<Categories> getAllCategories(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return categoriesRepository.findAll(pageable);
+        return categoriesRepository.findAllByIsActive(true, pageable);
     }
 
     // Get category by ID

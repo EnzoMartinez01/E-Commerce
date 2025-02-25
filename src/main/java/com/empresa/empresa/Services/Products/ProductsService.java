@@ -212,6 +212,10 @@ public class ProductsService {
                 existingProduct.setCategory(updatedProduct.getCategory());
             }
 
+            if (updatedProduct.getIsActive() != null) {
+                existingProduct.setIsActive(updatedProduct.getIsActive());
+            }
+
             Double price = existingProduct.getPrice();
             if (price != null) {
                 Double priceCreditCard = price + (price * 0.05);

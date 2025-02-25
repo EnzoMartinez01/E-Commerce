@@ -38,7 +38,7 @@ public class ProductsController {
             @RequestParam(required = false) Boolean isOffer,
             @RequestParam(required = false) Integer brandId,
             @RequestParam(required = false) Integer categoryId,
-            @RequestParam(required = false) Boolean isActive,
+            @RequestParam(required = false, defaultValue = "true") Boolean isActive,
             @RequestParam(defaultValue = "0")int page,
             @RequestParam(defaultValue = "10")int size){
 

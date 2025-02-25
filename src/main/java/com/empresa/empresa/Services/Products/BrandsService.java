@@ -29,7 +29,7 @@ public class BrandsService {
 
     // Get all Brands without Pagination
     public List<Brands> getAllBrands() {
-        return brandsRepository.findAll();
+        return brandsRepository.findAllByIsActive(true);
     }
 
     //Get Brand by ID

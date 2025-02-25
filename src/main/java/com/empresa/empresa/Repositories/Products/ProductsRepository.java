@@ -19,7 +19,7 @@ public interface ProductsRepository extends JpaRepository<Products, Integer> {
             "AND (:isOffer IS NULL OR p.isOffer = :isOffer) " +
             "AND (:brandId IS NULL OR p.brand.idBrand = :brandId) " +
             "AND (:categoryId IS NULL OR p.category.idCategory = :categoryId) " +
-            "AND (:isActive IS NULL OR p.isActive = :isActive)")
+            "AND (COALESCE(:isActive, true) = p.isActive)")
     Page<Products> findByFilters(@Param("searchTerms") String searchTerms,
                                  @Param("price") Double price,
                                  @Param("stock") Integer stock,
