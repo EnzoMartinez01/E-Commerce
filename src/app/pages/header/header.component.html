@@ -3,11 +3,13 @@
         <header class="header">
             <div class="header-navbar">
                 <div class="header-content">
+                  <div class="header-img" [routerLink]="['/home']">
                     <a routerLink="/home">
                         <img src="https://i.imgur.com/EcOPZMu.jpg" alt="Logo Empresa" class="header-logo">
                     </a>
                     <h1 class="header-title">Empresa</h1>
-                    <button class="hamburger" (click)="toggleMenu()">&#9776;</button>
+                  </div>
+                  <button class="hamburger" (click)="toggleMenu()">&#9776;</button>
                 </div>
 
               <!-- Campo de búsqueda con Autocompletado -->
