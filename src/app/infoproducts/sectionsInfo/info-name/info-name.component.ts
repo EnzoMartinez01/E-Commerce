@@ -1,22 +1,19 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
 import { ProductsService } from '../../../core/services/products/products.service';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
+import {CategoriesService} from '../../../core/services/products/categories.service';
 import {NgForOf, NgIfContext} from '@angular/common';
 import { CommonModule } from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {Breadcrumb} from 'primeng/breadcrumb';
-import {MenuItem} from 'primeng/api';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 
 @Component({
   selector: 'app-info-name',
-  imports: [NgForOf, CommonModule, FormsModule, Breadcrumb],
+  imports: [NgForOf, CommonModule, FormsModule,BreadcrumbModule],
   templateUrl: './info-name.component.html',
   styleUrl: './info-name.component.css'
 })
 export class InfoNameComponent implements OnInit{
-
-  items: MenuItem[] | undefined;
-  home: MenuItem | undefined;
 
   products: {
     name: string;
@@ -33,29 +30,15 @@ export class InfoNameComponent implements OnInit{
     isOffer: boolean;
     quantity: number;
   }[] = [];
-  idProduct: number | null = null;
 
-  constructor(private productsService: ProductsService,
-              private route: ActivatedRoute) {}
+  constructor(private productsService: ProductsService) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      this.idProduct = Number(params.get('idProduct')); });
-
-    if (this.idProduct) {
-      this.loadProducts(this.idProduct);
-    }
-
-    this.items = [
-      {label: 'Category'},
-      {label: 'Products'},
-      {label: 'ProductName'}
-    ];
-    this.home = {icon: 'pi pi-home', routerLink: "/home"};
+    this.loadProducts();
   }
 
-  loadProducts(id: number): void {
-    this.productsService.getProductsById(id).subscribe(
+  loadProducts(): void {
+    this.productsService.getProductsById(1).subscribe(
       (data) => {
         console.log("Respuesta API:", data);
 
@@ -71,15 +54,6 @@ export class InfoNameComponent implements OnInit{
           this.products = data.content.map((product: any) => this.mapProduct(product));
         } else {
           this.products = [this.mapProduct(data)];
-
-          if (this.products.length > 0) {
-              const firstProduct = this.products[0];
-            this.items = [
-              { label: firstProduct.category, routerLink: "/categories" },
-              { label: "Productos", routerLink: "/" + firstProduct.category + "/products" },
-              { label: firstProduct.name }
-            ];
-          }
         }
       },
       (error) => {

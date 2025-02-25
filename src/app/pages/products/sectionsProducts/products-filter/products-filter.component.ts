@@ -1,4 +1,4 @@
-import { Component, NgModule } from '@angular/core';
+import { Component, HostListener, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DividerModule } from 'primeng/divider';
@@ -175,6 +175,19 @@ export class ProductsFilterComponent {
 
   toggleFiltro(filtro: any) {
     filtro.abierto = !filtro.abierto;
+  }
+
+  filtrosVisibles = false; 
+  isDesktop = window.innerWidth > 768; 
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.isDesktop = window.innerWidth > 768;
+  }
+
+  toggleFiltros() {
+    this.filtrosVisibles = !this.filtrosVisibles;
+    console.log('Estado de filtrosVisibles:', this.filtrosVisibles); 
   }
 }
 

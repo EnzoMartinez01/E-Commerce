@@ -44,7 +44,7 @@ export class HeaderComponent implements OnInit{
   menuItems = [
     { label: 'Inicio', link: '/home' },
     { label: 'Nosotros', link: '/about' },
-    { label: 'Productos', link: '/categories' },
+    { label: 'Categorias', link: '/categories' },
     { label: 'FAQ', link: '/FAQ' },
     { label: 'Contacto', link: '/contact' }
   ];
