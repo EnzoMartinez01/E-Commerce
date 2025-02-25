@@ -85,6 +85,10 @@ export class HeaderComponent implements OnInit{
     this.menuOpen = false;
   }
 
+  cerrarMenu() {
+    this.menuOpen = false;
+  }
+
   // Filter Products for Search Input
   search(event?: any): void {
     const searchTerm = event?.query?.trim().toLowerCase() || '';
