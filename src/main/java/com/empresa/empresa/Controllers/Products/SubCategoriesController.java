@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -30,6 +31,24 @@ public class SubCategoriesController {
     public SubCategories getSubCategoryById(Integer id){
         return subCategoriesService.getSubCategoryById(id);
     }
+
+    @GetMapping("/products/subcategories")
+    public ResponseEntity<List<SubCategories>> getAvailableSubCategories(
+            @RequestParam(required = false) String searchTerms,
+            @RequestParam(required = false) Double price,
+            @RequestParam(required = false) Integer stock,
+            @RequestParam(required = false) Boolean isOffer,
+            @RequestParam(required = false) Integer brandId,
+            @RequestParam(required = false) Integer categoryId,
+            @RequestParam(required = false) List<Integer> attributeIds,
+            @RequestParam(required = false) Boolean isActive) {
+
+        List<SubCategories> subCategories = subCategoriesService.getAvailableSubCategories(
+                searchTerms, price, stock, isOffer, brandId, categoryId, attributeIds, isActive);
+
+        return ResponseEntity.ok(subCategories);
+    }
+
 
     @PostMapping("/addSubCategory")
     public ResponseEntity<Map<String, String>> addSubCategory(SubCategories subCategory){

@@ -21,6 +21,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductsService {
     private final static Logger logger = LoggerFactory.getLogger(ProductsService.class);
@@ -56,17 +58,20 @@ public class ProductsService {
     public Page<ProductsDto> getFilteredProducts(String searchTerms,
                                                  Double price, Integer stock,
                                                  Boolean isOffer, Integer brandId,
-                                                 Integer categoryId, Boolean isActive,
+                                                 Integer categoryId, Integer subCategoryId,
+                                                 List<Integer> attributeIds, Boolean isActive,
                                                  int page, int size) {
         try {
             Pageable pageable = PageRequest.of(page, size);
             String search = (searchTerms != null && !searchTerms.trim().isEmpty()) ? searchTerms.trim() : null;
-            return productsRepository.findByFilters(searchTerms, price, stock, isOffer, brandId, categoryId, isActive, pageable).map(this::mapToDto);
+            return productsRepository.findByFilters(search, price, stock, isOffer, brandId, categoryId, subCategoryId, attributeIds, isActive, pageable)
+                    .map(this::mapToDto);
         } catch (Exception e) {
-            logger.error("Error al obtener los productos", e);
-            throw new RuntimeException("Error al obtener los productos", e);
+            logger.error("Error al obtener los productos con filtros", e);
+            throw new RuntimeException("Error al obtener los productos con filtros", e);
         }
     }
+
 
     // Map to Dto
     public ProductsDto mapToDto (Products products) {

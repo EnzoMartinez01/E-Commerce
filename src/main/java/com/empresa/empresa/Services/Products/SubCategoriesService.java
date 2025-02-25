@@ -9,6 +9,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SubCategoriesService {
     private final static Logger logger = LoggerFactory.getLogger(SubCategoriesService.class);
@@ -23,6 +25,15 @@ public class SubCategoriesService {
     public Page<SubCategories> getAllSubCategories(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return subCategoryRepository.findAll(pageable);
+    }
+
+    // Get Available SubCategories
+    public List<SubCategories> getAvailableSubCategories(String searchTerms,
+                                                         Double price, Integer stock,
+                                                         Boolean isOffer, Integer brandId,
+                                                         Integer categoryId, List<Integer> attributeIds,
+                                                         Boolean isActive) {
+        return subCategoryRepository.findAvailableSubCategories(searchTerms, price, stock, isOffer, brandId, categoryId, attributeIds, isActive);
     }
 
     // Get SubCategory by ID

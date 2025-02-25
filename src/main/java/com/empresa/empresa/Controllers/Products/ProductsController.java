@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -38,12 +39,16 @@ public class ProductsController {
             @RequestParam(required = false) Boolean isOffer,
             @RequestParam(required = false) Integer brandId,
             @RequestParam(required = false) Integer categoryId,
+            @RequestParam(required = false) Integer subCategoryId,
+            @RequestParam(required = false) List<Integer> attributeIds,
             @RequestParam(required = false, defaultValue = "true") Boolean isActive,
-            @RequestParam(defaultValue = "0")int page,
-            @RequestParam(defaultValue = "10")int size){
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
-        return productsService.getFilteredProducts(searchTerms,price,stock,isOffer,brandId,categoryId,isActive,page,size);
+        return productsService.getFilteredProducts(
+                searchTerms, price, stock, isOffer, brandId, categoryId, subCategoryId, attributeIds, isActive, page, size);
     }
+
 
     //Get Products by Id
     @GetMapping("/getProductsById/{idProduct}")
