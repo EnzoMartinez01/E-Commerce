@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Component, Input, OnInit, TemplateRef} from '@angular/core';
 import { ProductsService } from '../../../core/services/products/products.service';
 import {ActivatedRoute} from '@angular/router';
 import {CategoriesService} from '../../../core/services/products/categories.service';
@@ -15,6 +15,7 @@ import {MenuItem} from 'primeng/api';
   styleUrl: './info-name.component.css'
 })
 export class InfoNameComponent implements OnInit{
+  @Input({ required: true }) idProduct: number | null = null;
 
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
@@ -34,7 +35,6 @@ export class InfoNameComponent implements OnInit{
     isOffer: boolean;
     quantity: number;
   }[] = [];
-  idProduct: number | null = null;
 
   constructor(private productsService: ProductsService,
               private route: ActivatedRoute) {}

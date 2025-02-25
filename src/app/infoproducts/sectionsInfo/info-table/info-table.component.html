@@ -1,50 +1,47 @@
 <div>
-    <p-tabs value="0">
-        <p-tablist>
-            <p-tab value="0">Caracteristicas</p-tab>
-            <p-tab value="1">Documentacion</p-tab>
-        </p-tablist>
-        <p-tabpanels>
-            <p-tabpanel value="0">
-                <p class="m-0">
-                    <p-table stripedRows [tableStyle]="{'min-width': '50rem'}">
-                        <ng-template #header>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Descripcion</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template #body let-product>
-                            <tr>
-                                <td>{{product.characteristicsname}}</td>
-                                <td>{{product.characteristicsdescription}}</td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </p>
-            </p-tabpanel>
-            <p-tabpanel value="1">
-                <p class="m-0">
-                    <p-table stripedRows [tableStyle]="{'min-width': '50rem'}">
-                        <ng-template #header>
-                            <tr>
-                                <th>Atributos</th>
+  <p-tabs value="0">
+    <p-tablist>
+      <p-tab value="0">Características</p-tab>
+      <p-tab value="1">Documentación</p-tab>
+    </p-tablist>
+    <p-tabpanels>
+      <p-tabpanel value="0">
+        <p-table stripedRows [value]="characteristics" [tableStyle]="{'min-width': '50rem'}">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Nombre</th>
+              <th>Descripción</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product>
+            <tr>
+              <td>{{product.name}}</td>
+              <td>{{product.description}}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-tabpanel>
 
-                            </tr>
-                        </ng-template>
-                        <ng-template #body let-product>
-                            <tr>
-                                <td>{{product.attributesname}}</td>
-                                <td>
-                                    <a [href]="product.pdfFile">
-                                        <i class="pi-file-pdf"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </p>
-            </p-tabpanel>
-        </p-tabpanels>
-    </p-tabs>
+      <p-tabpanel value="1">
+        <p-table stripedRows [value]="attributes" [tableStyle]="{'min-width': '50rem'}">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Atributos</th>
+              <th>PDF</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product>
+            <tr>
+              <td>{{product.attributeName}}</td>
+              <td>
+                <a [href]="product.pdfFile">
+                  <i class="pi-file-pdf"></i>
+                </a>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-tabpanel>
+    </p-tabpanels>
+  </p-tabs>
 </div>
