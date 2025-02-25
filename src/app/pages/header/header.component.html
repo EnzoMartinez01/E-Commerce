@@ -11,11 +11,24 @@
                 </div>
 
               <!-- Campo de búsqueda con Autocompletado -->
-              <p-autoComplete [(ngModel)]="filters.searchTerms"
+              <p-autoComplete class="search-input" [(ngModel)]="filters.searchTerms"
                               [suggestions]="filteredProducts"
                               (completeMethod)="search($event)"
+                              (onSelect)="goToProduct($event.value)"
                               field="productName"
                               placeholder="Buscar Producto">
+                <ng-template let-product pTemplate="item">
+                  <div class="product-item">
+                    <img [src]="product.imageUrl" alt="{{ product.productName }}" class="product-img">
+                    <div class="product-info">
+                      <span class="product-category">{{ product.category }}</span>
+                      <span class="product-name">{{ product.productName }}</span>
+                    </div>
+                    <div class="product-price">
+                      {{ product.price | currency:'S/.' }}
+                    </div>
+                  </div>
+                </ng-template>
               </p-autoComplete>
 
 

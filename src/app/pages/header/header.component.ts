@@ -98,7 +98,11 @@ export class HeaderComponent implements OnInit{
 
           if (data && Array.isArray(data.content) && data.content.length > 0) {
             this.filteredProducts = data.content.map((producto: any) => ({
-              productName: producto.productName
+              id: producto.idProduct,
+              productName: producto.productName,
+              category: producto.categoryName,
+              imageUrl: producto.productImg,
+              price: producto.productPrice,
             }));
           } else {
             console.warn("⚠️ No se encontraron productos en content.");
@@ -112,6 +116,14 @@ export class HeaderComponent implements OnInit{
         }
       );
   }
+
+  goToProduct(product: any): void {
+    const url = `/${product.category}/products/${product.id}`;
+    this.router.navigateByUrl(url).then(() => {
+      window.location.reload();
+    });
+  }
+
 
 
 
