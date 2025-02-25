@@ -1,7 +1,7 @@
 <div>
     <p-tabs value="0">
         <p-tablist>
-            <p-tab value="0">Descripcion</p-tab>
+            <p-tab value="0">Caracteristicas</p-tab>
             <p-tab value="1">Documentacion</p-tab>
         </p-tablist>
         <p-tabpanels>
@@ -10,12 +10,14 @@
                     <p-table stripedRows [tableStyle]="{'min-width': '50rem'}">
                         <ng-template #header>
                             <tr>
-                                <th>Caracteristicas</th>
+                                <th>Nombre</th>
+                                <th>Descripcion</th>
                             </tr>
                         </ng-template>
                         <ng-template #body let-product>
                             <tr>
-                                <td>{{product.characteristics}}</td>
+                                <td>{{product.characteristicsname}}</td>
+                                <td>{{product.characteristicsdescription}}</td>
                             </tr>
                         </ng-template>
                     </p-table>
@@ -27,12 +29,12 @@
                         <ng-template #header>
                             <tr>
                                 <th>Atributos</th>
-                                <th>Ficha Técnica</th>
+
                             </tr>
                         </ng-template>
                         <ng-template #body let-product>
                             <tr>
-                                <td>{{product.attributes}}</td>
+                                <td>{{product.attributesname}}</td>
                                 <td>
                                     <a [href]="product.pdfFile">
                                         <i class="pi-file-pdf"></i>
