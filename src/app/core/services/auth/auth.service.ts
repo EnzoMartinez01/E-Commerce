@@ -56,4 +56,15 @@ export class AuthService {
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
+
+  getUsernameFromToken(token: string): string {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.username || payload.sub || '';
+    } catch (error) {
+      return '';
+    }
+  }
+
+
 }

@@ -17,6 +17,7 @@ import { LoginModalComponent } from "../login/login-sections/login-modal/login-m
 import {InputGroupAddon} from 'primeng/inputgroupaddon';
 import {AutoComplete} from 'primeng/autocomplete';
 import {InputGroupModule} from 'primeng/inputgroup';
+import {Avatar} from 'primeng/avatar';
 
 @Component({
   selector: 'app-header',
@@ -33,12 +34,16 @@ import {InputGroupModule} from 'primeng/inputgroup';
     RouterModule,
     InputGroupModule,
     AutoComplete,
+    Avatar,
   ]
 
 })
 export class HeaderComponent implements OnInit{
 
   @Output() openLogin = new EventEmitter<void>();
+
+  isLoggedIn: boolean = false;
+  userInitial: string = '';
 
   openLoginModal() {
     console.log("Abiendo Modal...");
@@ -71,6 +76,7 @@ export class HeaderComponent implements OnInit{
 
   ngOnInit(): void {
     this.search();
+    this.checkUser();
   }
 
 
@@ -88,6 +94,19 @@ export class HeaderComponent implements OnInit{
   cerrarMenu() {
     this.menuOpen = false;
   }
+
+  checkUser() {
+    const token = this.authService.getToken();
+    if (token) {
+      this.isLoggedIn = true;
+      const username = this.authService.getUsernameFromToken(token);
+      this.userInitial = username ? username.charAt(0).toUpperCase() : '';
+    } else {
+      this.isLoggedIn = false;
+      this.userInitial = '';
+    }
+  }
+
 
   // Filter Products for Search Input
   search(event?: any): void {
@@ -127,10 +146,6 @@ export class HeaderComponent implements OnInit{
       window.location.reload();
     });
   }
-
-
-
-
 
   // Logout
   logout(): void {
