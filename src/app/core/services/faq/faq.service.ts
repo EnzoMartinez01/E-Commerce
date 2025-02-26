@@ -22,18 +22,11 @@ export class FaqService {
         page: number,
         size: number
     ): Observable<FaqResponse> {
-        const token = sessionStorage.getItem('authToken');
-        if (!token) {
-            throw new Error('Token not found.');
-        }
-        const headers = new HttpHeaders({
-            'Authorization': `Bearer ${token}`
-        });
 
         let params = new HttpParams()
             .set('page', page.toString())
             .set('size', size.toString());
 
-        return this.http.get<FaqResponse>(`${this.apiBaseUrl}/getAllFaq`, { headers, params });
+        return this.http.get<FaqResponse>(`${this.apiBaseUrl}/getAllFaq`, { params });
     }
 }
