@@ -6,10 +6,12 @@ import {Avatar} from 'primeng/avatar';
 import {Ripple} from 'primeng/ripple';
 import {Button} from 'primeng/button';
 import {StyleClass} from 'primeng/styleclass';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-users-modal',
   imports: [
+    CommonModule,
     Drawer,
     Ripple,
     Button,
@@ -50,5 +52,10 @@ export class UsersModalComponent {
         console.error('Logout error', error);
       }
     );
+  }
+  activeMenu: string | null = null;
+
+  toggleMenu(menu: string) {
+    this.activeMenu = this.activeMenu === menu ? null : menu;
   }
 }
