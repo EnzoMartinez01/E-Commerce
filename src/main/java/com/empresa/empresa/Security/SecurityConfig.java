@@ -57,9 +57,9 @@ public class SecurityConfig {
                                 ,"/api/v1/brands/getAllBrands",
                                 "/api/v1/brands/getAllBrandsImages",
                                 //SubCategories
-                                "/api/v1/subCategories/getAllSubCategories",
-                                "/api/v1/subCategories/getSubCategory/{id}",
-                                "/api/v1/subCategories/products/subcategories",
+                                "/api/v1/subcategories/getAllSubCategories",
+                                "/api/v1/subcategories/getSubCategory/",
+                                "/api/v1/subcategories/products/subcategories",
                                 // Attributes
                                 "/api/v1/attributes/getAllAttributes",
                                 "/api/v1/attributes/getAttributesByProducts/{idProduct}",
