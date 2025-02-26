@@ -1,1 +1,27 @@
-<p>cart-info works!</p>
+<div class="carrito-container">
+    <h1 class="titulo">Carrito de Compras</h1>
+</div>
+
+<div class="carrito-contenido">
+    <div class="productos">
+        <div class="producto" *ngFor="let producto of productos">
+            <img [src]="producto.imagen" class="producto-imagen" alt="Imagen del producto">
+            <div class="producto-info">
+                <h2 class="producto-nombre">{{ producto.nombre }}</h2>
+                <p class="producto-precio">S/ {{ producto.precio.toFixed(2) }}</p>
+            </div>
+            <div class="producto-cantidad">
+                <button (click)="aumentarCantidad(producto)">+</button>
+                <span>{{ producto.cantidad }}</span>
+                <button (click)="disminuirCantidad(producto)">-</button>
+            </div>
+        </div>
+    </div>
+    <div class="resumen">
+        <h2>Resumen del Carrito</h2>
+        <p>Subtotal: S/ {{ subtotal.toFixed(2) }}</p>
+        <p>Envío: <span class="envio">A calcular</span></p>
+        <p class="total">Total: S/ {{ subtotal.toFixed(2) }}</p>
+        <button pButton label="Finalizar Compra" class="boton-finalizar">Finalizar Compra</button>
+    </div>
+</div>
