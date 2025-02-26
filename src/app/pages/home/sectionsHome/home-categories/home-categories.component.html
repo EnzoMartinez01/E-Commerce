@@ -1,7 +1,7 @@
 <div class="categoria-container">
   <h2 class="title-categoria">Categorías</h2>
   <div class="grid-categoria">
-    <a *ngFor="let category of categories" [routerLink]="['/products', category.value]" class="categoria">
+    <a *ngFor="let category of categories" [routerLink]="['/', category.label, 'products']" class="categoria">
       <img [src]="category.image" [alt]="category.label">
       <p>{{ category.label }}</p>
     </a>
