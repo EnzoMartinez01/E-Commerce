@@ -66,7 +66,9 @@ public class SecurityConfig {
                                 "/api/v1/attributes/getAttributesBySubCategory/{idSubCategory}",
                                 // Characteristics
                                 "/api/v1/characteristics/getAllCharacteristics",
-                                "/api/v1/characteristics/getCharacteristicsByProducts/{idProduct}"
+                                "/api/v1/characteristics/getCharacteristicsByProducts/{idProduct}",
+                                // FAQ
+                                "/api/v1/faq/getAllFaq"
                         ).permitAll()
                         .requestMatchers("/api/v1/User/getAllUser").hasRole("ADMIN")
                         .anyRequest()
