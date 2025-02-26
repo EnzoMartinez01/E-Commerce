@@ -55,7 +55,7 @@ export class LoginModalComponent {
       (response) => {
         this.showSnackBar('Sesión iniciada con éxito');
         this.authService.saveToken(response.token);
-        this.router.navigate(['/home']);
+        window.location.reload();
       },
       (err) => {
         this.errorMessage = err.error.message || 'Ocurrió un error en el inicio de sesión.';
