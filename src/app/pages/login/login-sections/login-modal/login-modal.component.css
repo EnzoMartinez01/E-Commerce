@@ -27,6 +27,9 @@
 }
 
 .modal-content {
+    margin: 20px;
+    height: 90%;
+  overflow: scroll;
     background: white;
     padding: 50px;
     border-radius: 8px;

@@ -37,15 +37,16 @@
     </form>
 
     <!-- Formulario de Registro -->
-    <form *ngIf="isRegistering" [formGroup]="registerForm">
-      <input type="text" class="form-control" formControlName="names" placeholder="Nombres" required />
-      <input type="text" class="form-control" formControlName="lastName" placeholder="Apellidos" required />
-      <input type="text" class="form-control" formControlName="dni" placeholder="DNI" required />
-      <input type="text" class="form-control" formControlName="telephone" placeholder="Teléfono" required />
-      <input type="email" class="form-control" formControlName="email" placeholder="Correo Electrónico" required />
-      <input type="text" class="form-control" formControlName="username" placeholder="Username" required />
-      <input type="password" class="form-control" formControlName="password" placeholder="Password" required />
-      <input type="date" class="form-control" formControlName="birthDate" required />
+    <form *ngIf="isRegistering" (ngSubmit)="register()">
+      <input type="text" class="form-control" [(ngModel)]="user.names" name="names" placeholder="Nombres" required />
+      <input type="text" class="form-control" [(ngModel)]="user.lastnames" name="lastnames" placeholder="Apellidos" required />
+      <input type="text" class="form-control" [(ngModel)]="user.dni" name="dni" placeholder="DNI" required />
+      <input type="text" class="form-control" [(ngModel)]="user.socialReason" name="socialReason" placeholder="Razón Social" required />
+      <input type="text" class="form-control" [(ngModel)]="user.telephone" name="telephone" placeholder="Teléfono" required />
+      <input type="email" class="form-control" [(ngModel)]="user.email" name="email" placeholder="Correo Electrónico" required />
+      <input type="text" class="form-control" [(ngModel)]="user.username" name="username" placeholder="Username" required />
+      <input type="password" class="form-control" [(ngModel)]="user.password" name="password" placeholder="Password" required />
+      <input type="date" class="form-control" [(ngModel)]="user.birthDate" name="birthDate" required />
 
       <div class="button-container">
         <button type="submit" [disabled]="isLoading">Registrarse</button>
@@ -54,5 +55,6 @@
         </div>
       </div>
     </form>
+
   </div>
 </div>

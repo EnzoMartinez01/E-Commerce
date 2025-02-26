@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 
@@ -13,9 +13,15 @@ export class AuthService {
 
   constructor( private http: HttpClient ) { }
 
-  registerUser(user: any): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(`${this.apiBaseUrl}/register/user/4`, user, { headers });
+  registerUser(user: any, idRole: number): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/register/user/${idRole}`, user).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    console.error("Error en la API:", error);
+    return throwError(() => new Error('Error al registrar usuario.'));
   }
 
   login (username: string, password: string): Observable<any> {

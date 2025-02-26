@@ -20,26 +20,27 @@ export class LoginModalComponent {
   isLoading = false;
 
   isRegistering = false;
-  registerForm: FormGroup;
+
+  user: any = {
+    names: '',
+    lastnames: '',
+    dni: '',
+    socialReason: '',
+    telephone: '',
+    email: '',
+    username: '',
+    password: '',
+    birthDate: ''
+  };
+
+  idRole: number = 4;
 
   @Output() closeModal = new EventEmitter<void>();
 
   constructor(private authService: AuthService,
               private router: Router,
               private snackBar: MatSnackBar,
-              private fb: FormBuilder) {
-    this.registerForm = this.fb.group({
-      names: ['', Validators.required],
-      lastName: ['', Validators.required],
-      dni: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]],
-      socialReason: [''],
-      telephone: ['', [Validators.required, Validators.pattern(/^\d{9}$/)]],
-      email: ['', [Validators.required, Validators.email]],
-      username: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      birthDate: ['', Validators.required],
-    });
-  }
+              private fb: FormBuilder) {}
 
   private showSnackBar(message: string, type: string = 'snackbar-success') {
     this.snackBar.open(message, 'Cerrar', {
@@ -63,6 +64,38 @@ export class LoginModalComponent {
       }
     ).add(() => this.isLoading = false);
   }
+
+  register() {
+    console.log('Datos del usuario antes de enviar:', this.user);
+
+    if (
+      !this.user.username ||
+      !this.user.password ||
+      !this.user.email ||
+      !this.user.names ||
+      !this.user.lastnames ||
+      !this.user.dni ||
+      !this.user.socialReason ||
+      !this.user.telephone ||
+      !this.user.birthDate
+    ) {
+      console.warn('Faltan datos para registrar usuario.');
+      return;
+    }
+
+    this.authService.registerUser(this.user, this.idRole).subscribe({
+      next: (response) => {
+        console.log("Registro exitoso: ", response);
+        alert("Registro exitoso.");
+        window.location.reload();
+      },
+      error: (error) => {
+        console.error("Error al registrar usuario: ", error);
+        alert("Error al registrar usuario.");
+      }
+    });
+  }
+
 
   close() {
     console.log("Cerrando modal...");
