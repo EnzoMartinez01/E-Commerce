@@ -31,15 +31,6 @@ export class ProductsService {
     size: number,
     searchTerms: string | null
   ): Observable<ProductsResponse> {
-    const token = sessionStorage.getItem('authToken');
-
-    if (!token) {
-      throw new Error('Token not found.');
-    }
-
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
 
     let params = new HttpParams()
       .set('page', page.toString())
@@ -81,21 +72,11 @@ export class ProductsService {
       params = params.set('searchTerms', searchTerms);
     }
 
-    return this.http.get<ProductsResponse>(`${this.baseUrl}/getProductsByFilters`, { headers, params });
+    return this.http.get<ProductsResponse>(`${this.baseUrl}/getProductsByFilters`, {  params });
   }
 
 
   getProductsById(idProducts:number): Observable<any> {
-    const token = sessionStorage.getItem('authToken');
-
-    if (!token) {
-      throw new Error('Token not found.');
-    }
-
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-
-    return this.http.get<any>(`${this.baseUrl}/getProductsById/${idProducts}`, { headers });
+    return this.http.get<any>(`${this.baseUrl}/getProductsById/${idProducts}`);
   }
 }

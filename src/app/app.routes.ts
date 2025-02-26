@@ -22,5 +22,4 @@ export const routes: Routes = [
     {path:'FAQ', component: FAQComponent},
     {path:'home', component: HomeComponent},
     {path:'login', component: LoginComponent},
-    {path:'infoproducts', component: InfoproductsComponent }
 ];

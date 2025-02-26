@@ -29,15 +29,6 @@ export class SubcategoriesService {
     attributesIds: number[] | null,
     isActive: boolean | null
   ): Observable<SubcategoriesResponse> {
-    const token = sessionStorage.getItem('authToken');
-
-    if (!token) {
-      throw new Error('Token not found.');
-    }
-
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
 
     let params = new HttpParams()
 
@@ -74,6 +65,6 @@ export class SubcategoriesService {
       params = params.set('isActive', isActive.toString());
     }
 
-    return this.http.get<any>(`${this.baseUrl}/products/subcategories`, { headers, params });
+    return this.http.get<any>(`${this.baseUrl}/products/subcategories`, { params });
   }
 }
