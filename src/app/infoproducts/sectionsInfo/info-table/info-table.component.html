@@ -15,8 +15,8 @@
           </ng-template>
           <ng-template pTemplate="body" let-product>
             <tr>
-              <td>{{product.name}}</td>
-              <td>{{product.description}}</td>
+              <td>{{ product.name }}</td>
+              <td>{{ product.description }}</td>
             </tr>
           </ng-template>
         </p-table>
@@ -32,10 +32,10 @@
           </ng-template>
           <ng-template pTemplate="body" let-product>
             <tr>
-              <td>{{product.attributeName}}</td>
+              <td>{{ product.attributeName }}</td>
               <td>
-                <a [href]="product.pdfFile">
-                  <i class="pi-file-pdf"></i>
+                <a *ngIf="pdfFileUrl" [href]="pdfFileUrl" target="_blank">
+                  <i class="pi pi-file-pdf"></i>
                 </a>
               </td>
             </tr>

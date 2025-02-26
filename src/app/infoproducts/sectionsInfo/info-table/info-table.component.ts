@@ -1,70 +1,43 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { TabsModule } from 'primeng/tabs';
 import { TableModule } from 'primeng/table';
-import {CharacteristicsService} from '../../../core/services/products/characteristics.service';
-import {AttributesService} from '../../../core/services/products/attributes.service';
+import {ProductsService} from '../../../core/services/products/products.service';
+import {NgIf} from '@angular/common';
 
 
 @Component({
   selector: 'app-info-table',
-  imports: [TabsModule,TableModule],
+  imports: [TabsModule, TableModule, NgIf],
   templateUrl: './info-table.component.html',
   styleUrl: './info-table.component.css'
 })
 export class InfoTableComponent implements OnInit{
-  @Input({ required: true }) idProduct: number | null = null;
+  @Input() idProduct!: number;
+  productData: any = {};
   characteristics: any[] = [];
   attributes: any[] = [];
+  pdfFileUrl: string = '';
 
-  constructor(private characteristicsService: CharacteristicsService,
-              private attributesService: AttributesService) {}
+  constructor(private productService: ProductsService) {}
 
-  ngOnInit(): void {
-    console.log("🛠️ idProduct recibido en InfoTableComponent:", this.idProduct);
-
+  ngOnInit() {
     if (this.idProduct) {
-      this.loadCharacteristics(this.idProduct);
-      this.loadAttributes(this.idProduct);
+      this.loadProductData(this.idProduct);
     } else {
       console.warn("⚠️ No se recibió idProduct, no se cargan datos.");
     }
   }
 
-
-  loadCharacteristics(idProduct: number): void {
-    this.characteristicsService.getCharacteristics(idProduct, 0, 10).subscribe(
+  loadProductData(idProduct: number): void {
+    this.productService.getProductsById(idProduct).subscribe(
       (data) => {
-        console.log('✅ Características obtenidas:', data);
-
-        if (data && data.content) {
-          console.log('📌 Características procesadas:', data.content);
-          this.characteristics = data.content;
-        } else {
-          console.warn('⚠ Características vacías o mal formateadas:', data);
-          this.characteristics = [];
-        }
+        console.log("📥 Datos del producto recibidos:", data);
+        this.productData = data;
+        this.characteristics = data.characteristics || [];
+        this.attributes = data.attributes || [];
+        this.pdfFileUrl = data.pdfFile || '';
       },
-      (error) => {
-        console.error('❌ Error al cargar características:', error);
-      }
+      (error) => console.error("❌ Error al cargar datos del producto:", error)
     );
   }
-
-  loadAttributes(idProduct: number): void {
-    this.attributesService.getAttributes(idProduct, 0, 10).subscribe(
-      (data) => {
-        console.log("✅ Atributos recibidos:", data);
-
-        if (data && data.content) {
-          console.log("📌 Atributos procesados:", data.content);
-          this.attributes = data.content;
-        } else {
-          console.warn("⚠ Atributos vacíos o mal formateados:", data);
-          this.attributes = [];
-        }
-      },
-      (error) => console.error('❌ Error al cargar atributos:', error)
-    );
-  }
-
 }
