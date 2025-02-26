@@ -37,7 +37,7 @@
                     <ng-template #regularPrice>S/. {{ product.price }}</ng-template>
                 </div>
                 <div class="product-buttons">
-                    <button class="add-to-cart">Agregar</button>
+                    <button class="add-to-cart" (click)="addToCart(product)">Agregar</button>
                     <button class="view-info" [routerLink]="['/', product.category, 'products', product.idProduct]">
             Más Información
           </button>

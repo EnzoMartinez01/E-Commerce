@@ -8,6 +8,7 @@ import {Paginator} from 'primeng/paginator';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {CategoriesService} from '../../../../core/services/products/categories.service';
 import {SubcategoriesService} from '../../../../core/services/products/subcategories.service';
+import {CartService} from '../../../../core/services/cart/cart.service';
 
 
 @Component({
@@ -52,7 +53,8 @@ export class ProductsFilterComponent {
   constructor(private productsService: ProductsService,
               private route: ActivatedRoute,
               private categoriesService: CategoriesService,
-              private subCategoriesService: SubcategoriesService) {
+              private subCategoriesService: SubcategoriesService,
+              private cartService: CartService) {
   }
 
   ngOnInit(): void {
@@ -141,7 +143,16 @@ export class ProductsFilterComponent {
     );
   }
 
-
+  addToCart(product: any) {
+    this.cartService.addToCart(product.idProduct, 1).subscribe(
+      response => {
+        console.log('Producto agregado correctamente:', response);
+      },
+      error => {
+        console.error('Error al agregar producto al carrito:', error);
+      }
+    );
+  }
 
   onFilterChange(): void {
     this.filters.attributeIds = this.filtros

@@ -13,9 +13,7 @@ import { CommonModule } from '@angular/common';
   imports: [
     CommonModule,
     Drawer,
-    Ripple,
     Button,
-    StyleClass
   ],
   templateUrl: './users-modal.component.html',
   styleUrl: './users-modal.component.css'

@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import {MenuItem} from 'primeng/api';
+import {CartService} from '../../../../core/services/cart/cart.service';
 
 @Component({
   selector: 'app-info-name',
@@ -28,6 +29,7 @@ export class InfoNameComponent implements OnInit{
     image: string;
     brandImage: string;
     offer: number;
+    stock: number;
     sku: string;
     priceOffer: number;
     category: string;
@@ -37,7 +39,8 @@ export class InfoNameComponent implements OnInit{
   }[] = [];
 
   constructor(private productsService: ProductsService,
-              private route: ActivatedRoute) {}
+              private route: ActivatedRoute,
+              private cartService: CartService) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -89,8 +92,11 @@ export class InfoNameComponent implements OnInit{
     );
   }
 
+
+
   private mapProduct(product: any): any {
     return {
+      idProduct: product.idProduct,
       name: product.productName,
       description: product.productDescription,
       price: product.productPrice,
@@ -102,21 +108,29 @@ export class InfoNameComponent implements OnInit{
       sku: product.productSku,
       isOffer: product.isOffer,
       priceOffer: product.priceOffer,
+      stock: product.stock,
       quantity: 1
     };
   }
 
-  incrementQuantity(product: any): void {
-    product.stock++;
-  }
+  addToCart(product: any) {
+    console.log('Producto:', product);
+    console.log('ID:', product.idProduct);
+    console.log('Cantidad:', product.quantity);
 
-  decrementQuantity(product: any): void {
-    if (product.stock > 1) {
-      product.stock--;
+    if (!product.idProduct || !product.quantity) {
+      console.error('Error: idProduct o quantity es undefined');
+      return;
     }
+
+    this.cartService.addToCart(product.idProduct, product.quantity).subscribe(
+      response => {
+        console.log('Producto agregado correctamente:', response);
+      },
+      error => {
+        console.error('Error al agregar producto al carrito:', error);
+      }
+    );
   }
 
-  addToCart(product: any): void {
-    console.log(`🛒 Agregado al carrito: ${product.name} - Cantidad: ${product.stock}`);
-  }
 }

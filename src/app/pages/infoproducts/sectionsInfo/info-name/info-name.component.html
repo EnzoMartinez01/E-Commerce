@@ -36,9 +36,7 @@
                 <div class="productos-cantidad">
                     <label for="quantity-{{product.sku}}">Cantidad:</label>
                     <div class="cantidad-container">
-                        <button class="btn-menos" (click)="decrementQuantity(product)">-</button>
-                        <input type="number" id="quantity-{{product.sku}}" [(ngModel)]="product.quantity" min="1">
-                        <button class="btn-mas" (click)="incrementQuantity(product)">+</button>
+                        <input type="number" id="quantity-{{product.sku}}" [(ngModel)]="product.quantity" min="1" max="{{product.stock}}">
                     </div>
                     <button class="carrito" (click)="addToCart(product)">Añadir al Carrito</button>
                 </div>
