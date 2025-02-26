@@ -4,10 +4,11 @@ import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import {ProductsService} from '../../../../core/services/products/products.service';
 import {NgIf} from '@angular/common';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-home-offers-card',
-  imports: [CarouselModule, ButtonModule, TagModule],
+  imports: [CarouselModule, ButtonModule, TagModule,RouterLink],
   templateUrl: './home-offers-card.component.html',
   styleUrl: './home-offers-card.component.css'
 })
@@ -28,11 +29,15 @@ export class HomeOffersCardComponent {
   pageSize: number = 10;
 
   products: {
-    name: string;
-    price: number;
-    image: string;
-    offer: number;
-    priceOffer: number;
+    idProduct: number,
+  name: string;
+  price: number;
+  image: string;
+  offer: number;
+  priceOffer: number;
+  category: string;
+  isActive: boolean;
+  isOffer: boolean;
   }[] = [];
 
 
@@ -42,7 +47,9 @@ export class HomeOffersCardComponent {
     { breakpoint: '560px', numVisible: 1, numScroll: 1 }
   ];
 
-  constructor(private productsService: ProductsService) {}
+  constructor(private productsService: ProductsService,
+                private route: ActivatedRoute,
+                ) {}
 
   ngOnInit(): void {
     this.loadProducts();
@@ -56,12 +63,15 @@ export class HomeOffersCardComponent {
     ).subscribe((data) => {
       if (data && data.content) {
         this.products = data.content.map((product: any) => ({
-          name: product.productName,
-          price: product.productPrice,
-          image: product.productImg,
-          offer: product.productOfferDiscount,
-          category: product.categoryName,
-          priceOffer: product.priceOffer
+          idProduct: product.idProduct,
+            name: product.productName,
+            price: product.productPrice,
+            image: product.productImg,
+            offer: product.productOfferDiscount,
+            category: product.categoryName,
+            priceOffer: product.priceOffer,
+            isActive: product.isActive,
+            isOffer: product.isOffer
         }));
         this.totalElements = data.totalElements;
       }
