@@ -1,6 +1,7 @@
 package com.empresa.empresa.Controllers.Cart;
 
 import com.empresa.empresa.Dto.Cart.CartDto;
+import com.empresa.empresa.Models.Cart.CartItems;
 import com.empresa.empresa.Services.Cart.CartService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -45,6 +46,16 @@ public class CartController {
         Map<String, String> response = new HashMap<>();
         response.put("message", "Producto añadido al carrito satisfactoriamente.");
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    //Update quantity of CartItem
+    @PutMapping("/updateQuantity")
+    public ResponseEntity<CartItems> updateQuantity(
+            @RequestParam Integer idCartItem,
+            @RequestParam Integer quantity) {
+
+        CartItems updatedCartItem = cartService.updateCartItemQuantity(idCartItem, quantity);
+        return ResponseEntity.ok(updatedCartItem);
     }
 
     //Delete Product to Cart

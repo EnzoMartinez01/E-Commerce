@@ -198,6 +198,28 @@ public class CartService {
         }
     }
 
+    // Update CartItems Quantity
+    public CartItems updateCartItemQuantity(Integer idCartItem, Integer quantity) {
+        CartItems existingCartItem = cartItemRepository.findById(idCartItem)
+                .orElseThrow(() -> new RuntimeException("CartItem not found with ID: " + idCartItem));
+
+        Integer stockDisponible = existingCartItem.getProduct().getStock();
+
+        if (quantity > stockDisponible) {
+            throw new RuntimeException("No hay suficiente stock disponible. Máximo permitido: " + stockDisponible);
+        }
+
+        if (quantity > 0) {
+            existingCartItem.setQuantity(quantity);
+            existingCartItem.setSubTotal(quantity * existingCartItem.getProduct().getPrice());
+        } else {
+            cartItemRepository.delete(existingCartItem);
+            return null;
+        }
+
+        return cartItemRepository.save(existingCartItem);
+    }
+
     //Delete Producto fromt Cart
     public void deleteProductToCart(Integer idProduct) {
         try {
