@@ -39,14 +39,8 @@ public class AuthenticationController {
     @PostMapping("/register/user/{idRole}")
     public ResponseEntity<Map<String, String>> registerUser(
             @PathVariable Integer idRole,
-            @RequestParam("users") String usersJson){
+            @RequestBody Users users) {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.registerModule(new JavaTimeModule());
-            objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-
-            Users users = objectMapper.readValue(usersJson, Users.class);
-
             if (users.getEmail() == null || users.getPassword() == null) {
                 return ResponseEntity.badRequest().body(Map.of("message", "Email y contraseña son requeridos."));
             }
@@ -59,12 +53,12 @@ public class AuthenticationController {
 
             return ResponseEntity.ok().body(Map.of("message", "Usuario Registrado Satisfactoriamente.", "email", users.getEmail()));
 
-        } catch (IOException e) {
-            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("message", "Error interno al registrar usuario."));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "Error interno al registrar usuario."));
         }
     }
+
 
     //Resend Verification Code
     @PostMapping("/resend-code")

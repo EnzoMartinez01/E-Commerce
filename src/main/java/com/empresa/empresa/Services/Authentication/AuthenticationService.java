@@ -60,13 +60,13 @@ public class AuthenticationService {
             users.setRole(role);
 
             users.setCreated_at(LocalDate.now());
-            users.setIsActive(false);
+            users.setIsActive(true);
             users.setFullname(users.getNames() + " " + users.getLastnames());
 
             Users savedUsers = usersRepository.save(users);
             logger.info("User " + savedUsers.getUsername() + " created successfully");
 
-            sendVerificationCode(savedUsers);
+            //sendVerificationCode(savedUsers);
 
         } catch (Exception e) {
             logger.error("Error creando usuario", e);
