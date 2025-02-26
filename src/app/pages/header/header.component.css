@@ -129,6 +129,10 @@
     }
 }
 
+.avatar-container {
+  cursor: pointer;
+}
+
 .product-item {
     display: flex;
     align-items: center;

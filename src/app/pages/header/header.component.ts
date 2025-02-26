@@ -39,6 +39,7 @@ import {Avatar} from 'primeng/avatar';
 
 })
 export class HeaderComponent implements OnInit{
+  @Output() openUserDrawer = new EventEmitter<void>();
 
   @Output() openLogin = new EventEmitter<void>();
 
@@ -77,6 +78,10 @@ export class HeaderComponent implements OnInit{
   ngOnInit(): void {
     this.search();
     this.checkUser();
+  }
+
+  openDrawer() {
+    this.openUserDrawer.emit();
   }
 
 
@@ -145,27 +150,5 @@ export class HeaderComponent implements OnInit{
     this.router.navigateByUrl(url).then(() => {
       window.location.reload();
     });
-  }
-
-  // Logout
-  logout(): void {
-    this.authService.logout().subscribe(
-      (response) => {
-        this.snackBar.open('Closing session', 'Close', {
-          duration: 3000,
-        panelClass: ['snackbar-success']
-        });
-        console.log('Logout successfull', response);
-        sessionStorage.removeItem('authToken');
-        window.location.reload();
-      },
-      (error) => {
-        this.snackBar.open('Error logging out', 'Close', {
-          duration: 3000,
-          panelClass: ['snackbar-error']
-        });
-        console.error('Logout error', error);
-      }
-    );
   }
 }

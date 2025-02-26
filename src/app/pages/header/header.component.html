@@ -28,7 +28,14 @@
 
               <div class="iconos-container">
                 <ng-container *ngIf="isLoggedIn; else loginIcon">
-                  <p-avatar [label]="userInitial" styleClass="mr-2" size="xlarge" shape="circle" />
+                  <p-avatar
+                    [label]="userInitial"
+                    styleClass="mr-2"
+                    size="xlarge"
+                    shape="circle"
+                    (click)="openDrawer()"
+                    class="avatar-container"
+                  />
                 </ng-container>
 
                 <ng-template #loginIcon>
