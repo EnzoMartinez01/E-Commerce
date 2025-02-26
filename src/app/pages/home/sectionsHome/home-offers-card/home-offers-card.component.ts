@@ -5,6 +5,8 @@ import { TagModule } from 'primeng/tag';
 import {ProductsService} from '../../../../core/services/products/products.service';
 import {NgIf} from '@angular/common';
 import {ActivatedRoute, RouterLink} from '@angular/router';
+import {CartService} from '../../../../core/services/cart/cart.service';
+import {HttpHeaders} from '@angular/common/http';
 
 @Component({
   selector: 'app-home-offers-card',
@@ -48,12 +50,25 @@ export class HomeOffersCardComponent {
   ];
 
   constructor(private productsService: ProductsService,
-                private route: ActivatedRoute,
+              private route: ActivatedRoute,
+              private cartService: CartService
                 ) {}
 
   ngOnInit(): void {
     this.loadProducts();
   }
+
+  addToCart(product: any) {
+    this.cartService.addToCart(product.idProduct, 1).subscribe(
+      response => {
+        console.log('Producto agregado correctamente:', response);
+      },
+      error => {
+        console.error('Error al agregar producto al carrito:', error);
+      }
+    );
+  }
+
 
   loadProducts(): void {
     const { brand, category, price, stock, isOffer, isActive, page, size, searchTerms } = this.filters;

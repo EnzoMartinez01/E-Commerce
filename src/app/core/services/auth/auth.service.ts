@@ -1,6 +1,7 @@
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
+import {jwtDecode} from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -66,5 +67,20 @@ export class AuthService {
     }
   }
 
+  getUserInfoFromToken(): Observable<any> {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Token not found');
+    }
 
+    const decodedToken: any = jwtDecode(token);
+    const username = decodedToken.sub;
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+    });
+
+    const url = 'http://localhost:8080/api/v1/User/me';
+    return this.http.get(url, { headers });
+  }
 }

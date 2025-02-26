@@ -23,7 +23,7 @@
                     <div class="mt-0 font-semibold text-xl ">{{ 'S/.' + product.priceOffer }}</div>
                     <div class="price-offer">{{ 'S/.' + product.price }}</div>
                     <span>
-                        <p-button icon="pi pi-shopping-cart " styleClass="ml-2 ">Agregar</p-button>
+                        <p-button icon="pi pi-shopping-cart " (click)="addToCart(product)" styleClass="ml-2 ">Agregar</p-button>
                         <button class="view-info" [routerLink]="['/', product.category, 'products', product.idProduct]">
                             Más Información
                           </button>
