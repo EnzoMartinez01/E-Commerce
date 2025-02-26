@@ -20,7 +20,7 @@ interface Product {
   styleUrl: './cart-info.component.css'
 })
 export class CartInfoComponent implements OnInit {
-  cart: any = {};  // Ahora almacenamos toda la info, no solo cartItems
+  cart: any = {};
   subtotal: number = 0;
 
   constructor(private cartService: CartService,
@@ -69,18 +69,18 @@ export class CartInfoComponent implements OnInit {
         } else {
           this.cart = this.cart.filter((item: { idCartItem: any; }) => item.idCartItem !== cartItem.idCartItem);
         }
+        this.calcularSubtotal();
       });
   }
 
   calcularSubtotal() {
     if (this.cart.cartItems) {
       this.subtotal = this.cart.cartItems.reduce(
-        (acc: number, item: { product: { productPrice: any; }; quantity: any; }) => acc + ((item.product?.productPrice || 0) * (item.quantity || 1)), 0
+        (acc: number, item: { product: { productPrice: any; }; quantity: any; }) =>
+          acc + ((item.product?.productPrice || 0) * (item.quantity || 1)), 0
       );
-    }
-  }
 
-  verCarrito() {
-    console.log('Contenido del carrito:', this.cart);
+      this.cart.total = this.subtotal;
+    }
   }
 }
