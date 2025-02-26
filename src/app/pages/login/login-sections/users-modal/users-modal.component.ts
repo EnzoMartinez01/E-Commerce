@@ -11,7 +11,6 @@ import {StyleClass} from 'primeng/styleclass';
   selector: 'app-users-modal',
   imports: [
     Drawer,
-    Avatar,
     Ripple,
     Button,
     StyleClass
