@@ -45,7 +45,28 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/api/v1/auth/reset-password",
                                 "/api/v1/auth/reset-password/request",
-                                "/api/v1/auth/update-password"
+                                "/api/v1/auth/update-password",
+                                 //Products
+                                "/api/v1/products/getProductsByFilters",
+                                 "/api/v1/products/getProductsById/{productId}",
+                                // Categories
+                                "/api/v1/categories/getAllCategories",
+                                "/api/v1/categories/getCategory/{categoryId}",
+                                "/api/v1/categories/getCategoryByName/{name}"
+                                // Brands
+                                ,"/api/v1/brands/getAllBrands",
+                                "/api/v1/brands/getAllBrandsImages",
+                                //SubCategories
+                                "/api/v1/subCategories/getAllSubCategories",
+                                "/api/v1/subCategories/getSubCategory/{id}",
+                                "/api/v1/subCategories/products/subcategories",
+                                // Attributes
+                                "/api/v1/attributes/getAllAttributes",
+                                "/api/v1/attributes/getAttributesByProducts/{idProduct}",
+                                "/api/v1/attributes/getAttributesBySubCategory/{idSubCategory}",
+                                // Characteristics
+                                "/api/v1/characteristics/getAllCharacteristics",
+                                "/api/v1/characteristics/getCharacteristicsByProducts/{idProduct}"
                         ).permitAll()
                         .requestMatchers("/api/v1/User/getAllUser").hasRole("ADMIN")
                         .anyRequest()
