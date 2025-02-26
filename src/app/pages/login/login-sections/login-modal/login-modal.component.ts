@@ -33,7 +33,7 @@ export class LoginModalComponent {
     birthDate: ''
   };
 
-  idRole: number = 4;
+  idRole: number = 3;
 
   @Output() closeModal = new EventEmitter<void>();
 

@@ -7,7 +7,7 @@ import { ContactComponent } from './pages/contact/contact.component';
 import { FAQComponent } from './pages/FAQ/faq.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
-import { InfoproductsComponent } from './infoproducts/infoproducts.component';
+import { InfoproductsComponent } from './pages/infoproducts/infoproducts.component';
 
 
 export const routes: Routes = [
