@@ -20,13 +20,21 @@ export class BrandsService {
         page: number,
         size: number,
       ): Observable<BrandsResponse> {
-    
+
         let params = new HttpParams()
           .set('page', page.toString())
           .set('size', size.toString());
-    
+
         return this.http.get<any>(`${this.baseUrl}/getAllBrands`, {params});
       }
+
+  getAllBrands(page: number, size: number): Observable<any> {
+      let params = new HttpParams()
+        .set('page', page.toString())
+        .set('size', size.toString());
+
+      return this.http.get<any>(`${this.baseUrl}/getAllBrands`, { params });
+  }
 
   getAllBrandsImages(): Observable<string[]> {
 

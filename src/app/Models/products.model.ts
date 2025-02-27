@@ -9,12 +9,13 @@ export interface Products {
     quantity: number;
     productOfferDiscount: number;
     priceOffer: number;
-    categoryId: number;
+    idCategory?: number | null;
     categoryName: string;
-    brandId: number;
+    idBrand?: number | null;
     brandName: string;
     brandImage: string;
     isOffer: boolean;
     isActive: boolean;
     productImg: string;
+    pdfFile: string;
 }
