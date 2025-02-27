@@ -51,7 +51,7 @@ public class SubCategoriesController {
 
 
     @PostMapping("/addSubCategory")
-    public ResponseEntity<Map<String, String>> addSubCategory(SubCategories subCategory){
+    public ResponseEntity<Map<String, String>> addSubCategory(@RequestBody SubCategories subCategory){
         SubCategories savedSubCategory = subCategoriesService.addSubCategory(subCategory);
 
         Map<String, String> response = new HashMap<>();
@@ -60,7 +60,7 @@ public class SubCategoriesController {
     }
 
     @PutMapping("/updateSubCategory/{idSubCategory}")
-    public ResponseEntity<Map<String, String>> updateSubCategory(Integer idSubCategory, SubCategories updatedSubCategory){
+    public ResponseEntity<Map<String, String>> updateSubCategory(@PathVariable Integer idSubCategory, @RequestBody SubCategories updatedSubCategory){
         SubCategories subCategory = subCategoriesService.updateSubCategory(idSubCategory, updatedSubCategory);
 
         Map<String, String> response = new HashMap<>();
@@ -69,7 +69,7 @@ public class SubCategoriesController {
     }
 
     @PatchMapping("/deactivateSubCategory/{idSubCategory}")
-    public ResponseEntity<Map<String, String>> deactivateSubCategory(Integer idSubCategory){
+    public ResponseEntity<Map<String, String>> deactivateSubCategory(@PathVariable Integer idSubCategory){
         subCategoriesService.deactivateSubCategory(idSubCategory);
 
         Map<String, String> response = new HashMap<>();

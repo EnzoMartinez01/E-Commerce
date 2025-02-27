@@ -27,7 +27,7 @@ public class CategoriesController {
     }
 
     @GetMapping("/getCategory/{id}")
-    public Categories getCategoryById(Integer id) {
+    public Categories getCategoryById(@PathVariable Integer id) {
         return categoriesService.getCategoryById(id);
     }
 
@@ -46,7 +46,7 @@ public class CategoriesController {
     }
 
     @PutMapping("/updateCategory/{idCategory}")
-    public ResponseEntity<Map<String, String>> updateCategory(Integer idCategory, Categories updatedCategory) {
+    public ResponseEntity<Map<String, String>> updateCategory(@PathVariable Integer idCategory, @RequestBody Categories updatedCategory) {
         Categories category = categoriesService.updateCategory(idCategory, updatedCategory);
 
         Map<String, String> response = new HashMap<>();

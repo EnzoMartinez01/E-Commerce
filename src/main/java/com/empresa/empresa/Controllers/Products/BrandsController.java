@@ -40,13 +40,13 @@ public class BrandsController {
 
     //Get Brand by ID
     @GetMapping("/getBrand/{id}")
-    public Brands getBrandById(Integer id){
+    public Brands getBrandById(@PathVariable Integer id){
         return brandsService.getBrandById(id);
     }
 
     //Add Brand
     @PostMapping("/addBrand")
-    public ResponseEntity<Map<String, String>> addBrand(Brands brand){
+    public ResponseEntity<Map<String, String>> addBrand(@RequestBody Brands brand){
         Brands savedBrand = brandsService.addBrand(brand);
 
         Map<String, String> response = new HashMap<>();
@@ -56,7 +56,7 @@ public class BrandsController {
 
     //Update Brand
     @PutMapping("/updateBrand/{idBrand}")
-    public ResponseEntity<Map<String, String>> updateBrand(Integer idBrand, Brands updatedBrand){
+    public ResponseEntity<Map<String, String>> updateBrand(@PathVariable Integer idBrand, @RequestBody Brands updatedBrand){
         Brands brand = brandsService.updateBrand(idBrand, updatedBrand);
 
         Map<String, String> response = new HashMap<>();
@@ -66,7 +66,7 @@ public class BrandsController {
 
     //Deactivate Brand
     @PatchMapping("/deactivateBrand/{idBrand}")
-    public ResponseEntity<Map<String, String>> deactivateBrand(Integer idBrand){
+    public ResponseEntity<Map<String, String>> deactivateBrand(@PathVariable Integer idBrand){
         brandsService.deactivateBrand(idBrand);
 
         Map<String, String> response = new HashMap<>();
