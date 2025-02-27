@@ -179,7 +179,7 @@ export class HeaderComponent implements OnInit{
     const searchTerm = event?.query?.trim().toLowerCase() || '';
     console.log("🔎 Término de búsqueda:", searchTerm);
 
-    this.productsService.getProductsFilter(null, null, null, null, null, null, null, null, 0, 10, this.filters.searchTerms)
+    this.productsService.getProductsFilter(null, null, null, null, null, null, null, null, null, 0, 10, this.filters.searchTerms)
       .subscribe(
         (data) => {
           console.log("📢 Respuesta de la API:", data);

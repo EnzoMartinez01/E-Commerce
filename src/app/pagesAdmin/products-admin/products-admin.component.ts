@@ -8,13 +8,14 @@ import {map} from 'rxjs';
 import {CurrencyPipe, NgClass, NgIf} from '@angular/common';
 import {Ripple} from 'primeng/ripple';
 import {Dialog} from 'primeng/dialog';
-import {InputText} from 'primeng/inputtext';
+import {InputText, InputTextModule} from 'primeng/inputtext';
 import {FormsModule} from '@angular/forms';
 import {DropdownModule} from 'primeng/dropdown';
 import {Categories} from '../../Models/categories.model';
 import {Brands} from '../../Models/brands.model';
 import {CategoriesService} from '../../core/services/products/categories.service';
 import {BrandsService} from '../../core/services/products/brands.service';
+import {InputNumber} from 'primeng/inputnumber';
 
 @Component({
   selector: 'app-products-admin',
@@ -29,7 +30,9 @@ import {BrandsService} from '../../core/services/products/brands.service';
     InputText,
     FormsModule,
     DropdownModule,
-    NgIf
+    NgIf,
+    InputNumber,
+    InputTextModule
   ],
   templateUrl: './products-admin.component.html',
   styleUrl: './products-admin.component.css'
@@ -37,9 +40,24 @@ import {BrandsService} from '../../core/services/products/brands.service';
 export class ProductsAdminComponent implements OnInit {
   products: Products[] = [];
   productsResponse!: ProductsResponse;
-  categories: Categories[] = [];
+  categories: { id: number; categoryName: string }[] = [];
   brands: Brands[] = [];
 
+  filtersProducts = {
+    searchTerms: '',
+    minPrice: null as number | null,
+    maxPrice: null as number | null,
+    stock: null as number | null,
+    isOffer: null as boolean | null,
+    brandId: null as number | null,
+    categoryId: null as number | null,
+    isActive: null as boolean | null,
+    page: 0,
+    size: 10,
+  }
+
+  totalElements: number = 0;
+  pageSize: number = 10;
 
   editProductContent = {
     idProduct: 0,
@@ -75,35 +93,47 @@ export class ProductsAdminComponent implements OnInit {
     this.loadBrands();
   }
 
+  applyFilters() {
+    console.log("Aplicando filtros:", JSON.stringify(this.filtersProducts, null, 2));
+    this.loadProducts();
+  }
+
   loadProducts() {
-    this.productService
-      .getProductsFilter(
-        null, // brandId
-        null, // categoryId
-        null, // subCategoryId
-        null, // attributeIds
-        null, // price
-        null, // stock
-        null, // isOffer
-        true, // isActive
-        0, // page
-        10, // size
-        null // searchTerms
-      )
+    console.log("Filtros aplicados:", JSON.stringify(this.filtersProducts, null, 2));
+    this.productService.getProductsFilter(
+      this.filtersProducts.brandId || null,
+      this.filtersProducts.categoryId || null,
+      null,
+      null,
+      this.filtersProducts.minPrice || null,
+      this.filtersProducts.maxPrice || null,
+      this.filtersProducts.stock || null,
+      this.filtersProducts.isOffer ?? null,
+      this.filtersProducts.isActive ?? null,
+      this.filtersProducts.page,
+      this.filtersProducts.size,
+      this.filtersProducts.searchTerms || null
+    )
       .pipe(map((res) => res.content))
       .subscribe((data) => {
+        console.log("Productos cargados:", data);
         this.products = data;
       });
+  }
+
+
+  onPaginateChange(event: any): void {
+    this.filtersProducts.page = event.pageIndex;
+    this.filtersProducts.size = event.pageSize;
+    this.loadProducts();
   }
 
   loadCategories(): void {
     this.categoryService.getCategories(0, 10).subscribe(
       (data) => {
         this.categories = data.content.map((category: Categories) => ({
-          idCategory: category.idCategory,
-          categoryName: category.categoryName,
-          categoryImage: category.categoryImage,
-          isActive: category.isActive
+          id: category.idCategory,
+          categoryName: category.categoryName
         }));
       },
       (error) => {
@@ -113,13 +143,12 @@ export class ProductsAdminComponent implements OnInit {
   }
 
 
-
   loadBrands(): void {
     this.brandService.getAllBrands(0, 10).subscribe(
       (data) => {
-        this.brands = data.content.map((brand: { brandName: any; idBrand: any; }) => ({
-          name: brand.brandName,
-          idBrand: brand.idBrand
+        this.brands = data.content.map((brand: { brandName: string; idBrand: number }) => ({
+          id: brand.idBrand,
+          name: brand.brandName
         }));
       },
       (error) => {
@@ -127,6 +156,7 @@ export class ProductsAdminComponent implements OnInit {
       }
     );
   }
+
 
 
   getSeverity(stock: number) {
@@ -217,6 +247,4 @@ export class ProductsAdminComponent implements OnInit {
       }
     );
   }
-
-
 }

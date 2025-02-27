@@ -23,7 +23,8 @@ export class ProductsService {
     categoryId: number | null,
     subCategoryId: number | null,
     attributeIds: number[] | null,
-    price: number | null,
+    minPrice: number | null,
+    maxPrice: number | null,
     stock: number | null,
     isOffer: boolean | null,
     isActive: boolean | null,
@@ -36,11 +37,11 @@ export class ProductsService {
       .set('page', page.toString())
       .set('size', size.toString());
 
-    if (brandId !== null) {
+    if (brandId !== null && brandId !== undefined) {
       params = params.set('brandId', brandId.toString());
     }
 
-    if (categoryId !== null) {
+    if (categoryId !== null && categoryId !== undefined) {
       params = params.set('categoryId', categoryId.toString());
     }
 
@@ -52,8 +53,12 @@ export class ProductsService {
       params = params.set('attributeIds', attributeIds.join(','));
     }
 
-    if (price !== null) {
-      params = params.set('price', price.toString());
+    if (minPrice !== null) {
+      params = params.set('minPrice', minPrice.toString());
+    }
+
+    if (maxPrice !== null) {
+      params = params.set('maxPrice', maxPrice.toString());
     }
 
     if (stock !== null) {

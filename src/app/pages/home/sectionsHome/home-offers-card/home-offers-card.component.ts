@@ -18,7 +18,8 @@ export class HomeOffersCardComponent {
   filters = {
     brand: null,
     category: null,
-    price: null,
+    minPrice: null,
+    maxPrice: null,
     stock: null,
     isOffer: true,
     isActive: null,
@@ -71,10 +72,10 @@ export class HomeOffersCardComponent {
 
 
   loadProducts(): void {
-    const { brand, category, price, stock, isOffer, isActive, page, size, searchTerms } = this.filters;
+    const { brand, category, minPrice, maxPrice, stock, isOffer, isActive, page, size, searchTerms } = this.filters;
 
     this.productsService.getProductsFilter(
-      brand, category, price, stock, null, null, isOffer, isActive, page, size, searchTerms
+      brand, category, minPrice, maxPrice, stock, null, null, isOffer, isActive, page, size, searchTerms
     ).subscribe((data) => {
       if (data && data.content) {
         this.products = data.content.map((product: any) => ({

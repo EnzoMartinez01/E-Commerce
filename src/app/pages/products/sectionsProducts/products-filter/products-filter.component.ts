@@ -38,7 +38,8 @@ export class ProductsFilterComponent {
   filters = {
     brandId: null as number | null,
     categoryId: 1,
-    price: null as number | null,
+    minPrice: null as number | null,
+    maxPrice: null as number | null,
     stock: null as number | null,
     isOffer: null as boolean | null,
     subCategoryId: null as number | null,
@@ -83,10 +84,10 @@ export class ProductsFilterComponent {
 
 
   loadProducts(page: number, size: number): void {
-    const { brandId, categoryId, subCategoryId, attributeIds, price, stock, isOffer, isActive, searchTerms } = this.filters;
+    const { brandId, categoryId, subCategoryId, attributeIds, minPrice, maxPrice, stock, isOffer, isActive, searchTerms } = this.filters;
 
     this.productsService.getProductsFilter(
-      brandId, categoryId, subCategoryId, attributeIds, price, stock, isOffer, isActive, page, size, searchTerms
+      brandId, categoryId, subCategoryId, attributeIds, minPrice, maxPrice, stock, isOffer, isActive, page, size, searchTerms
     ).subscribe(
       (data) => {
         if (data && data.content) {
