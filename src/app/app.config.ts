@@ -7,6 +7,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
+import {ConfirmationService} from 'primeng/api';
 
 
 
@@ -16,6 +17,9 @@ export const appConfig: ApplicationConfig = {
     theme:{
       preset: Aura
     }
-   })]
-  
+   }),
+   provideHttpClient(),
+   provideRouter(routes),
+   ConfirmationService]
+
 };

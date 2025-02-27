@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import {Component, OnInit, EventEmitter, ViewChild} from '@angular/core';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -18,6 +18,9 @@ import {InputGroupAddon} from 'primeng/inputgroupaddon';
 import {AutoComplete} from 'primeng/autocomplete';
 import {InputGroupModule} from 'primeng/inputgroup';
 import {Avatar} from 'primeng/avatar';
+import {Toast} from 'primeng/toast';
+import {ConfirmPopup} from 'primeng/confirmpopup';
+import {ConfirmationService} from 'primeng/api';
 
 @Component({
   selector: 'app-header',
@@ -35,6 +38,7 @@ import {Avatar} from 'primeng/avatar';
     InputGroupModule,
     AutoComplete,
     Avatar,
+    ConfirmPopup,
   ]
 
 })
@@ -42,9 +46,11 @@ export class HeaderComponent implements OnInit{
   @Output() openUserDrawer = new EventEmitter<void>();
 
   @Output() openLogin = new EventEmitter<void>();
+  @ViewChild('confirmPopup') confirmPopup: any;
 
   isLoggedIn: boolean = false;
   userInitial: string = '';
+  userRole: string = '';
 
   openLoginModal() {
     console.log("Abiendo Modal...");
@@ -73,18 +79,73 @@ export class HeaderComponent implements OnInit{
   constructor(private authService: AuthService,
               private router: Router,
               private snackBar: MatSnackBar,
-              private productsService: ProductsService) { }
+              private productsService: ProductsService,
+              private confirmationService: ConfirmationService
+  ) { }
 
   ngOnInit(): void {
     this.search();
     this.checkUser();
+    this.getUserRole();
   }
 
-  openDrawer() {
-    this.openUserDrawer.emit();
+  getUserRole(): void {
+    this.authService.getUserInfoFromToken().subscribe(
+      (userInfo) => {
+        console.log('Información del usuario:', userInfo);
+        this.userRole = userInfo.roleName;
+      },
+      (error) => {
+        console.error('Error obteniendo el usuario:', error);
+      }
+    )
   }
 
+  handleAvatarClick(event: Event): void {
+    if (this.userRole === 'ADMIN' || this.userRole === 'PERSONAL') {
+      this.openUserDrawer.emit();
+    } else if (this.userRole === 'USUARIO') {
+      this.showConfirmPopup(event);
+    }
+  }
 
+  showConfirmPopup(event: Event): void {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Opciones de usuario',
+      icon: 'pi pi-user',
+      acceptLabel: 'Perfil',
+      rejectLabel: 'Cerrar sesión',
+      accept: () => this.goToProfile(),
+      reject: () => this.logout()
+    });
+  }
+
+  goToProfile(): void {
+    this.router.navigate(['/profile']);
+  }
+
+  // Logout
+  logout(): void {
+    this.authService.logout().subscribe(
+      (response) => {
+        this.snackBar.open('Closing session', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-success']
+        });
+        console.log('Logout successfull', response);
+        sessionStorage.removeItem('authToken');
+        window.location.reload();
+      },
+      (error) => {
+        this.snackBar.open('Error logging out', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-error']
+        });
+        console.error('Logout error', error);
+      }
+    );
+  }
 
   // Navigation - Hamburguer
   toggleMenu(): void {
