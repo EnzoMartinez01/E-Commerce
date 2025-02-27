@@ -8,15 +8,24 @@ import {FormsModule} from '@angular/forms';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import {MenuItem} from 'primeng/api';
 import {CartService} from '../../../../core/services/cart/cart.service';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { AvatarModule } from 'primeng/avatar';
+import { ButtonModule } from 'primeng/button';
+import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
+
 
 @Component({
   selector: 'app-info-name',
-  imports: [NgForOf, CommonModule, FormsModule,BreadcrumbModule],
+  standalone:true,
+  imports: [NgForOf, CommonModule, FormsModule,BreadcrumbModule,ToastModule,AvatarModule,ButtonModule,RouterLink],
   templateUrl: './info-name.component.html',
-  styleUrl: './info-name.component.css'
+  styleUrls: ['./info-name.component.css'],
+  providers:[MessageService]
 })
 export class InfoNameComponent implements OnInit{
-  @Input({ required: true }) idProduct: number | null = null;
+  @Input('idProduct') idProduct: number | null = null;
 
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
@@ -37,26 +46,30 @@ export class InfoNameComponent implements OnInit{
     isOffer: boolean;
     quantity: number;
   }[] = [];
+  
 
   constructor(private productsService: ProductsService,
               private route: ActivatedRoute,
-              private cartService: CartService) {}
+              private cartService: CartService,
+              private messageService: MessageService,
+              private router: Router) {}
 
-  ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      this.idProduct = Number(params.get('idProduct')); });
-
-    if (this.idProduct) {
-      this.loadProducts(this.idProduct);
-    }
-
-    this.items = [
-      {label: 'Category'},
-      {label: 'Products'},
-      {label: 'ProductName'}
-    ];
-    this.home = {icon: 'pi pi-home', routerLink: "/home"};
-  }
+              ngOnInit(): void {
+                this.route.paramMap.subscribe(params => {
+                  this.idProduct = Number(params.get('idProduct'));
+                  
+                  if (this.idProduct) {
+                    this.loadProducts(this.idProduct);
+                  }
+                });
+              
+                this.items = [
+                  { label: 'Category' },
+                  { label: 'Products' },
+                  { label: 'ProductName' }
+                ];
+                this.home = { icon: 'pi pi-home', routerLink: "/home" };
+              }
 
   loadProducts(id: number): void {
     this.productsService.getProductsById(id).subscribe(
@@ -92,8 +105,6 @@ export class InfoNameComponent implements OnInit{
     );
   }
 
-
-
   private mapProduct(product: any): any {
     return {
       idProduct: product.idProduct,
@@ -114,10 +125,6 @@ export class InfoNameComponent implements OnInit{
   }
 
   addToCart(product: any) {
-    console.log('Producto:', product);
-    console.log('ID:', product.idProduct);
-    console.log('Cantidad:', product.quantity);
-
     if (!product.idProduct || !product.quantity) {
       console.error('Error: idProduct o quantity es undefined');
       return;
@@ -126,6 +133,17 @@ export class InfoNameComponent implements OnInit{
     this.cartService.addToCart(product.idProduct, product.quantity).subscribe(
       response => {
         console.log('Producto agregado correctamente:', response);
+        
+        
+        this.messageService.add({
+          key: 'confirm', 
+          severity: 'success', 
+          summary: 'Producto agregado',
+          detail: `${product.name} se ha agregado al carrito.`, 
+        });
+
+        product.addedToCart = true;
+        
       },
       error => {
         console.error('Error al agregar producto al carrito:', error);
