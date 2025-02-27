@@ -1,5 +1,5 @@
 export interface Categories {
-  id: number;
+  idCategory: number;
   categoryName: string;
   categoryImage: string;
   isActive: boolean;

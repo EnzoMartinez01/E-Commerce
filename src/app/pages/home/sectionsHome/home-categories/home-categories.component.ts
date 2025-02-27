@@ -24,7 +24,7 @@ export class HomeCategoriesComponent {
         this.categories = response.content.map(category => ({
           image: category.categoryImage,
           label: category.categoryName,
-          value: category.id
+          value: category.idCategory
         }));
         console.log('Categorías obtenidas: ', this.categories);
       },

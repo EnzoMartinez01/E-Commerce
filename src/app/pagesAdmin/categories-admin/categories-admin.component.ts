@@ -14,7 +14,7 @@ import {Tag} from 'primeng/tag';
 
 @Component({
   selector: 'app-categories-admin',
-  imports: [ButtonModule,TableModule,DialogModule,CommonModule,FormsModule,Ripple,InputText,CurrencyPipe,NgClass,Tag],
+  imports: [ButtonModule,TableModule,DialogModule,CommonModule,FormsModule,Ripple,InputText,NgClass],
   templateUrl: './categories-admin.component.html',
   styleUrl: './categories-admin.component.css'
 })
@@ -32,13 +32,13 @@ export class CategoriesAdminComponent {
 
   loadCategories(): void {
     this.categoriesService.getCategories(0, 10)
-      .pipe(map((res) => res.content)) 
+      .pipe(map((res) => res.content))
             .subscribe((data) => {
               this.categories = data;
             });
         }
 
-  //Edita      
+  //Edita
   editCategory(category: Categories) {
     this.selectedCategory = { ...category };
     this.visibleDialog = true;
@@ -47,12 +47,12 @@ export class CategoriesAdminComponent {
   saveCategory() {
     const updatedCategory = {
       ...this.selectedCategory,
-      id: this.selectedCategory.id,
+      idCategory: this.selectedCategory.idCategory,
     };
 
     console.log('Categoria antes de actualizar:', this.selectedCategory);
 
-    this.categoriesService.updateCategory(this.selectedCategory.id, updatedCategory).subscribe(() => {
+    this.categoriesService.updateCategory(this.selectedCategory.idCategory, updatedCategory).subscribe(() => {
       console.log('Categoria actualizado');
       this.visibleDialog = false;
       this.loadCategories();
@@ -64,5 +64,5 @@ export class CategoriesAdminComponent {
         console.log('Categorias eliminado');
       }
 
- 
+
 }
