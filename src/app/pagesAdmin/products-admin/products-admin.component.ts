@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TableModule} from 'primeng/table';
-import {Button} from 'primeng/button';
+import {Button, ButtonDirective} from 'primeng/button';
 import {Tag} from 'primeng/tag';
 import {Products} from '../../Models/products.model';
 import {ProductsResponse, ProductsService} from '../../core/services/products/products.service';
@@ -32,7 +32,8 @@ import {InputNumber} from 'primeng/inputnumber';
     DropdownModule,
     NgIf,
     InputNumber,
-    InputTextModule
+    InputTextModule,
+    ButtonDirective
   ],
   templateUrl: './products-admin.component.html',
   styleUrl: './products-admin.component.css'
@@ -95,6 +96,22 @@ export class ProductsAdminComponent implements OnInit {
 
   applyFilters() {
     console.log("Aplicando filtros:", JSON.stringify(this.filtersProducts, null, 2));
+    this.loadProducts();
+  }
+
+  resetFilters() {
+    this.filtersProducts = {
+      searchTerms: '',
+      minPrice: null,
+      maxPrice: null,
+      stock: null,
+      isOffer: null,
+      brandId: null,
+      categoryId: null,
+      isActive: null,
+      page: 0,
+      size: 10,
+    }
     this.loadProducts();
   }
 

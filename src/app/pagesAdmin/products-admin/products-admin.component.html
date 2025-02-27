@@ -1,59 +1,62 @@
-<div class="flex flex-wrap gap-4 mb-4">
+<div class="flex flex-wrap gap-4 mb-4 filters-container">
+  <div class="search-products">
   <input
     type="text"
     [(ngModel)]="filtersProducts.searchTerms"
     (input)="loadProducts()"
     placeholder="Buscar producto..."
     class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+  </div>
+  <div class="selects-containers">
+    <p-dropdown
+      [(ngModel)]="filtersProducts.brandId"
+      (onChange)="applyFilters()"
+      [options]="brands"
+      optionLabel="name"
+      optionValue="id"
+      placeholder="Seleccionar marca" class="w-1/4">
+    </p-dropdown>
 
+    <p-dropdown
+      [(ngModel)]="filtersProducts.categoryId"
+      (onChange)="applyFilters()"
+      [options]="categories"
+      optionLabel="categoryName"
+      optionValue="id"
+      placeholder="Seleccionar categoría" class="w-1/4">
+    </p-dropdown>
 
-  <p-dropdown
-    [(ngModel)]="filtersProducts.brandId"
-    (onChange)="applyFilters()"
-    [options]="brands"
-    optionLabel="name"
-    optionValue="id"
-    placeholder="Seleccionar marca" class="w-1/4">
-  </p-dropdown>
+    <p-inputNumber
+      [(ngModel)]="filtersProducts.minPrice"
+      (onInput)="loadProducts()"
+      mode="decimal"
+      placeholder="Precio mínimo" class="w-1/4">
+    </p-inputNumber>
 
-  <p-dropdown
-    [(ngModel)]="filtersProducts.categoryId"
-    (onChange)="applyFilters()"
-    [options]="categories"
-    optionLabel="categoryName"
-    optionValue="id"
-    placeholder="Seleccionar categoría" class="w-1/4">
-  </p-dropdown>
+    <p-inputNumber
+      [(ngModel)]="filtersProducts.maxPrice"
+      (onInput)="loadProducts()"
+      mode="decimal"
+      placeholder="Precio máximo" class="w-1/4">
+    </p-inputNumber>
 
-  <p-inputNumber
-    [(ngModel)]="filtersProducts.minPrice"
-    (onInput)="loadProducts()"
-    mode="decimal"
-    placeholder="Precio mínimo" class="w-1/4">
-  </p-inputNumber>
+    <p-inputNumber
+      [(ngModel)]="filtersProducts.stock"
+      (onInput)="loadProducts()"
+      placeholder="Stock" class="w-1/4">
+    </p-inputNumber>
 
-  <p-inputNumber
-    [(ngModel)]="filtersProducts.maxPrice"
-    (onInput)="loadProducts()"
-    mode="decimal"
-    placeholder="Precio máximo" class="w-1/4">
-  </p-inputNumber>
+    <p-dropdown
+      [(ngModel)]="filtersProducts.isOffer"
+      (onChange)="loadProducts()"
+      [options]="[{label: 'Sí', value: true},
+      {label: 'Sin Oferta', value: false}]"
+      placeholder="En oferta" class="w-1/4">
+    </p-dropdown>
 
-  <p-inputNumber
-    [(ngModel)]="filtersProducts.stock"
-    (onInput)="loadProducts()"
-    placeholder="Stock" class="w-1/4">
-  </p-inputNumber>
-
-  <p-dropdown
-    [(ngModel)]="filtersProducts.isOffer"
-    (onChange)="loadProducts()"
-    [options]="[{label: 'Sí', value: true},
-    {label: 'Sin Oferta', value: false}]"
-    placeholder="En oferta" class="w-1/4">
-  </p-dropdown>
-
-  <p-dropdown [(ngModel)]="filtersProducts.isActive" (onChange)="loadProducts()" [options]="[{label: 'Activo', value: true}, {label: 'Inactivo', value: false}]" placeholder="Estado" class="w-1/4"></p-dropdown>
+    <p-dropdown [(ngModel)]="filtersProducts.isActive" (onChange)="loadProducts()" [options]="[{label: 'Activo', value: true}, {label: 'Inactivo', value: false}]" placeholder="Estado" class="w-1/4"></p-dropdown>
+  </div>
+  <button pButton type="button" (click)="resetFilters()" label="Restablecer Filtros" class="p-button-secondary"></button>
 </div>
 
 <p-table [value]="products" class="table-container" [tableStyle]="{ 'min-width': '60rem' }">
