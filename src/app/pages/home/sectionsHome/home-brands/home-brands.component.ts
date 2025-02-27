@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CarouselModule } from 'primeng/carousel';
 import { NgFor } from '@angular/common';
 import {BrandsService} from '../../../../core/services/products/brands.service';
+import { Brands } from '../../../../Models/brands.model';
 
 
 @Component({
@@ -11,7 +12,7 @@ import {BrandsService} from '../../../../core/services/products/brands.service';
   styleUrl: './home-brands.component.css'
 })
 export class HomeBrandsComponent {
-
+  Brands: any[] = [];
   images: string[] = [];
 
   responsiveOptions = [
@@ -24,6 +25,23 @@ export class HomeBrandsComponent {
 
   ngOnInit(): void {
     this.loadBrandsImages();
+    this.loadBrands();
+  }
+
+  loadBrands(): void {
+    this.brandsService.getBrands(0, 4).subscribe(
+      response => {
+        this.Brands = response.content.map(Brands => ({
+          image: Brands.brandImage,
+          label: Brands.brandName,
+          value: Brands.idBrand
+        }));
+        console.log('Marcas obtenidas: ', this.Brands);
+      },
+      error => {
+        console.log('Error al obtener las marcas: ', error);
+      }
+    );
   }
 
   loadBrandsImages(): void {

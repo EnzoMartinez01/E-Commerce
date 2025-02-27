@@ -10,6 +10,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { InfoproductsComponent } from './pages/infoproducts/infoproducts.component';
 import {ProductsAdminComponent} from './pagesAdmin/products-admin/products-admin.component';
 import { CategoriesAdminComponent } from './pagesAdmin/categories-admin/categories-admin.component';
+import { BrandsAdminComponent } from './pagesAdmin/brands-admin/brands-admin.component';
 
 
 export const routes: Routes = [
@@ -26,4 +27,5 @@ export const routes: Routes = [
     {path:'login', component: LoginComponent},
     {path: 'admin/dashboard', component: ProductsAdminComponent},
     {path: 'admin/Categories', component: CategoriesAdminComponent},
+    {path: 'admin/Brands', component: BrandsAdminComponent}
 ];

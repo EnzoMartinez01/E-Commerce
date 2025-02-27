@@ -1,5 +1,5 @@
 export interface Brands {
-  id: number;
+  idBrand: number;
   brandName: string;
   brandImage: string;
   isActive: boolean;

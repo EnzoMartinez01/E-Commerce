@@ -9,8 +9,8 @@ import { map } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import {Ripple} from 'primeng/ripple';
 import {InputText} from 'primeng/inputtext';
-import {CurrencyPipe, NgClass} from '@angular/common';
-import {Tag} from 'primeng/tag';
+import { NgClass} from '@angular/common';
+
 
 @Component({
   selector: 'app-categories-admin',
