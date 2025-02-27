@@ -18,7 +18,7 @@ public interface ProductsRepository extends JpaRepository<Products, Integer> {
             "      LOWER(p.productName) LIKE LOWER(CONCAT('%', :searchTerms, '%')) OR " +
             "      LOWER(p.category.categoryName) LIKE LOWER(CONCAT('%', :searchTerms, '%')) OR " +
             "      LOWER(p.brand.brandName) LIKE LOWER(CONCAT('%', :searchTerms, '%'))) " +
-            "AND (:price IS NULL OR p.price = :price) " +
+            "AND (:minPrice IS NULL OR :maxPrice IS NULL OR p.price BETWEEN :minPrice AND :maxPrice) " +
             "AND (:stock IS NULL OR p.stock = :stock) " +
             "AND (:isOffer IS NULL OR p.isOffer = :isOffer) " +
             "AND (:brandId IS NULL OR p.brand.idBrand = :brandId) " +
@@ -27,7 +27,8 @@ public interface ProductsRepository extends JpaRepository<Products, Integer> {
             "AND (:attributeIds IS NULL OR a.id IN :attributeIds OR a IS NULL) " +
             "AND (COALESCE(:isActive, true) = p.isActive)")
     Page<Products> findByFilters(@Param("searchTerms") String searchTerms,
-                                 @Param("price") Double price,
+                                 @Param("minPrice") Double minPrice,
+                                 @Param("maxPrice") Double maxPrice,
                                  @Param("stock") Integer stock,
                                  @Param("isOffer") Boolean isOffer,
                                  @Param("brandId") Integer brandId,

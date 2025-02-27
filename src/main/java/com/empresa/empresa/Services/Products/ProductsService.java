@@ -56,7 +56,7 @@ public class ProductsService {
 
     //Get Products by Filters
     public Page<ProductsDto> getFilteredProducts(String searchTerms,
-                                                 Double price, Integer stock,
+                                                 Double minPrice, Double maxPrice, Integer stock,
                                                  Boolean isOffer, Integer brandId,
                                                  Integer categoryId, Integer subCategoryId,
                                                  List<Integer> attributeIds, Boolean isActive,
@@ -64,7 +64,7 @@ public class ProductsService {
         try {
             Pageable pageable = PageRequest.of(page, size);
             String search = (searchTerms != null && !searchTerms.trim().isEmpty()) ? searchTerms.trim() : null;
-            return productsRepository.findByFilters(search, price, stock, isOffer, brandId, categoryId, subCategoryId, attributeIds, isActive, pageable)
+            return productsRepository.findByFilters(search, minPrice, maxPrice, stock, isOffer, brandId, categoryId, subCategoryId, attributeIds, isActive, pageable)
                     .map(this::mapToDto);
         } catch (Exception e) {
             logger.error("Error al obtener los productos con filtros", e);
