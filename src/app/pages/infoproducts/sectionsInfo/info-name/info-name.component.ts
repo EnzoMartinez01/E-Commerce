@@ -134,7 +134,6 @@ export class InfoNameComponent implements OnInit{
       response => {
         console.log('Producto agregado correctamente:', response);
         
-        
         this.messageService.add({
           key: 'confirm', 
           severity: 'success', 

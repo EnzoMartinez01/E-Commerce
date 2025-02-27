@@ -84,7 +84,7 @@ export class ProductsAdminComponent implements OnInit {
     };
 
     console.log('Producto antes de actualizar:', this.selectedProduct);
-
+ 
     this.productService.updateProduct(this.selectedProduct.idProduct, updatedProduct).subscribe(() => {
       console.log('Producto actualizado');
       this.visibleDialog = false;

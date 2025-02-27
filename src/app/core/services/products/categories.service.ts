@@ -19,7 +19,7 @@ export class CategoriesService {
 
   getCategories(
     page: number,
-    size: number
+    size: number,
   ): Observable<CategoryResponse> {
 
     let params = new HttpParams()
@@ -31,5 +31,26 @@ export class CategoriesService {
 
   getCategoryByName(name: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/getCategoryByName/${name}`);
+  }
+
+  getCategoryById(id:number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/getProductsById/${id}`);
+  }
+
+  // Updated Product
+  updateCategory(id: number, updatedCategory: any): Observable<any> {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Token no encontrado');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.put<any>(`${this.baseUrl}/updateProduct/${id}`, updatedCategory, { headers });
+  }
+
+  deleteCategory(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/deleteCategory/${id}`);
   }
 }

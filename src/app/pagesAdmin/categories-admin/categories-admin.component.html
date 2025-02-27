@@ -1,1 +1,48 @@
-<p>categories-admin works!</p>
+<p-table [value]="categories" class="table-container" [tableStyle]="{ 'min-width': '60rem' }">
+    <ng-template #caption>
+        <div class="flex items-center justify-between">
+            <span class="text-xl font-bold">Categorias</span>
+            <p-button icon="pi pi-refresh" rounded raised (click)="loadCategories()" />
+        </div>
+    </ng-template>
+    <ng-template #header>
+        <tr>
+            <th>Name</th>
+            <th>Image</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-category>
+        <tr>
+            <td>{{ category.categoryName }}</td>
+            <td>
+                <img [src]="category.categoryImage" [alt]="category.categoryName" class="w-24 rounded imagen-category" />
+            </td>
+            <td>
+                <i class="pi" [ngClass]="{'pi-check-circle text-green-500': category.isActive, 'pi-times-circle text-red-500': !category.isActive}"></i>
+            </td>
+            <td>
+                <p-button icon="pi pi-pencil" pRipple class="button-action" (click)="editCategory(category)"></p-button>
+                <p-button icon="pi pi-trash" pRipple class="button-action" (click)="deleteCategory(category.id)"></p-button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-dialog header="Edit Category" [(visible)]="visibleDialog" [style]="{ width: '30rem' }">
+    <div class="flex flex-col gap-4">
+        <div class="flex items-center gap-4">
+            <label for="categoryName" class="font-semibold w-28">Name</label>
+            <input pInputText id="categoryName" class="flex-auto" [(ngModel)]="selectedCategory.categoryName" autocomplete="off" />
+        </div>
+        <div class="flex items-center gap-4">
+            <label for="categoryImage" class="font-semibold w-28">Image</label>
+            <input pInputText id="categoryImage" class="flex-auto" [(ngModel)]="selectedCategory.categoryImage" autocomplete="off" />
+        </div>
+    </div>
+    <div class="flex justify-end gap-2 mt-4">
+        <p-button label="Save" (click)="saveCategory()" />
+        <p-button label="Cancel" severity="secondary" (click)="visibleDialog = false" />
+    </div>
+</p-dialog>

@@ -9,11 +9,14 @@ import {ActivatedRoute, RouterLink} from '@angular/router';
 import {CategoriesService} from '../../../../core/services/products/categories.service';
 import {SubcategoriesService} from '../../../../core/services/products/subcategories.service';
 import {CartService} from '../../../../core/services/cart/cart.service';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { ButtonModule } from 'primeng/button';
 
 
 @Component({
   selector: 'app-products-filter',
-  imports: [FormsModule, CommonModule, DividerModule, NgForOf, Paginator, RouterLink],
+  imports: [FormsModule, CommonModule, DividerModule, NgForOf, Paginator, RouterLink,ToastModule,ButtonModule],
   templateUrl: './products-filter.component.html',
   styleUrl: './products-filter.component.css'
 })
@@ -54,7 +57,8 @@ export class ProductsFilterComponent {
               private route: ActivatedRoute,
               private categoriesService: CategoriesService,
               private subCategoriesService: SubcategoriesService,
-              private cartService: CartService) {
+              private cartService: CartService,
+            ) {
   }
 
   ngOnInit(): void {

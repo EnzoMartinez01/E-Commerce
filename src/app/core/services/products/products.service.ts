@@ -92,7 +92,4 @@ export class ProductsService {
 
     return this.http.put<any>(`${this.baseUrl}/updateProduct/${idProduct}`, updatedProduct, { headers });
   }
-
-  // Desactivate Product
-
 }
