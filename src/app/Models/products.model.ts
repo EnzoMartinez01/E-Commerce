@@ -1,10 +1,11 @@
 export interface Products {
-    id: number;
+    idProduct: number;
     productName: string;
     productDescription: string;
     productSku: string;
     productPrice: number;
     priceCreditCard: number;
+    stock: number;
     quantity: number;
     productOfferDiscount: number;
     priceOffer: number;
@@ -12,7 +13,7 @@ export interface Products {
     categoryName: string;
     brandId: number;
     brandName: string;
-    brandImage: String;
+    brandImage: string;
     isOffer: boolean;
     isActive: boolean;
     productImg: string;

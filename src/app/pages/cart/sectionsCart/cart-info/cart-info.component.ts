@@ -4,6 +4,7 @@ import {CartService} from '../../../../core/services/cart/cart.service';
 import {ButtonDirective} from 'primeng/button';
 import { jwtDecode } from 'jwt-decode';
 import {AuthService} from '../../../../core/services/auth/auth.service';
+import {RouterLink} from '@angular/router';
 
 interface Product {
   id: number;
@@ -15,7 +16,7 @@ interface Product {
 
 @Component({
   selector: 'app-cart-info',
-  imports: [CommonModule, ButtonDirective],
+  imports: [CommonModule, ButtonDirective, RouterLink],
   templateUrl: './cart-info.component.html',
   styleUrl: './cart-info.component.css'
 })

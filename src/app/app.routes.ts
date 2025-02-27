@@ -8,6 +8,7 @@ import { FAQComponent } from './pages/FAQ/faq.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { InfoproductsComponent } from './pages/infoproducts/infoproducts.component';
+import {ProductsAdminComponent} from './pagesAdmin/products-admin/products-admin.component';
 
 
 export const routes: Routes = [
@@ -22,4 +23,5 @@ export const routes: Routes = [
     {path:'FAQ', component: FAQComponent},
     {path:'home', component: HomeComponent},
     {path:'login', component: LoginComponent},
+    {path: 'admin/dashboard', component: ProductsAdminComponent},
 ];

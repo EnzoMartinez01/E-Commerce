@@ -1,1 +1,103 @@
-<p>products-admin works!</p>
+<p-table [value]="products" class="table-container" [tableStyle]="{ 'min-width': '60rem' }">
+  <ng-template #caption>
+    <div class="flex items-center justify-between">
+      <span class="text-xl font-bold">Products</span>
+      <p-button icon="pi pi-refresh" rounded raised />
+    </div>
+  </ng-template>
+  <ng-template #header>
+    <tr>
+      <th>Name</th>
+      <th>Image</th>
+      <th>Price</th>
+      <th>Category</th>
+      <th>Stock</th>
+      <th>Offer</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-product>
+    <tr>
+      <td>{{ product.productName }}</td>
+      <td>
+        <img
+          [src]="product.productImg"
+          [alt]="product.productName"
+          class="w-24 rounded imagen-product"
+        />
+      </td>
+      <td>{{ product.productPrice | currency: 'S/.' }}</td>
+      <td>{{ product.categoryName }}</td>
+      <td>
+        <p-tag [value]="product.stock" [severity]="getSeverity(product.stock)" />
+      </td>
+      <td>{{ product.priceOffer ? 'S/.' + product.priceOffer : 'Sin Oferta' }}</td>
+      <td>
+        <i class="pi" [ngClass]="{'pi-check-circle text-green-500': product.isActive, 'pi-times-circle text-red-500': !product.isActive}"></i>
+      </td>
+      <td>
+        <p-button icon="pi pi-pencil" pRipple class="button-action" (click)="editProduct(product)"></p-button>
+        <p-button icon="pi pi-trash" pRipple class="button-action" (click)="deleteProduct(product)"></p-button>
+        <p-button icon="pi pi-eye" pRipple class="button-action" (click)="viewProduct(product)"></p-button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template #footer> In total there are {{ products ? products.length : 0 }} products. </ng-template>
+</p-table>
+
+<p-dialog header="Edit Product" [(visible)]="visibleDialog" [style]="{ width: '30rem' }">
+  <span class="p-text-secondary block mb-4">Update product information.</span>
+
+  <div class="flex flex-col gap-4">
+    <div class="flex items-center gap-4">
+      <label for="productName" class="font-semibold w-28">Name</label>
+      <input pInputText id="productName" class="flex-auto" [(ngModel)]="selectedProduct.productName" autocomplete="off" />
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label for="productDescription" class="font-semibold w-28">Description</label>
+      <input pInputText id="productDescription" class="flex-auto" [(ngModel)]="selectedProduct.productDescription" autocomplete="off" />
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label for="productSku" class="font-semibold w-28">Sku</label>
+      <input pInputText id="productSku" class="flex-auto" [(ngModel)]="selectedProduct.productSku" autocomplete="off" />
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label for="productPrice" class="font-semibold w-28">Price</label>
+      <input pInputText id="productPrice" class="flex-auto" type="number" [(ngModel)]="selectedProduct.productPrice" autocomplete="off" />
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label for="quantity" class="font-semibold w-28">Quantity</label>
+      <input pInputText id="quantity" class="flex-auto" type="number" [(ngModel)]="selectedProduct.quantity" autocomplete="off" />
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label for="stock" class="font-semibold w-28">Stock</label>
+      <input pInputText id="stock" class="flex-auto" type="number" [(ngModel)]="selectedProduct.stock" autocomplete="off" />
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label for="category" class="font-semibold w-28">Category</label>
+      <input pInputText id="category" class="flex-auto" [(ngModel)]="selectedProduct.categoryName" autocomplete="off" />
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label for="brand" class="font-semibold w-28">Brand</label>
+      <input pInputText id="brand" class="flex-auto" [(ngModel)]="selectedProduct.brandName" autocomplete="off" />
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label for="productImg" class="font-semibold w-28">Url Image</label>
+      <input pInputText id="productImg" class="flex-auto" [(ngModel)]="selectedProduct.productImg" autocomplete="off" />
+    </div>
+  </div>
+
+  <div class="flex justify-end gap-2 mt-4 button-container">
+    <p-button label="Save" (click)="saveProduct()" />
+    <p-button label="Cancel" severity="secondary" (click)="visibleDialog = false" />
+  </div>
+</p-dialog>

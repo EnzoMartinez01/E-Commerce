@@ -79,4 +79,20 @@ export class ProductsService {
   getProductsById(idProducts:number): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/getProductsById/${idProducts}`);
   }
+
+  // Updated Product
+  updateProduct(idProduct: number, updatedProduct: any): Observable<any> {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Token no encontrado');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.put<any>(`${this.baseUrl}/updateProduct/${idProduct}`, updatedProduct, { headers });
+  }
+
+  // Desactivate Product
+
 }
