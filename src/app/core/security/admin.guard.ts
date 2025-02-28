@@ -10,7 +10,7 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router, private authService: AuthService) {}
 
   canActivate(): Observable<boolean> {
-    const token = sessionStorage.getItem('token');
+    const token = sessionStorage.getItem('authToken');
 
     if (!token) {
       this.router.navigate(['/home']).then(r => false);
