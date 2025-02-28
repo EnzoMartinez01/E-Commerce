@@ -53,6 +53,7 @@ public class FAQService {
         dto.setIdFaq(faq.getId());
         dto.setQuestionFaq(faq.getQuestion());
         dto.setAnswerFaq(faq.getAnswer());
+        dto.setIsActive(faq.getIsActive());
         dto.setIdUser(faq.getId());
         dto.setCreatedbyFaq(faq.getCreatedBy().getFullname());
         dto.setCreatedatFaq(faq.getCreated_at());
@@ -95,6 +96,24 @@ public class FAQService {
         } catch (Exception e){
             logger.error("Error al actualizar FAQ",e);
             throw  new RuntimeException("Error al actualizar FAQ", e);
+        }
+    }
+
+    //Deactivate FAQ
+    public void deactivateFaq(Integer idFaq){
+        try {
+            FAQ faq = faqRepository.findById(idFaq)
+                    .orElseThrow(() -> new RuntimeException("FAQ not found with ID: " + idFaq));
+
+            if (!faq.getIsActive()) {
+                throw new IllegalStateException("FAQ is already deactivated.");
+            }
+
+            faq.setIsActive(false);
+            faqRepository.save(faq);
+        } catch (Exception e){
+            logger.error("Error al desactivar FAQ",e);
+            throw  new RuntimeException("Error al desactivar FAQ", e);
         }
     }
 }

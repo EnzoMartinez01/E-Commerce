@@ -62,4 +62,17 @@ public class FAQController {
             throw new RuntimeException("Error al actualizar FAQ", e);
         }
     }
+
+    //Deactivate FAQ
+    @PatchMapping("/deactivateFaq/{idFaq}")
+    public ResponseEntity<Map<String, String>> deactivateFaq(@PathVariable Integer idFaq){
+        try{
+            faqService.deactivateFaq(idFaq);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "FAQ desactivado Correctamente");
+            return  ResponseEntity.status(HttpStatus.OK).body(response);
+        }catch (Exception e){
+            throw new RuntimeException("Error al desactivar FAQ", e);
+        }
+    }
 }

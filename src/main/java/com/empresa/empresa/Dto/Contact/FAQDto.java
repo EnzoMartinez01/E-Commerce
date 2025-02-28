@@ -9,6 +9,7 @@ public class FAQDto {
     private Integer idFaq;
     private String questionFaq;
     private String answerFaq;
+    private Boolean isActive;
     private Integer idUser;
     private String createdbyFaq;
     private LocalDateTime createdatFaq;

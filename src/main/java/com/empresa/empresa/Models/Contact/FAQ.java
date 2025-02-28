@@ -19,6 +19,8 @@ public class FAQ {
     private String question;
     private String answer;
 
+    private Boolean isActive;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonDeserialize(using = UsersDeserializer.class)
     private Users createdBy;
