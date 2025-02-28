@@ -13,6 +13,7 @@ import { CategoriesAdminComponent } from './pagesAdmin/categories-admin/categori
 import { BrandsAdminComponent } from './pagesAdmin/brands-admin/brands-admin.component';
 import {AuditAdminComponent} from './pagesAdmin/audit-admin/audit-admin.component';
 import {AuthGuard} from './core/security/admin.guard';
+import { FaqAdminComponent } from './pagesAdmin/faq-admin/faq-admin.component';
 
 
 export const routes: Routes = [
@@ -30,5 +31,6 @@ export const routes: Routes = [
     {path: 'admin/dashboard', component: ProductsAdminComponent, canActivate: [AuthGuard]},
     {path: 'admin/Categories', component: CategoriesAdminComponent, canActivate: [AuthGuard]},
     {path: 'admin/Brands', component: BrandsAdminComponent, canActivate: [AuthGuard]},
-    {path: 'admin/reports', component: AuditAdminComponent, canActivate: [AuthGuard]}
+    {path: 'admin/reports', component: AuditAdminComponent, canActivate: [AuthGuard]},
+    {path: 'admin/faqs', component:FaqAdminComponent, canActivate: [AuthGuard]}
 ];
