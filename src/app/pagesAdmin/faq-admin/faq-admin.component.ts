@@ -13,14 +13,20 @@ import { Faq } from '../../Models/faq.model';
 
 @Component({
   selector: 'app-faq-admin',
-  imports: [ButtonModule,TableModule,DialogModule,CommonModule,FormsModule,Ripple,InputText,NgClass],
+  imports: [ButtonModule,TableModule,DialogModule,CommonModule,FormsModule,Ripple,InputText],
   templateUrl: './faq-admin.component.html',
   styleUrl: './faq-admin.component.css'
 })
 export class FaqAdminComponent {
-  faqs: Faq[] = [];
-    selectedFaqs: Faq = {} as Faq;
-    visibleDialog:boolean = false;
+  faqs: any[] = [];
+  selectedFaqs: any = {};
+  visibleDialog:boolean = false;
+  editFaq = {
+    idFaq: 0,
+    question: '',
+    answer: ''
+  };
+
 
 
     constructor(private faqService: FaqService) {}
@@ -38,27 +44,41 @@ export class FaqAdminComponent {
           }
 
     //Edita
-    editFaqs(faqs: Faq) {
-      this.selectedFaqs = { ...faqs };
-      this.visibleDialog = true;
-    }
+  editFaqs(faqs: any) {
+    this.selectedFaqs = { ...faqs };
+    this.editFaq = {
+      idFaq: faqs.idFaq,
+      question: faqs.questionFaq,
+      answer: faqs.answerFaq
+    };
+    console.log('FAQ editado:', this.editFaq);
+    this.visibleDialog = true;
+  }
 
-    saveFaqs() {
-      const updatedFaqs = {
-        ...this.selectedFaqs,
-        idFaq: this.selectedFaqs.idFaq,
-      };
 
-      console.log('FAQ antes de actualizar:', this.selectedFaqs);
+  saveFaqs() {
+    const updatedFaqs = {
+      ...this.editFaq,
+    };
 
-      this.faqService.updateFaqs(this.selectedFaqs.idFaq, updatedFaqs).subscribe(() => {
+    console.log('FAQ antes de actualizar:', updatedFaqs);
+
+    this.faqService.updateFaqs(
+      updatedFaqs.idFaq,
+      updatedFaqs
+    ).subscribe(() => {
         console.log('FAQ actualizado');
         this.visibleDialog = false;
         this.loadFaqs();
-      })
+      },
+      (error) => {
+        console.error('Error al actualizar el FAQ:', error);
       }
+    );
+  }
 
-      //Borra
+
+  //Borra
       deleteFaqs(faq: Faq) {
           console.log('Marcas eliminado');
         }
