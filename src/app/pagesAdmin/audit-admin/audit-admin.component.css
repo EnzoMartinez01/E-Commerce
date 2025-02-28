@@ -1,6 +1,7 @@
 .audit-container {
   width: 70%;
-  margin: auto;
+  margin: auto auto 100px;
+  padding: 50px;
 }
 
 .audit-title {

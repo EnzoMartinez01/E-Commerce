@@ -29,7 +29,6 @@ export class AuditAdminComponent implements OnInit {
     this.setupChart();
   }
 
-  /** 🔎 Buscar usuarios en PrimeNG AutoComplete */
   searchUser(event: any): void {
     const searchTerm = event.query.trim().toLowerCase();
 
@@ -58,13 +57,11 @@ export class AuditAdminComponent implements OnInit {
     );
   }
 
-  /** 📊 Cargar reportes y actualizar gráfico */
   loadReports(userId: number): void {
     this.reportService.getReportsByUser(0, 100, userId).subscribe(
       (data) => {
         console.log('📊 Reportes cargados:', data.content);
 
-        // Contar la cantidad total de cada acción
         const auditData = {
           read: data.content.filter((log: any) => log.action === 'READ').length,
           create: data.content.filter((log: any) => log.action === 'CREATED').length,
@@ -72,7 +69,6 @@ export class AuditAdminComponent implements OnInit {
           delete: data.content.filter((log: any) => log.action === 'DELETED').length,
         };
 
-        // Configurar datos para el gráfico Doughnut
         this.chartData = {
           labels: ['READ', 'CREATE', 'UPDATE', 'DELETE'],
           datasets: [
