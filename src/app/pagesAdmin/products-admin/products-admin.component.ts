@@ -191,35 +191,34 @@ export class ProductsAdminComponent implements OnInit {
       return 'danger';
     }
   }
+//Add Product
+addProduct() {
+  this.addProductContent = {
+    productName: '',
+    productDescription: '',
+    sku: '',
+    price: 0,
+    quantity: 0,
+    stock: 0,
+    brand: 0,
+    category: 0,
+    product_image: ''
+  }
+  this.addDialog = true;
+}
 
-  //Add Product
-  addProduct() {
-    this.addProductContent = {
-      productName: '',
-      productDescription: '',
-      sku: '',
-      price: 0,
-      quantity: 0,
-      stock: 0,
-      brand: 0,
-      category: 0,
-      product_image: ''
+saveProduct() {
+  this.productService.addProduct(this.addProductContent).subscribe(
+    (response) => {
+      console.log('Producto agregado:', response);
+      this.loadProducts(0, this.rows);
+      this.addDialog = false;
+    },
+    (error) => {
+      console.error('Error al agregar producto:', error);
     }
-    this.addDialog = true;
-  }
-
-  saveProduct() {
-    this.productService.addProduct(this.addProductContent).subscribe(
-      (response) => {
-        console.log('Producto agregado:', response);
-        this.loadProducts(0, this.rows);
-        this.addDialog = false;
-      },
-      (error) => {
-        console.error('Error al agregar producto:', error);
-      }
-    );
-  }
+  );
+}
 
 
   //EditProducts

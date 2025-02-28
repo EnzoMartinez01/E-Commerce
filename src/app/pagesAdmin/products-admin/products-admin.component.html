@@ -1,40 +1,39 @@
 <div class="flex flex-wrap gap-4 mb-4 filters-container">
-  <div class="search-products">
-    <input type="text" [(ngModel)]="filtersProducts.searchTerms" (input)="loadProducts(0, rows)" placeholder="Buscar producto..." class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-  </div>
-  <div class="selects-containers">
-    <p-dropdown [(ngModel)]="filtersProducts.brandId" (onChange)="applyFilters()" [options]="brands" optionLabel="name" optionValue="id" placeholder="Seleccionar marca" class="w-1/4">
-    </p-dropdown>
+    <div class="search-products">
+        <input type="text" [(ngModel)]="filtersProducts.searchTerms" (input)="loadProducts(0, rows)" placeholder="Buscar producto..." class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+    </div>
+    <div class="selects-containers">
+        <p-dropdown [(ngModel)]="filtersProducts.brandId" (onChange)="applyFilters()" [options]="brands" optionLabel="name" optionValue="id" placeholder="Seleccionar marca" class="w-1/4">
+        </p-dropdown>
 
-    <p-dropdown [(ngModel)]="filtersProducts.categoryId" (onChange)="applyFilters()" [options]="categories" optionLabel="categoryName" optionValue="id" placeholder="Seleccionar categoría" class="w-1/4">
-    </p-dropdown>
+        <p-dropdown [(ngModel)]="filtersProducts.categoryId" (onChange)="applyFilters()" [options]="categories" optionLabel="categoryName" optionValue="id" placeholder="Seleccionar categoría" class="w-1/4">
+        </p-dropdown>
 
-    <p-inputNumber [(ngModel)]="filtersProducts.minPrice" (onInput)="loadProducts(0, rows)" mode="decimal" placeholder="Precio mínimo" class="w-1/4">
-    </p-inputNumber>
+        <p-inputNumber [(ngModel)]="filtersProducts.minPrice" (onInput)="loadProducts(0, rows)" mode="decimal" placeholder="Precio mínimo" class="w-1/4">
+        </p-inputNumber>
 
-    <p-inputNumber [(ngModel)]="filtersProducts.maxPrice" (onInput)="loadProducts(0, rows)" mode="decimal" placeholder="Precio máximo" class="w-1/4">
-    </p-inputNumber>
+        <p-inputNumber [(ngModel)]="filtersProducts.maxPrice" (onInput)="loadProducts(0, rows)" mode="decimal" placeholder="Precio máximo" class="w-1/4">
+        </p-inputNumber>
 
-    <p-inputNumber [(ngModel)]="filtersProducts.stock" (onInput)="loadProducts(0, rows)" placeholder="Stock" class="w-1/4">
-    </p-inputNumber>
+        <p-inputNumber [(ngModel)]="filtersProducts.stock" (onInput)="loadProducts(0, rows)" placeholder="Stock" class="w-1/4">
+        </p-inputNumber>
 
-    <p-dropdown [(ngModel)]="filtersProducts.isOffer" (onChange)="loadProducts(0, rows)" [options]="[{label: 'Sí', value: true},
+        <p-dropdown [(ngModel)]="filtersProducts.isOffer" (onChange)="loadProducts(0, rows)" [options]="[{label: 'Sí', value: true},
     {label: 'Sin Oferta', value: false}]" placeholder="En oferta" class="w-1/4">
-    </p-dropdown>
+        </p-dropdown>
 
-    <p-dropdown [(ngModel)]="filtersProducts.isActive" (onChange)="loadProducts(0, rows)" [options]="[{label: 'Activo', value: true}, {label: 'Inactivo', value: false}]" placeholder="Estado" class="w-1/4"></p-dropdown>
-  </div>
-  <div class="button-container">
-    <button pButton type="button" (click)="resetFilters()" label="Restablecer Filtros" class="p-button-secondary"></button>
-    <button pButton type="button" (click)="addProduct()" label="Agregar Producto" class="p-button-primary"></button>
-  </div>
+        <p-dropdown [(ngModel)]="filtersProducts.isActive" (onChange)="loadProducts(0, rows)" [options]="[{label: 'Activo', value: true}, {label: 'Inactivo', value: false}]" placeholder="Estado" class="w-1/4"></p-dropdown>
+    </div>
+    <div class="button-container">
+        <button pButton type="button" (click)="resetFilters()" label="Restablecer Filtros" class="p-button-secondary"></button>
+        <button pButton type="button" (click)="addProduct()" label="Agregar Producto" class="p-button-primary"></button>
+    </div>
 </div>
 
 <p-table [value]="products" class="table-container" [tableStyle]="{ 'min-width': '60rem' }">
     <ng-template #caption>
         <div class="flex items-center justify-between">
-            <span class="text-xl font-bold">Products</span>
-            <p-button icon="pi pi-refresh" rounded raised />
+            <span class="text-xl font-bold label-view">Productos :</span>
         </div>
     </ng-template>
     <ng-template #header>
@@ -76,65 +75,61 @@
     <ng-template #footer> In total there are {{ products ? products.length : 0 }} products. </ng-template>
 </p-table>
 
-<p-paginator
-  (onPageChange)="onPageChange($event)"
-  [first]="first"
-  [rows]="rows"
-  [totalRecords]="totalRecords"
-  [rowsPerPageOptions]="[8, 16, 24]"
-/>
+<p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="[8, 16, 24]" />
+
 
 <p-dialog [(visible)]="addDialog" [modal]="true" header="Agregar Producto" [style]="{ width: '50vw' }">
-  <div class="p-fluid">
-    <div class="p-field">
-      <label for="addProductName">Nombre</label>
-      <input id="addProductName" pInputText [(ngModel)]="addProductContent.productName" />
-    </div>
+    <div class="p-fluid">
+        <div class="p-field">
+            <label for="addProductName">Nombre</label>
+            <input id="addProductName" pInputText [(ngModel)]="addProductContent.productName" />
+        </div>
 
-    <div class="p-field">
-      <label for="addDescription">Descripción</label>
-      <textarea id="addDescription" pInputTextarea [(ngModel)]="addProductContent.productDescription"></textarea>
-    </div>
+        <div class="p-field">
+            <label for="addDescription">Descripción</label>
+            <textarea id="addDescription" pInputTextarea [(ngModel)]="addProductContent.productDescription"></textarea>
+        </div>
 
-    <div class="p-field">
-      <label for="addSku">SKU</label>
-      <input id="addSku" pInputText [(ngModel)]="addProductContent.sku" />
-    </div>
+        <div class="p-field">
+            <label for="addSku">SKU</label>
+            <input id="addSku" pInputText [(ngModel)]="addProductContent.sku" />
+        </div>
 
-    <div class="p-field">
-      <label for="addPrice">Precio</label>
-      <p-inputNumber id="addPrice" [(ngModel)]="addProductContent.price"></p-inputNumber>
-    </div>
+        <div class="p-field">
+            <label for="addPrice">Precio</label>
+            <p-inputNumber id="addPrice" [(ngModel)]="addProductContent.price"></p-inputNumber>
+        </div>
 
-    <div class="p-field">
-      <label for="addQuantity">Cantidad</label>
-      <p-inputNumber id="addQuantity" [(ngModel)]="addProductContent.quantity"></p-inputNumber>
-    </div>
+        <div class="p-field">
+            <label for="addQuantity">Cantidad</label>
+            <p-inputNumber id="addQuantity" [(ngModel)]="addProductContent.quantity"></p-inputNumber>
+        </div>
 
-    <div class="p-field">
-      <label for="addStock">Stock</label>
-      <p-inputNumber id="addStock" [(ngModel)]="addProductContent.stock"></p-inputNumber>
-    </div>
+        <div class="p-field">
+            <label for="addStock">Stock</label>
+            <p-inputNumber id="addStock" [(ngModel)]="addProductContent.stock"></p-inputNumber>
+        </div>
 
-    <div class="p-field">
-      <label for="addBrand">Marca</label>
-      <p-dropdown id="addBrand" [(ngModel)]="addProductContent.brand" [options]="brands" optionLabel="name" optionValue="id" placeholder="Seleccionar Marca"></p-dropdown>
-    </div>
+        <div class="p-field">
+            <label for="addBrand">Marca</label>
+            <p-dropdown id="addBrand" [(ngModel)]="addProductContent.brand" [options]="brands" optionLabel="name" optionValue="id" placeholder="Seleccionar Marca"></p-dropdown>
+        </div>
 
-    <div class="p-field">
-      <label for="addCategory">Categoría</label>
-      <p-dropdown id="addCategory" [(ngModel)]="addProductContent.category" [options]="categories" optionLabel="categoryName" optionValue="id" placeholder="Seleccionar Categoría"></p-dropdown>
+        <div class="p-field">
+            <label for="addCategory">Categoría</label>
+            <p-dropdown id="addCategory" [(ngModel)]="addProductContent.category" [options]="categories" optionLabel="categoryName" optionValue="id" placeholder="Seleccionar Categoría"></p-dropdown>
+        </div>
+        <div class="p-field">
+            <label for="addImage">Imagen</label>
+            <input id="addImage" pInputText [(ngModel)]="addProductContent.product_image" />
+        </div>
     </div>
-    <div class="p-field">
-      <label for="addImage">Imagen</label>
-      <input id="addImage" pInputText [(ngModel)]="addProductContent.product_image" />
-    </div>
-  </div>
-  <ng-template pTemplate="footer">
-    <button pButton type="button" label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="addDialog = false"></button>
-    <button pButton type="button" label="Guardar" icon="pi pi-check" class="p-button-primary" (click)="saveProduct()"></button>
-  </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton type="button" label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="addDialog = false"></button>
+        <button pButton type="button" label="Guardar" icon="pi pi-check" class="p-button-primary" (click)="saveProduct()"></button>
+    </ng-template>
 </p-dialog>
+
 
 
 <p-dialog header="Editar Producto" [(visible)]="visibleDialog" [style]="{ width: '30rem' }">
