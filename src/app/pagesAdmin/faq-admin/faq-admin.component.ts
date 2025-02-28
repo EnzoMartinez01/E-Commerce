@@ -10,10 +10,11 @@ import {InputText} from 'primeng/inputtext';
 import { NgClass} from '@angular/common';
 import { FaqService } from '../../core/services/faq/faq.service';
 import { Faq } from '../../Models/faq.model';
+import { Paginator } from 'primeng/paginator';
 
 @Component({
   selector: 'app-faq-admin',
-  imports: [ButtonModule,TableModule,DialogModule,CommonModule,FormsModule,Ripple,InputText],
+  imports: [ButtonModule,TableModule,DialogModule,CommonModule,FormsModule,Ripple,InputText,Paginator],
   templateUrl: './faq-admin.component.html',
   styleUrl: './faq-admin.component.css'
 })
@@ -21,11 +22,24 @@ export class FaqAdminComponent {
   faqs: any[] = [];
   selectedFaqs: any = {};
   visibleDialog:boolean = false;
+  addDialog: boolean = false;
+  viewDialog: boolean = false;
+  deactivateDialog: boolean = false;
+
   editFaq = {
     idFaq: 0,
     question: '',
     answer: ''
   };
+
+  addFaqContent = {
+    question: '',
+    answer: ''
+  }
+
+  first: number = 0;
+  rows: number = 8;
+  totalRecords: number = 0;
 
 
 
@@ -35,13 +49,36 @@ export class FaqAdminComponent {
       this.loadFaqs();
     }
 
-    loadFaqs(): void {
-      this.faqService.getAllFaq(0, 10)
-        .pipe(map((res) => res.content))
-              .subscribe((data) => {
-                this.faqs = data;
-              });
-          }
+    loadFaqs(page: number = 0, size: number = 10): void {
+          this.faqService.getAllFaq(page, size)
+            .pipe(map((res) => res.content))
+                  .subscribe((data) => {
+                    this.faqs = data;
+                  });
+              }
+
+
+    //Add Faq          
+     addFaq() {
+    this.addFaqContent = {
+      question: '',
+      answer: '',
+    }
+    this.addDialog = true;
+  }
+              
+saveFaq() {
+this.faqService.addFaq(this.addFaqContent).subscribe(
+(response) => {
+console.log('FAQ agregada:', response);
+this.loadFaqs();
+this.addDialog = false;
+},
+(error) => {
+console.error('Error al agregar FAQ:', error);
+}
+);
+}          
 
     //Edita
   editFaqs(faqs: any) {
@@ -56,7 +93,7 @@ export class FaqAdminComponent {
   }
 
 
-  saveFaqs() {
+  updateFaqs() {
     const updatedFaqs = {
       ...this.editFaq,
     };
@@ -78,10 +115,15 @@ export class FaqAdminComponent {
   }
 
 
-  //Borra
-      deleteFaqs(faq: Faq) {
-          console.log('Marcas eliminado');
-        }
+  onPageChange(event: any): void {
+    this.first = event.first;
+    this.rows = event.rows;
+    const page = event.first / event.rows;
+    this.loadFaqs(page, this.rows);
+  }
+
+
+
 
 
 }

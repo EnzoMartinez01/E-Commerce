@@ -34,6 +34,18 @@ export class FaqService {
       return this.http.get<any>(`${this.ApibaseUrl}/getFaq/${idFaq}`);
     }
 
+    //add Categorias
+   addFaq(faqDate: any): Observable<any> {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Token no encontrado');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post<any>(`${this.ApibaseUrl}/addFaq`, faqDate, { headers });
+  }
+
     // Updated Faq
   updateFaqs(idFaq: number, updatedFaqs: any): Observable<any> {
     const token = sessionStorage.getItem('authToken');
@@ -48,9 +60,6 @@ export class FaqService {
     return this.http.put<any>(`${this.ApibaseUrl}/updateFaq/${idFaq}`, updatedFaqs, { headers });
   }
 
-  //delete
-  deleteFaq(idFaq: number): Observable<void> {
-    return this.http.delete<void>(`${this.ApibaseUrl}/deleteFaq/${idFaq}`);
-  }
+ 
 }
 

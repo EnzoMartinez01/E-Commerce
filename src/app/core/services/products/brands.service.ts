@@ -45,8 +45,8 @@ export class BrandsService {
     return this.http.get<any>(`${this.baseUrl}/getBrands/${idBrand}`);
   }
 
-   //add Categorias
-   addBrand(brandDate: any): Observable<any> {
+   //add Brands
+   addBrand(BrandDate: any): Observable<any> {
     const token = sessionStorage.getItem('authToken');
     if (!token) {
       throw new Error('Token no encontrado');
@@ -54,7 +54,7 @@ export class BrandsService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.post<any>(`${this.baseUrl}/addBrand`, brandDate, { headers });
+    return this.http.post<any>(`${this.baseUrl}/addBrand`, BrandDate, { headers });
   }
 
   //update Brands
