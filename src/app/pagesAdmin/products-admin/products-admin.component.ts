@@ -17,6 +17,7 @@ import {CategoriesService} from '../../core/services/products/categories.service
 import {BrandsService} from '../../core/services/products/brands.service';
 import {InputNumber} from 'primeng/inputnumber';
 import {Paginator} from 'primeng/paginator';
+import {InputTextarea} from 'primeng/inputtextarea';
 
 @Component({
   selector: 'app-products-admin',
@@ -35,7 +36,8 @@ import {Paginator} from 'primeng/paginator';
     InputNumber,
     InputTextModule,
     ButtonDirective,
-    Paginator
+    Paginator,
+    InputTextarea
   ],
   templateUrl: './products-admin.component.html',
   styleUrl: './products-admin.component.css'
@@ -61,6 +63,19 @@ export class ProductsAdminComponent implements OnInit {
   rows: number = 8;
   totalRecords: number = 0;
 
+  addProductContent = {
+    productName: '',
+    productDescription: '',
+    sku: '',
+    price: 0,
+    quantity: 0,
+    stock: 0,
+    brand: 0,
+    category: 0,
+    product_image: ''
+  }
+
+
   editProductContent = {
     idProduct: 0,
     productName: '',
@@ -83,6 +98,7 @@ export class ProductsAdminComponent implements OnInit {
   visibleDialog: boolean = false;
   deactivateDialog: boolean = false;
   viewDialog: boolean = false;
+  addDialog: boolean = false;
   selectedProduct: Products = {} as Products;
 
   constructor(private productService: ProductsService,
@@ -166,8 +182,6 @@ export class ProductsAdminComponent implements OnInit {
     );
   }
 
-
-
   getSeverity(stock: number) {
     if (stock > 3) {
       return 'success';
@@ -177,6 +191,36 @@ export class ProductsAdminComponent implements OnInit {
       return 'danger';
     }
   }
+
+  //Add Product
+  addProduct() {
+    this.addProductContent = {
+      productName: '',
+      productDescription: '',
+      sku: '',
+      price: 0,
+      quantity: 0,
+      stock: 0,
+      brand: 0,
+      category: 0,
+      product_image: ''
+    }
+    this.addDialog = true;
+  }
+
+  saveProduct() {
+    this.productService.addProduct(this.addProductContent).subscribe(
+      (response) => {
+        console.log('Producto agregado:', response);
+        this.loadProducts(0, this.rows);
+        this.addDialog = false;
+      },
+      (error) => {
+        console.error('Error al agregar producto:', error);
+      }
+    );
+  }
+
 
   //EditProducts
   editProduct(product: Products) {
@@ -206,7 +250,7 @@ export class ProductsAdminComponent implements OnInit {
   }
 
 
-  saveProduct() {
+  updatedProduct() {
     const updatedProduct = {
       ...this.editProductContent,
       price: this.editProductContent.price,

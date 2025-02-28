@@ -24,8 +24,10 @@
 
     <p-dropdown [(ngModel)]="filtersProducts.isActive" (onChange)="loadProducts(0, rows)" [options]="[{label: 'Activo', value: true}, {label: 'Inactivo', value: false}]" placeholder="Estado" class="w-1/4"></p-dropdown>
   </div>
-  <button pButton type="button" (click)="resetFilters()" label="Restablecer Filtros" class="p-button-secondary"></button>
-
+  <div class="button-container">
+    <button pButton type="button" (click)="resetFilters()" label="Restablecer Filtros" class="p-button-secondary"></button>
+    <button pButton type="button" (click)="addProduct()" label="Agregar Producto" class="p-button-primary"></button>
+  </div>
 </div>
 
 <p-table [value]="products" class="table-container" [tableStyle]="{ 'min-width': '60rem' }">
@@ -42,7 +44,7 @@
             <th>Precio</th>
             <th>Categoria</th>
             <th>Marcas</th>
-            <th>STOCK</th>
+            <th>Stock</th>
             <th>Oferta</th>
             <th>Estado</th>
             <th>Acciones</th>
@@ -81,6 +83,59 @@
   [totalRecords]="totalRecords"
   [rowsPerPageOptions]="[8, 16, 24]"
 />
+
+<p-dialog [(visible)]="addDialog" [modal]="true" header="Agregar Producto" [style]="{ width: '50vw' }">
+  <div class="p-fluid">
+    <div class="p-field">
+      <label for="addProductName">Nombre</label>
+      <input id="addProductName" pInputText [(ngModel)]="addProductContent.productName" />
+    </div>
+
+    <div class="p-field">
+      <label for="addDescription">Descripción</label>
+      <textarea id="addDescription" pInputTextarea [(ngModel)]="addProductContent.productDescription"></textarea>
+    </div>
+
+    <div class="p-field">
+      <label for="addSku">SKU</label>
+      <input id="addSku" pInputText [(ngModel)]="addProductContent.sku" />
+    </div>
+
+    <div class="p-field">
+      <label for="addPrice">Precio</label>
+      <p-inputNumber id="addPrice" [(ngModel)]="addProductContent.price"></p-inputNumber>
+    </div>
+
+    <div class="p-field">
+      <label for="addQuantity">Cantidad</label>
+      <p-inputNumber id="addQuantity" [(ngModel)]="addProductContent.quantity"></p-inputNumber>
+    </div>
+
+    <div class="p-field">
+      <label for="addStock">Stock</label>
+      <p-inputNumber id="addStock" [(ngModel)]="addProductContent.stock"></p-inputNumber>
+    </div>
+
+    <div class="p-field">
+      <label for="addBrand">Marca</label>
+      <p-dropdown id="addBrand" [(ngModel)]="addProductContent.brand" [options]="brands" optionLabel="name" optionValue="id" placeholder="Seleccionar Marca"></p-dropdown>
+    </div>
+
+    <div class="p-field">
+      <label for="addCategory">Categoría</label>
+      <p-dropdown id="addCategory" [(ngModel)]="addProductContent.category" [options]="categories" optionLabel="categoryName" optionValue="id" placeholder="Seleccionar Categoría"></p-dropdown>
+    </div>
+    <div class="p-field">
+      <label for="addImage">Imagen</label>
+      <input id="addImage" pInputText [(ngModel)]="addProductContent.product_image" />
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button pButton type="button" label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="addDialog = false"></button>
+    <button pButton type="button" label="Guardar" icon="pi pi-check" class="p-button-primary" (click)="saveProduct()"></button>
+  </ng-template>
+</p-dialog>
+
 
 <p-dialog header="Editar Producto" [(visible)]="visibleDialog" [style]="{ width: '30rem' }">
     <div class="flex flex-col gap-4">
@@ -133,7 +188,7 @@
     </div>
 
     <div class="flex justify-end gap-2 mt-4 button-container">
-        <p-button label="Guardar" (click)="saveProduct()" />
+        <p-button label="Guardar" (click)="updatedProduct()" />
         <p-button label="Cancelar" severity="secondary" (click)="visibleDialog = false" />
     </div>
 </p-dialog>
