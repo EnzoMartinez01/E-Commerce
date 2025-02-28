@@ -11,6 +11,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Paginator} from 'primeng/paginator';
 import {Dialog} from 'primeng/dialog';
 import {InputText} from 'primeng/inputtext';
+import {AuthService} from '../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-user-admin',
@@ -25,13 +26,15 @@ import {InputText} from 'primeng/inputtext';
     FormsModule,
     Paginator,
     Dialog,
-    InputText
+    InputText,
+    InputNumber
   ],
   templateUrl: './user-admin.component.html',
   styleUrl: './user-admin.component.css'
 })
 export class UserAdminComponent {
   users: [] = [];
+  viewDialog: boolean = false;
   addDialog: boolean = false;
   editDialog: boolean = false;
   deactivateDialog: boolean = false;
@@ -48,6 +51,19 @@ export class UserAdminComponent {
     isActive: null as boolean | null
   }
 
+  addUserContet = {
+    names: '',
+    lastnames: '',
+    dni: '',
+    socialReason: '',
+    telephone: '',
+    email: '',
+    birthDate: '',
+    password: '',
+    username: '',
+    role: 0,
+  }
+
   editUserContetn = {
     idUser: 0,
     role: 0,
@@ -61,7 +77,8 @@ export class UserAdminComponent {
   ];
 
 
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService,
+              private authService: AuthService) {}
 
   ngOnInit(): void {
     this.loadUsers(0, this.rows);
@@ -126,10 +143,52 @@ export class UserAdminComponent {
 
   //Información del usuario
   viewInfo(user: any): void {
-    this.selectedUser = user;
+    this.selectedUser = { ...user };
+    this.viewDialog = true;
+
+    this.usersService.getUsersById(this.selectedUser.idUser).subscribe(
+      (data) => {
+        console.log("Usuario obtenido:", data);
+      },
+      (error) => {
+        console.error('Error al obtener el usuario:', error);
+      }
+    );
   }
 
-    // Edit User
+  // Add User
+  addUser() {
+    this.addUserContet = {
+      names: '',
+      lastnames: '',
+      dni: '',
+      socialReason: '',
+      telephone: '',
+      email: '',
+      birthDate: '',
+      password: '',
+      username: '',
+      role: 0,
+    }
+    this.addDialog = true;
+  }
+
+  saveUser() {
+    this.authService.registerUser(this.addUserContet, this.addUserContet.role).subscribe(
+      (response) => {
+        console.log('Usuario registrado:', response);
+        this.addDialog = false;
+        this.loadUsers(0, this.rows);
+      },
+      (error) => {
+        console.error('Error al registrar el usuario:', error);
+      }
+    );
+  }
+
+
+
+  // Edit User
   editUser(user: any) {
     console.log('User recibido:', user);
 

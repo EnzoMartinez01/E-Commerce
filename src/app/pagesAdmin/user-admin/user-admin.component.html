@@ -12,7 +12,7 @@
   </div>
   <div class="button-container">
     <button pButton type="button" (click)="resetFilters()" label="Restablecer Filtros" class="p-button-secondary"></button>
-    <button pButton type="button"  label="Agregar Usuario" class="p-button-primary"></button>
+    <button pButton type="button" (click)="addUser()"  label="Agregar Usuario" class="p-button-primary"></button>
   </div>
 </div>
 
@@ -47,6 +47,7 @@
         <i class="pi" [ngClass]="{'pi-check-circle text-green-500': users.isActive, 'pi-times-circle text-red-500': !users.isActive}"></i>
       <td>
         <p-button icon="pi pi-pencil" pRipple class="button-action" (click)="editUser(users)" ></p-button>
+        <p-button icon="pi pi-eye" pRipple class="button-action" (click)="viewInfo(users)"></p-button>
         <p-button icon="pi pi-trash" pRipple class="button-action" (click)="deactivateUser(users)"></p-button>
       </td>
     </tr>
@@ -92,10 +93,115 @@
   </div>
 </p-dialog>
 
+<p-dialog header="Detalles del Usuario:" [(visible)]="viewDialog" [style]="{ width: '30rem' }">
+  <div class="flex flex-col gap-4">
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-28 label-view">Nombre Completo : </label>&nbsp;
+      <span class="flex-auto">{{ selectedUser?.fullName }}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-28 label-view">Username : </label>&nbsp;
+      <span class="flex-auto">{{ selectedUser?.username }}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-28 label-view">Razón Social : </label>&nbsp;
+      <span class="flex-auto">{{ selectedUser?.socialReason }}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-28 label-view">DNI/RUC : </label>&nbsp;
+      <span class="flex-auto">{{ selectedUser?.dni }}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-28 label-view">Email :</label>&nbsp;
+      <span class="flex-auto">{{ selectedUser?.email }}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-28 label-view">Telefono :</label>&nbsp;
+      <span class="flex-auto">{{ selectedUser?.phoneNumber }}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-28 label-view">Fecha de Nacimiento :</label>&nbsp;
+      <span class="flex-auto text-blue-500 break-words">{{ selectedUser?.birthDate }}</span>
+    </div>
+  </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-28 label-view">Rol de Usuario :</label>&nbsp;
+      <span class="flex-auto">{{ selectedUser?.roleName }}</span>&nbsp;
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-28 label-view">Estado de Contacto :</label>&nbsp;
+      <span class="flex-auto">{{ selectedUser?.isActive }}</span>
+    </div>
+</p-dialog>
+
 <p-dialog [(visible)]="deactivateDialog" header="Confirmar Desactivación" [style]="{ width: '25rem' }">
   <p>¿Estás seguro de que deseas desactivar a {{selectedUser.fullName}}?</p>
   <div class="flex justify-end gap-2 mt-4">
     <p-button label="Cancelar" severity="secondary" (click)="deactivateDialog = false"></p-button>&nbsp;
     <p-button label="Eliminar" severity="danger" (click)="deleteUser()"></p-button>
   </div>
+</p-dialog>
+
+<p-dialog [(visible)]="addDialog" [modal]="true" header="Agregar Producto" [style]="{ width: '50vw', maxWidht: '600px',overflow: 'hidden !important' }">
+  <div class="p-fluid">
+    <div class="p-field">
+      <label for="addNames">Nombre</label>
+      <input id="addNames" pInputText [(ngModel)]="addUserContet.names" />
+    </div>
+
+    <div class="p-field">
+      <label for="addLastnames">Apellidos</label>
+      <input id="addLastnames" pInputText [(ngModel)]="addUserContet.lastnames" />
+    </div>
+
+    <div class="p-field">
+      <label for="addDni">Dni</label>
+      <input id="addDni" pInputText [(ngModel)]="addUserContet.dni" />
+    </div>
+
+    <div class="p-field">
+      <label for="addSocialReason">Razón Social</label>
+      <input id="addSocialReason" pInputText [(ngModel)]="addUserContet.socialReason" />
+    </div>
+
+    <div class="p-field">
+      <label for="addTelephone">Telefono</label>
+      <input id="addTelephone" pInputText [(ngModel)]="addUserContet.telephone" />
+    </div>
+
+    <div class="p-field">
+      <label for="addRole">Rol para Usuario</label>
+      <p-dropdown id="addRole" [(ngModel)]="addUserContet.role" [options]="roles" optionLabel="name" optionValue="id" placeholder="Seleccionar Rol"></p-dropdown>
+    </div>
+
+    <div class="p-field">
+      <label for="addEmail">Email</label>
+      <input id="addEmail" pInputText [(ngModel)]="addUserContet.email" />
+    </div>
+
+    <div class="p-field">
+      <label for="addPassword">Password</label>
+      <input id="addPassword" pInputText [(ngModel)]="addUserContet.password" />
+    </div>
+
+    <div class="p-field">
+      <label for="addUsername">Username</label>
+      <input id="addUsername" pInputText [(ngModel)]="addUserContet.username" />
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+
+    <button pButton type="button" label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="addDialog = false"></button>&nbsp;
+
+    <button pButton type="button" label="Guardar" icon="pi pi-check" class="p-button-primary" style="margin-right: 30px;" (click)="saveUser()"></button>
+
+  </ng-template>
 </p-dialog>

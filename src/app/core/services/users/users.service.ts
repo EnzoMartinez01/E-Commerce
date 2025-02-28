@@ -64,6 +64,17 @@ export class UsersService {
     return this.http.get<any>(`${this.baseUrl}/getUsersByFilters`, { params, headers });
   }
 
+  getUsersById(idUser: number): Observable<any> {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Token no encontrado');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<any>(`${this.baseUrl}/getUserById/${idUser}`, { headers });
+  }
+
   updatedUsers(idUser: number, updatedUser: any): Observable<any> {
     const token = sessionStorage.getItem('authToken');
     if (!token) {
