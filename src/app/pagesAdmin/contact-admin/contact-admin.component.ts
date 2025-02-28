@@ -64,6 +64,7 @@ export class ContactAdminComponent {
       (data) => {
         console.log('Contactos cargados:', data.content);
         this.contacts = data.content;
+        this.totalRecords = data.totalElements;
       },
       (error) => {
         console.error('Error al cargar contactos:', error);

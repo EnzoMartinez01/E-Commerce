@@ -45,20 +45,21 @@ export class CategoriesAdminComponent {
   }
 
   loadCategories(page: number = 0, size: number = 10): void {
-      this.categoriesService.getCategories(page, size)
-        .pipe(map((res) => res.content))
-              .subscribe((data) => {
-                this.categories = data;
-              });
-          }
+    this.categoriesService.getCategories(page, size)
+      .subscribe((res) => {
+        this.categories = res.content;
+        this.totalRecords = res.totalElements;
+      });
+  }
 
 
-    //Add Product
+
+  //Add Product
    addCategory() {
   this.addCategoryContent = {
     categoryName: '',
     categoryImage: '',
-   
+
   }
   this.addDialog = true;
 }
@@ -111,7 +112,7 @@ saveCategory() {
       const deactivateCategory = {
         ...this.selectedCategory
       };
-  
+
       this.categoriesService.deactivateCategory(this.selectedCategory.idCategory).subscribe(() => {
         console.log('Producto desactivado');
         this.deactivateDialog = false;

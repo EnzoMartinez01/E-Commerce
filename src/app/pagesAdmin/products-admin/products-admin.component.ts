@@ -37,7 +37,6 @@ import {InputTextarea} from 'primeng/inputtextarea';
     InputTextModule,
     ButtonDirective,
     Paginator,
-    InputTextarea
   ],
   templateUrl: './products-admin.component.html',
   styleUrl: './products-admin.component.css'
@@ -55,6 +54,8 @@ export class ProductsAdminComponent implements OnInit {
     stock: null as number | null,
     isOffer: null as boolean | null,
     brandId: null as number | null,
+    page: 0,
+    size: 10,
     categoryId: null as number | null,
     isActive: null as boolean | null
   }
@@ -124,6 +125,8 @@ export class ProductsAdminComponent implements OnInit {
       stock: null,
       isOffer: null,
       brandId: null,
+      page: 0,
+      size: 10,
       categoryId: null,
       isActive: null,
     }
@@ -132,6 +135,7 @@ export class ProductsAdminComponent implements OnInit {
 
   loadProducts(page: number, size: number) {
     console.log("Filtros aplicados:", JSON.stringify(this.filtersProducts, null, 2));
+
     this.productService.getProductsFilter(
       this.filtersProducts.brandId || null,
       this.filtersProducts.categoryId || null,
@@ -145,13 +149,13 @@ export class ProductsAdminComponent implements OnInit {
       page,
       size,
       this.filtersProducts.searchTerms || null
-    )
-      .pipe(map((res) => res.content))
-      .subscribe((data) => {
-        console.log("Productos cargados:", data);
-        this.products = data;
-      });
+    ).subscribe((res) => {
+
+      this.products = res.content;
+      this.totalRecords = res.totalElements;
+    });
   }
+
 
   loadCategories(): void {
     this.categoryService.getCategories(0, 10).subscribe(

@@ -35,29 +35,30 @@ export class BrandsAdminComponent {
     first: number = 0;
   rows: number = 8;
   totalRecords: number = 0;
-  
-  
+
+
     constructor(private brandsService: BrandsService) {}
-  
+
     ngOnInit(): void {
       this.loadBrand();
     }
-  
-    loadBrand(page: number = 0, size: number = 10): void {
-          this.brandsService.getBrands(page, size)
-            .pipe(map((res) => res.content))
-                  .subscribe((data) => {
-                    this.brands = data;
-                  });
-              }
+
+  loadBrand(page: number = 0, size: number = 10): void {
+    this.brandsService.getBrands(page, size)
+      .subscribe((res) => {
+        this.brands = res.content;
+        this.totalRecords = res.totalElements;
+      });
+  }
 
 
-   //Add Product
+
+  //Add Product
    addBrand() {
     this.addBrandContent = {
       brandName: '',
       brandImage: ''
-     
+
     }
     this.addDialog = true;
   }
@@ -74,28 +75,28 @@ export class BrandsAdminComponent {
       }
     );
   }
-  
+
     //Edit Brand
     editBrand(brand: Brands) {
       this.selectedBrand = { ...brand };
       this.visibleDialog = true;
     }
-  
+
     updateBrand() {
       const updatedBrand = {
         ...this.selectedBrand,
         idBrand: this.selectedBrand.idBrand,
       };
-  
+
       console.log('Marcas antes de actualizar:', this.selectedBrand);
-  
+
       this.brandsService.updateBrand(this.selectedBrand.idBrand, updatedBrand).subscribe(() => {
         console.log('Marca actualizada');
         this.visibleDialog = false;
         this.loadBrand();
       })
       }
-     
+
          // Desactivate Categories
 
          deactivateBrand(brands: Brands) {
@@ -103,12 +104,12 @@ export class BrandsAdminComponent {
             this.selectedBrand = { ...brands };
             this.deactivateDialog = true;
           }
-     
+
          deleteBrand() {
            const deactivateCategory = {
              ...this.selectedBrand
            };
-       
+
            this.brandsService.deactivateBrand(this.selectedBrand.idBrand).subscribe(() => {
              console.log('Marca desactivada');
              this.deactivateDialog = false;
@@ -122,6 +123,6 @@ export class BrandsAdminComponent {
           const page = event.first / event.rows;
           this.loadBrand(page, this.rows);
         }
-  
+
 
 }
