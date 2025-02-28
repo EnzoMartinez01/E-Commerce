@@ -66,6 +66,13 @@ public class ContacService {
         return contacts.stream().map(this::mapToDto).toList();
     }
 
+    // Get Contact by ID
+    public ContactDto getContactById(Integer id){
+        Contact contact = contactRepository.findById(id).
+                orElseThrow(() -> new RuntimeException("Contact not found with ID: " + id));
+        return mapToDto(contact);
+    }
+
     //Map to Dto
     public ContactDto mapToDto(Contact contact){
         ContactDto dto = new ContactDto();
@@ -83,6 +90,7 @@ public class ContacService {
         dto.setIsagreeContact(contact.getIs_agree());
         dto.setIdStatus(contact.getStatus().getId());
         dto.setStatusContact(contact.getStatus().getName());
+        dto.setAnswer(contact.getAnswer());
         return dto;
     }
     
@@ -111,7 +119,7 @@ public class ContacService {
 
 
     // Updated Contact status
-    public void updatedContactStatus(Integer idContact, Integer idStatus){
+    public void updatedContactStatus(Integer idContact, Integer idStatus, String answer){
         StatusContact status = statusContactRepository.findById(idStatus)
                 .orElseThrow(() -> new RuntimeException("Status Contact not found"));
 
@@ -119,6 +127,7 @@ public class ContacService {
                 .orElseThrow(() -> new RuntimeException("Contact not found"));
 
         contact.setStatus(status);
+        contact.setAnswer(answer);
         contactRepository.save(contact);
     }
 }

@@ -21,5 +21,5 @@ public class ContactDto {
     private Boolean isagreeContact;
     private Integer idStatus;
     private String statusContact;
-
+    private String answer;
 }

@@ -1566,6 +1566,7 @@ public class Initializer implements CommandLineRunner{
         initializeContactStatus("PENDIENTE");
         initializeContactStatus("REVISADO");
         initializeContactStatus("RESPONDIDO");
+        initializeContactStatus("CANCELADO");
 
         // Inserción de datos para Payment Methods
         initializePaymentMethod("BANK TRANSFER");

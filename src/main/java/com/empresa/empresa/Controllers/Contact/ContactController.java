@@ -41,6 +41,12 @@ public class ContactController {
         return contacService.getContactByDni(dni);
     }
 
+    //Get Contact by ID
+    @GetMapping("/getContactById/{id}")
+    public ContactDto getContactById(@PathVariable Integer id){
+        return contacService.getContactById(id);
+    }
+
     //Add Contact
     @PostMapping("/addContact")
     public ResponseEntity<Map<String, String>> addContact(@RequestBody Contact contacts) {
@@ -58,9 +64,10 @@ public class ContactController {
     // Updated Contact status
     @PutMapping("/updatedContactStatus/{idContact}/{idStatus}")
     public ResponseEntity<Map<String, String>> updatedContactStatus(@PathVariable Integer idContact,
-                                                                     @PathVariable Integer idStatus) {
+                                                                     @PathVariable Integer idStatus,
+                                                                    @RequestParam(required = false) String answer) {
         try {
-            contacService.updatedContactStatus(idContact, idStatus);
+            contacService.updatedContactStatus(idContact, idStatus, answer);
             Map<String, String> response = new HashMap<>();
             response.put("message", "Contact status updated successfully");
             return ResponseEntity.status(HttpStatus.OK).body(response);

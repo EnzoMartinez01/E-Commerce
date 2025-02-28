@@ -24,6 +24,7 @@ public class Contact {
     private String dniRuc;
     private String telephone;
     private String message;
+    private String answer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonDeserialize(using = UsersDeserializer.class)
