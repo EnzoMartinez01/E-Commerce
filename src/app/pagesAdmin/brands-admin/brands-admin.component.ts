@@ -22,6 +22,14 @@ export class BrandsAdminComponent {
   brands: Brands[] = [];
     selectedBrand: Brands = {} as Brands;
     visibleDialog:boolean = false;
+    addDialog: boolean = false;
+  viewDialog: boolean = false;
+  deactivateDialog: boolean = false;
+
+    addBrandContent = {
+      brandName: '',
+      brandImage: ''
+    }
   
   
     constructor(private brandsService: BrandsService) {}
@@ -37,14 +45,38 @@ export class BrandsAdminComponent {
                 this.brands = data;
               });
           }
+
+
+   //Add Product
+   addBrand() {
+    this.addBrandContent = {
+      brandName: '',
+      brandImage: ''
+     
+    }
+    this.addDialog = true;
+  }
+
+  saveBrand() {
+    this.brandsService.addBrand(this.addBrandContent).subscribe(
+      (response) => {
+        console.log('Marca agregada:', response);
+        this.loadBrand();
+        this.addDialog = false;
+      },
+      (error) => {
+        console.error('Error al agregar Marca:', error);
+      }
+    );
+  }
   
-    //Edita
+    //Edit Brand
     editBrand(brand: Brands) {
       this.selectedBrand = { ...brand };
       this.visibleDialog = true;
     }
   
-    saveBrand() {
+    updateBrand() {
       const updatedBrand = {
         ...this.selectedBrand,
         idBrand: this.selectedBrand.idBrand,
@@ -58,11 +90,26 @@ export class BrandsAdminComponent {
         this.loadBrand();
       })
       }
-  
-      //Borra
-      deleteBrand(brands: Brands) {
-          console.log('Marca eliminada');
-        }
+     
+         // Desactivate Categories
+
+         deactivateBrand(brands: Brands) {
+          console.log('Marca recibida', brands);
+            this.selectedBrand = { ...brands };
+            this.deactivateDialog = true;
+          }
+     
+         deleteBrand() {
+           const deactivateCategory = {
+             ...this.selectedBrand
+           };
+       
+           this.brandsService.deactivateBrand(this.selectedBrand.idBrand).subscribe(() => {
+             console.log('Marca desactivada');
+             this.deactivateDialog = false;
+             this.loadBrand();
+           })
+         }
   
 
 }

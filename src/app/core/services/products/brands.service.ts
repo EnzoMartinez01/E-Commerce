@@ -1,4 +1,4 @@
-import {Brands} from '../../../Models/brands.model';
+import { Brands } from '../../../Models/brands.model';
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
@@ -45,6 +45,19 @@ export class BrandsService {
     return this.http.get<any>(`${this.baseUrl}/getBrands/${idBrand}`);
   }
 
+   //add Categorias
+   addBrand(brandDate: any): Observable<any> {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Token no encontrado');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post<any>(`${this.baseUrl}/addBrand`, brandDate, { headers });
+  }
+
+  //update Brands
   updateBrand(idBrand: number, updatedBrand: any): Observable<any> {
     const token = sessionStorage.getItem('authToken');
     if (!token) {
@@ -58,8 +71,17 @@ export class BrandsService {
     return this.http.put<any>(`${this.baseUrl}/updateBrand/${idBrand}`, updatedBrand, { headers });
   }
 
-  deleteBrands(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/deleteBrands/${id}`);
+   // Desactivate Brands
+   deactivateBrand(idBrand: number): Observable<any> {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Token no encontrado');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.patch<any>(`${this.baseUrl}/deactivateBrand/${idBrand}`, null, { headers });
   }
 
 }

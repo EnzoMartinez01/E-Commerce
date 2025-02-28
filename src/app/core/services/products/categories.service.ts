@@ -1,4 +1,4 @@
-import {Categories} from '../../../Models/categories.model';
+import { Categories } from '../../../Models/categories.model';
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
@@ -37,7 +37,19 @@ export class CategoriesService {
     return this.http.get<any>(`${this.baseUrl}/getCategory/${id}`);
   }
 
-  // Updated Product
+  //add Categorias
+  addCategory(categoryDate: any): Observable<any> {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Token no encontrado');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post<any>(`${this.baseUrl}/addCategory`, categoryDate, { headers });
+  }
+
+  // Updated Categorias
   updateCategory(idCategory: number, updatedCategory: any): Observable<any> {
     const token = sessionStorage.getItem('authToken');
     if (!token) {
@@ -51,7 +63,22 @@ export class CategoriesService {
     return this.http.put<any>(`${this.baseUrl}/updateCategory/${idCategory}`, updatedCategory, { headers });
   }
 
-  deleteCategory(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/deleteCategory/${id}`);
+  deleteCategory(idCategory: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/deactivateCategory/${idCategory}`);
+  }
+
+
+
+  // Desactivate Category
+  deactivateCategory(idCategory: number): Observable<any> {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Token no encontrado');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.patch<any>(`${this.baseUrl}/deactivateCategory/${idCategory}`, null, { headers });
   }
 }

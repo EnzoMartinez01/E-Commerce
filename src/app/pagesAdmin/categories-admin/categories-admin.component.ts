@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import {Ripple} from 'primeng/ripple';
 import {InputText} from 'primeng/inputtext';
 import { NgClass} from '@angular/common';
+import { ProductsService } from '../../core/services/products/products.service';
 
 
 @Component({
@@ -22,6 +23,14 @@ export class CategoriesAdminComponent {
   categories: Categories[] = [];
   selectedCategory: Categories = {} as Categories;
   visibleDialog:boolean = false;
+  addDialog: boolean = false;
+  viewDialog: boolean = false;
+  deactivateDialog: boolean = false;
+
+  addCategoryContent = {
+    categoryName: '',
+    categoryImage: ''
+  }
 
 
   constructor(private categoriesService: CategoriesService) {}
@@ -38,13 +47,39 @@ export class CategoriesAdminComponent {
             });
         }
 
+
+    //Add Product
+   addCategory() {
+  this.addCategoryContent = {
+    categoryName: '',
+    categoryImage: '',
+   
+  }
+  this.addDialog = true;
+}
+
+saveCategory() {
+  this.categoriesService.addCategory(this.addCategoryContent).subscribe(
+    (response) => {
+      console.log('Producto agregado:', response);
+      this.loadCategories();
+      this.addDialog = false;
+    },
+    (error) => {
+      console.error('Error al agregar producto:', error);
+    }
+  );
+}
+
+
   //Edita
   editCategory(category: Categories) {
+    console.log('Categoria recibida', category);
     this.selectedCategory = { ...category };
     this.visibleDialog = true;
   }
 
-  saveCategory() {
+  updateCategory() {
     const updatedCategory = {
       ...this.selectedCategory,
       idCategory: this.selectedCategory.idCategory,
@@ -59,10 +94,25 @@ export class CategoriesAdminComponent {
     })
     }
 
-    //Borra
-    deleteCategory(categories: Categories) {
-        console.log('Categorias eliminado');
+    deactivateCategory(categories: Categories) {
+      console.log('Categoria recibida', categories);
+        this.selectedCategory = { ...categories };
+        this.deactivateDialog = true;
       }
+
+    // Desactivate Categories
+
+    deleteCategory() {
+      const deactivateCategory = {
+        ...this.selectedCategory
+      };
+  
+      this.categoriesService.deactivateCategory(this.selectedCategory.idCategory).subscribe(() => {
+        console.log('Producto desactivado');
+        this.deactivateDialog = false;
+        this.loadCategories();
+      })
+    }
 
 
 }
