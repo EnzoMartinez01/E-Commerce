@@ -30,11 +30,11 @@
     <div class="flex flex-col gap-4">
         <div class="flex items-center gap-4">
             <label for="questionFaq" class="font-semibold w-28">Pregunta</label>
-            <input pInputText id="questionFaq" class="flex-auto" [(ngModel)]="selectedFaqs.questionFaq" autocomplete="off" />
+            <input pInputText id="questionFaq" class="flex-auto" [(ngModel)]="editFaq.question" autocomplete="off" />
         </div>
         <div class="flex items-center gap-4">
             <label for="answerFaq" class="font-semibold w-28">Respuesta</label>
-            <input pInputText id="answerFaq" class="flex-auto" [(ngModel)]="selectedFaqs.answerFaq" autocomplete="off" />
+            <input pInputText id="answerFaq" class="flex-auto" [(ngModel)]="editFaq.answer" autocomplete="off" />
         </div>
     </div>
     <div class="flex justify-end gap-2 mt-4">
