@@ -25,7 +25,7 @@ public class UserController {
     }
 
     //Get All Users
-    @GetMapping("/getAllUser")
+    @GetMapping("/getAllUsers")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Page<UserDto>> getAllUsers(
             @RequestParam(defaultValue = "0") int page,
