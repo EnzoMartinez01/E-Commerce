@@ -25,6 +25,7 @@
         "angular-font-awesome": "^3.1.2",
         "bootstrap": "^5.3.3",
         "bootstrap-icons": "^1.11.3",
+        "chart.js": "^4.4.8",
         "empresa-app": "file:",
         "font-awesome": "^4.7.0",
         "install": "^0.13.0",

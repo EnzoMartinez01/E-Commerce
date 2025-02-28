@@ -1,0 +1,36 @@
+.audit-container {
+  width: 70%;
+  margin: auto;
+}
+
+.audit-title {
+  font-weight: bold;
+}
+
+.audit-info-container {
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: space-evenly;
+  padding: 50px;
+}
+
+
+.info-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px;
+  h3 {
+    text-align: center;
+    font-weight: bold;
+  }
+}
+
+.info-content-data {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 50px;
+}
