@@ -1,18 +1,20 @@
 package com.empresa.empresa.Controllers.Authentication;
 
 import com.empresa.empresa.Dto.Authentication.UserDto;
+import com.empresa.empresa.Models.Authentication.Roles;
+import com.empresa.empresa.Models.Authentication.Users;
 import com.empresa.empresa.Services.Authentication.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -40,6 +42,18 @@ public class UserController {
         }
     }
 
+    @GetMapping("/getUserById/{idUser}")
+    public ResponseEntity<UserDto> getUserById(@PathVariable Integer idUser){
+        try {
+            UserDto user = userService.getUserById(idUser);
+            return ResponseEntity.ok(user);
+        } catch (AccessDeniedException ex) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
     @GetMapping("/me")
     public ResponseEntity<UserDto> getCurrentUser(Principal principal) {
         String username = principal.getName();
@@ -51,4 +65,61 @@ public class UserController {
         }
     }
 
+
+    @GetMapping("/getUsersByFilters")
+    public ResponseEntity<Page<UserDto>> getUsersByFilters(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String searchTerms,
+            @RequestParam(required = false) Integer roleId,
+            @RequestParam(required = false) Boolean isActive) {
+        try {
+            Page<UserDto> users = userService.getUsersByFilters(searchTerms, roleId, isActive, page, size);
+            return ResponseEntity.ok(users);
+        } catch (AccessDeniedException ex) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @PutMapping("/updateUser/{idUser}")
+    public ResponseEntity<Map<String, String>> updateUser(@PathVariable Integer idUser, @RequestBody Users updatedUser){
+        try {
+            Users user = userService.updateUser(idUser, updatedUser);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "User updated successfully");
+            return ResponseEntity.ok(response);
+        } catch (AccessDeniedException ex) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @PatchMapping("/deactivateUser/{idUser}")
+    public ResponseEntity<Map<String, String>> deactivateUser(@PathVariable Integer idUser){
+        try {
+            userService.deactivateUser(idUser);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "User deactivated successfully");
+            return ResponseEntity.ok(response);
+        } catch (AccessDeniedException ex) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @GetMapping("/getRolesAll")
+    public ResponseEntity<List<Roles>> getRolesAll(){
+        try {
+            List<Roles> roles = userService.getRolesAll();
+            return ResponseEntity.ok(roles);
+        } catch (AccessDeniedException ex) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 }
