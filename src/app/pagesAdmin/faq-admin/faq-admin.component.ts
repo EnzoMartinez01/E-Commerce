@@ -49,16 +49,16 @@ export class FaqAdminComponent {
       this.loadFaqs();
     }
 
-    loadFaqs(page: number = 0, size: number = 10): void {
-          this.faqService.getAllFaq(page, size)
-            .pipe(map((res) => res.content))
-                  .subscribe((data) => {
-                    this.faqs = data;
-                  });
-              }
+  loadFaqs(page: number = 0, size: number = 10): void {
+    this.faqService.getAllFaq(page, size)
+      .subscribe((res) => {
+        console.log('FAQ cargados:', res);
+        this.faqs = res.content;
+        this.totalRecords = res.totalElements;
+      });
+  }
 
-
-    //Add Faq          
+  //Add Faq
      addFaq() {
     this.addFaqContent = {
       question: '',
@@ -66,19 +66,19 @@ export class FaqAdminComponent {
     }
     this.addDialog = true;
   }
-              
-saveFaq() {
-this.faqService.addFaq(this.addFaqContent).subscribe(
-(response) => {
-console.log('FAQ agregada:', response);
-this.loadFaqs();
-this.addDialog = false;
-},
-(error) => {
-console.error('Error al agregar FAQ:', error);
-}
-);
-}          
+
+  saveFaq() {
+    this.faqService.addFaq(this.addFaqContent).subscribe(
+    (response) => {
+    console.log('FAQ agregada:', response);
+    this.loadFaqs();
+    this.addDialog = false;
+    },
+    (error) => {
+    console.error('Error al agregar FAQ:', error);
+    }
+    );
+  }
 
     //Edita
   editFaqs(faqs: any) {
@@ -114,6 +114,25 @@ console.error('Error al agregar FAQ:', error);
     );
   }
 
+  // Deactivar FAQ
+  deactivateFaq(faq: Faq) {
+    this.selectedFaqs = { ...faq };
+    this.deactivateDialog = true;
+  }
+
+  deleteFaq() {
+    const deactivateFaq = {
+      ...this.selectedFaqs
+    };
+
+    this.faqService.deactivateFaq(this.selectedFaqs.idFaq).subscribe(() => {
+      console.log('FAQ desactivado');
+      this.deactivateDialog = false;
+      this.loadFaqs();
+      }
+    );
+  }
+
 
   onPageChange(event: any): void {
     this.first = event.first;
@@ -121,9 +140,5 @@ console.error('Error al agregar FAQ:', error);
     const page = event.first / event.rows;
     this.loadFaqs(page, this.rows);
   }
-
-
-
-
 
 }

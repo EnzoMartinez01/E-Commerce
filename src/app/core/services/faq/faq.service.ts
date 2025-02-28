@@ -60,6 +60,16 @@ export class FaqService {
     return this.http.put<any>(`${this.ApibaseUrl}/updateFaq/${idFaq}`, updatedFaqs, { headers });
   }
 
- 
-}
+  // Deactivate Faq
+  deactivateFaq(idFaq: number): Observable<any> {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Token no encontrado');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
 
+    return this.http.patch<any>(`${this.ApibaseUrl}/deactivateFaq/${idFaq}`, null, { headers });
+    }
+}

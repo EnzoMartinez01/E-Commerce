@@ -13,6 +13,7 @@
 
             <th>Pregunta</th>
             <th>Respuesta</th>
+            <th>Estado</th>
             <th>Acciones</th>
         </tr>
     </ng-template>
@@ -22,7 +23,10 @@
             <td>{{ faq.questionFaq }}</td>
             <td>{{ faq.answerFaq }}</td>
             <td>
-                <p-button icon="pi pi-pencil" pRipple class="button-action" (click)="editFaqs(faq)"></p-button>
+                <i class="pi" [ngClass]="{'pi-check-circle text-green-500': faq.isActive, 'pi-times-circle text-red-500': !faq.isActive}"></i>
+            <td>
+              <p-button icon="pi pi-pencil" pRipple class="button-action" (click)="editFaqs(faq)"></p-button>
+              <p-button icon="pi pi-trash" pRipple class="button-action" (click)="deactivateFaq(faq)"></p-button>
 
             </td>
         </tr>
@@ -71,9 +75,10 @@
 </p-dialog>
 
 <p-dialog [(visible)]="deactivateDialog" header="Confirmar Desactivación" [style]="{ width: '25rem' }">
-    <p>¿Estás seguro de que deseas desactivar esta Marca?</p>
+    <p>¿Estás seguro de que deseas desactivar esta Pregunta Frecuente?</p>
     <div class="flex justify-end gap-2 mt-4">
-        <p-button label="Cancelar" severity="secondary" (click)="deactivateDialog = false"></p-button>&nbsp;
+      <p-button label="Desactivar" class="p-button-primary" (click)="deleteFaq()"></p-button>
+      <p-button label="Cancelar" severity="secondary" (click)="deactivateDialog = false"></p-button>&nbsp;
 
     </div>
 </p-dialog>
