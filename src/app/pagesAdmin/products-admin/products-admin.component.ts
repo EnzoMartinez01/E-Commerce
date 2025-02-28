@@ -16,6 +16,7 @@ import {Brands} from '../../Models/brands.model';
 import {CategoriesService} from '../../core/services/products/categories.service';
 import {BrandsService} from '../../core/services/products/brands.service';
 import {InputNumber} from 'primeng/inputnumber';
+import {Paginator} from 'primeng/paginator';
 
 @Component({
   selector: 'app-products-admin',
@@ -33,7 +34,8 @@ import {InputNumber} from 'primeng/inputnumber';
     NgIf,
     InputNumber,
     InputTextModule,
-    ButtonDirective
+    ButtonDirective,
+    Paginator
   ],
   templateUrl: './products-admin.component.html',
   styleUrl: './products-admin.component.css'
@@ -52,13 +54,12 @@ export class ProductsAdminComponent implements OnInit {
     isOffer: null as boolean | null,
     brandId: null as number | null,
     categoryId: null as number | null,
-    isActive: null as boolean | null,
-    page: 0,
-    size: 10,
+    isActive: null as boolean | null
   }
 
-  totalElements: number = 0;
-  pageSize: number = 10;
+  first: number = 0;
+  rows: number = 8;
+  totalRecords: number = 0;
 
   editProductContent = {
     idProduct: 0,
@@ -89,14 +90,14 @@ export class ProductsAdminComponent implements OnInit {
               private brandService: BrandsService) {}
 
   ngOnInit() {
-    this.loadProducts();
+    this.loadProducts(0, this.rows);
     this.loadCategories();
     this.loadBrands();
   }
 
   applyFilters() {
     console.log("Aplicando filtros:", JSON.stringify(this.filtersProducts, null, 2));
-    this.loadProducts();
+    this.loadProducts(0, this.rows);
   }
 
   resetFilters() {
@@ -109,13 +110,11 @@ export class ProductsAdminComponent implements OnInit {
       brandId: null,
       categoryId: null,
       isActive: null,
-      page: 0,
-      size: 10,
     }
-    this.loadProducts();
+    this.loadProducts(0, this.rows);
   }
 
-  loadProducts() {
+  loadProducts(page: number, size: number) {
     console.log("Filtros aplicados:", JSON.stringify(this.filtersProducts, null, 2));
     this.productService.getProductsFilter(
       this.filtersProducts.brandId || null,
@@ -127,8 +126,8 @@ export class ProductsAdminComponent implements OnInit {
       this.filtersProducts.stock || null,
       this.filtersProducts.isOffer ?? null,
       this.filtersProducts.isActive ?? null,
-      this.filtersProducts.page,
-      this.filtersProducts.size,
+      page,
+      size,
       this.filtersProducts.searchTerms || null
     )
       .pipe(map((res) => res.content))
@@ -136,13 +135,6 @@ export class ProductsAdminComponent implements OnInit {
         console.log("Productos cargados:", data);
         this.products = data;
       });
-  }
-
-
-  onPaginateChange(event: any): void {
-    this.filtersProducts.page = event.pageIndex;
-    this.filtersProducts.size = event.pageSize;
-    this.loadProducts();
   }
 
   loadCategories(): void {
@@ -227,7 +219,7 @@ export class ProductsAdminComponent implements OnInit {
     this.productService.updateProduct(updatedProduct.idProduct, updatedProduct).subscribe(() => {
       console.log('Producto actualizado');
       this.visibleDialog = false;
-      this.loadProducts();
+      this.loadProducts(0, this.rows);
     });
   }
 
@@ -246,7 +238,7 @@ export class ProductsAdminComponent implements OnInit {
     this.productService.deactivateProduct(this.selectedProduct.idProduct).subscribe(() => {
       console.log('Producto desactivado');
       this.deactivateDialog = false;
-      this.loadProducts();
+      this.loadProducts(0, this.rows);
     })
   }
 
@@ -263,5 +255,12 @@ export class ProductsAdminComponent implements OnInit {
         console.error('Error al obtener el producto:', error);
       }
     );
+  }
+
+  onPageChange(event: any): void {
+    this.first = event.first;
+    this.rows = event.rows;
+    const page = event.first / event.rows;
+    this.loadProducts(page, this.rows);
   }
 }
