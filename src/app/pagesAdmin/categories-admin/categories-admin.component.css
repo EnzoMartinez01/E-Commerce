@@ -46,3 +46,16 @@
     justify-content: flex-end;
     gap: 10px;
 }
+
+.label-view {
+    font-weight: bold;
+    color: #48828d;
+    font-size: 18px;
+}
+
+.boton-agregar {
+    display: flex;
+    justify-content: end;
+    margin-right: 13em;
+    margin-top: 20px;
+}

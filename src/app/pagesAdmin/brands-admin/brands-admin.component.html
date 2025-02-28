@@ -1,8 +1,10 @@
-<button pButton type="button" (click)="addBrand()" label="Agregar Categoria" class="p-button-primary"></button>
+<div class="boton-agregar">
+    <button pButton type="button" (click)="addBrand()" label="Agregar Categoria" class="p-button-primary"></button>
+</div>
 <p-table [value]="brands" class="table-container" [tableStyle]="{ 'min-width': '60rem' }">
     <ng-template #caption>
         <div class="flex items-center justify-between">
-            <span class="text-xl font-bold">Marcas</span>
+            <span class="text-xl font-bold label-view">Marcas</span>
 
         </div>
     </ng-template>
@@ -30,6 +32,9 @@
         </tr>
     </ng-template>
 </p-table>
+
+<p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="[8, 16, 24]" />
+
 
 <p-dialog [(visible)]="addDialog" [modal]="true" header="Agregar Categoria" [style]="{ width: '50vw', maxWidht: '600px',overflow: 'hidden !important' }">
     <div class="p-fluid">

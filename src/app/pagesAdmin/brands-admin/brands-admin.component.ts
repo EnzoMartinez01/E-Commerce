@@ -10,11 +10,12 @@ import { FormsModule } from '@angular/forms';
 import {Ripple} from 'primeng/ripple';
 import {InputText} from 'primeng/inputtext';
 import { NgClass} from '@angular/common';
+import { PaginatorModule } from 'primeng/paginator';
 
 
 @Component({
   selector: 'app-brands-admin',
-  imports: [ButtonModule,TableModule,DialogModule,CommonModule,FormsModule,Ripple,InputText,NgClass],
+  imports: [ButtonModule,TableModule,DialogModule,CommonModule,FormsModule,Ripple,InputText,NgClass,PaginatorModule],
   templateUrl: './brands-admin.component.html',
   styleUrl: './brands-admin.component.css'
 })
@@ -30,6 +31,10 @@ export class BrandsAdminComponent {
       brandName: '',
       brandImage: ''
     }
+
+    first: number = 0;
+  rows: number = 8;
+  totalRecords: number = 0;
   
   
     constructor(private brandsService: BrandsService) {}
@@ -38,13 +43,13 @@ export class BrandsAdminComponent {
       this.loadBrand();
     }
   
-    loadBrand(): void {
-      this.brandsService.getBrands(0, 10)
-        .pipe(map((res) => res.content))
-              .subscribe((data) => {
-                this.brands = data;
-              });
-          }
+    loadBrand(page: number = 0, size: number = 10): void {
+          this.brandsService.getBrands(page, size)
+            .pipe(map((res) => res.content))
+                  .subscribe((data) => {
+                    this.brands = data;
+                  });
+              }
 
 
    //Add Product
@@ -110,6 +115,13 @@ export class BrandsAdminComponent {
              this.loadBrand();
            })
          }
+
+         onPageChange(event: any): void {
+          this.first = event.first;
+          this.rows = event.rows;
+          const page = event.first / event.rows;
+          this.loadBrand(page, this.rows);
+        }
   
 
 }
