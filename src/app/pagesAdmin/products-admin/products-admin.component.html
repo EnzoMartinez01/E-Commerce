@@ -19,7 +19,7 @@
         </p-inputNumber>
 
         <p-dropdown [(ngModel)]="filtersProducts.isOffer" (onChange)="loadProducts(0, rows)" [options]="[{label: 'Sí', value: true},
-    {label: 'Sin Oferta', value: false}]" placeholder="En oferta" class="w-1/4">
+    {label: 'Sin Oferta', value: false}]" placeholder="Oferta" class="w-1/4">
         </p-dropdown>
 
         <p-dropdown [(ngModel)]="filtersProducts.isActive" (onChange)="loadProducts(0, rows)" [options]="[{label: 'Activo', value: true}, {label: 'Inactivo', value: false}]" placeholder="Estado" class="w-1/4"></p-dropdown>
@@ -78,7 +78,7 @@
 <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="[8, 16, 24]" />
 
 
-<p-dialog [(visible)]="addDialog" [modal]="true" header="Agregar Producto" [style]="{ width: '50vw' }">
+<p-dialog [(visible)]="addDialog" [modal]="true" header="Agregar Producto" [style]="{ width: '50vw', maxWidht: '600px',overflow: 'hidden !important' }">
     <div class="p-fluid">
         <div class="p-field">
             <label for="addProductName">Nombre</label>
@@ -88,6 +88,16 @@
         <div class="p-field">
             <label for="addDescription">Descripción</label>
             <textarea id="addDescription" pInputTextarea [(ngModel)]="addProductContent.productDescription"></textarea>
+        </div>
+
+        <div class="p-field">
+            <label for="addBrand">Marca</label>
+            <p-dropdown id="addBrand" [(ngModel)]="addProductContent.brand" [options]="brands" optionLabel="name" optionValue="id" placeholder="Seleccionar Marca"></p-dropdown>
+        </div>
+
+        <div class="p-field">
+            <label for="addCategory">Categoría</label>
+            <p-dropdown id="addCategory" [(ngModel)]="addProductContent.category" [options]="categories" optionLabel="categoryName" optionValue="id" placeholder="Seleccionar Categoría"></p-dropdown>
         </div>
 
         <div class="p-field">
@@ -111,22 +121,16 @@
         </div>
 
         <div class="p-field">
-            <label for="addBrand">Marca</label>
-            <p-dropdown id="addBrand" [(ngModel)]="addProductContent.brand" [options]="brands" optionLabel="name" optionValue="id" placeholder="Seleccionar Marca"></p-dropdown>
-        </div>
-
-        <div class="p-field">
-            <label for="addCategory">Categoría</label>
-            <p-dropdown id="addCategory" [(ngModel)]="addProductContent.category" [options]="categories" optionLabel="categoryName" optionValue="id" placeholder="Seleccionar Categoría"></p-dropdown>
-        </div>
-        <div class="p-field">
             <label for="addImage">Imagen</label>
             <input id="addImage" pInputText [(ngModel)]="addProductContent.product_image" />
         </div>
     </div>
     <ng-template pTemplate="footer">
-        <button pButton type="button" label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="addDialog = false"></button>
-        <button pButton type="button" label="Guardar" icon="pi pi-check" class="p-button-primary" (click)="saveProduct()"></button>
+
+        <button pButton type="button" label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="addDialog = false"></button>&nbsp;
+
+        <button pButton type="button" label="Guardar" icon="pi pi-check" class="p-button-primary" style="margin-right: 30px;" (click)="saveProduct()"></button>
+
     </ng-template>
 </p-dialog>
 

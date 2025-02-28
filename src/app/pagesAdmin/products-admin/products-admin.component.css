@@ -1,93 +1,155 @@
-.filters-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
-}
-
-.input-search {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #48828d !important;
-    border-radius: 5px;
-}
-
-.search-products {
-    width: 60%;
-    input {
-        width: 100%;
-        height: 50px;
+    .filters-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
     }
-}
 
-.selects-containers {
-    width: 60%;
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-}
+    .input-search {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #48828d !important;
+        border-radius: 5px;
+    }
 
-.table-container {
-    padding: 20px;
-}
+    .search-products {
+        width: 60%;
+        input {
+            width: 100%;
+            height: 50px;
+        }
+    }
 
-.imagen-product {
-    width: 100px;
-    height: 100px;
-    object-fit: contain;
-}
+    .selects-containers {
+        width: 60%;
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+    }
 
-::ng-deep .p-datatable {
-    width: 80%;
-    margin: auto;
-}
+    .table-container {
+        padding: 20px;
+    }
 
-::ng-deep .p-datatable-thead>tr>th {
-    font-weight: bold;
-}
+    .imagen-product {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+    }
 
-.button-action {
-    padding: 5px;
-}
+     ::ng-deep .p-datatable {
+        width: 80%;
+        margin: auto;
+    }
 
-::ng-deep .p-button {
-    background: #48828d;
-    border-color: #48828d;
-}
+     ::ng-deep .p-datatable-thead>tr>th {
+        font-weight: bold;
+    }
 
-::ng-deep .p-button:hover {
-    background: #fff !important;
-    color: #48828d !important;
-    border-color: #48828d !important;
-}
+    .button-action {
+        padding: 5px;
+    }
 
-.text-green-500 {
-    color: green;
-    font-weight: bold;
-}
+     ::ng-deep .p-button {
+        background: #48828d;
+        border-color: #48828d;
+    }
 
-::ng-deep .p-button-secondary {
-    color: #fff;
-}
+     ::ng-deep .p-button:hover {
+        background: #fff !important;
+        color: #48828d !important;
+        border-color: #48828d !important;
+    }
 
-.button-container {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-}
+    .text-green-500 {
+        color: green;
+        font-weight: bold;
+    }
 
-img {
-    width: 100%;
-}
+     ::ng-deep .p-button-secondary {
+        color: #fff;
+    }
 
-.label-view {
-    font-weight: bold;
-    color: #48828d;
-    font-size: 18px;
-}
+    .button-container {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
 
-.label-edit {
-    font-weight: bold;
-    color: #48828d;
-    font-size: 18px;
-}
+    img {
+        width: 100%;
+    }
+
+    .label-view {
+        font-weight: bold;
+        color: #48828d;
+        font-size: 18px;
+    }
+
+    .label-edit {
+        font-weight: bold;
+        color: #48828d;
+        font-size: 18px;
+    }
+
+    .p-field {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        margin: 15px;
+    }
+
+    .p-field label {
+        font-weight: bold;
+        color: #48828d;
+    }
+
+    .p-inputtext,
+    p-inputNumber,
+    p-dropdown {
+        border-radius: 5px;
+        transition: 0.3s ease-in-out;
+    }
+
+    .p-inputtext:focus,
+    p-inputNumber:focus,
+    p-dropdown:focus {
+        border-color: #48828d;
+        box-shadow: 0 0 5px rgba(72, 130, 141, 0.5);
+    }
+
+    .p-dialog-footer {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px;
+    }
+
+    button.p-button {
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+
+    .p-button-text {
+        background-color: transparent;
+        color: #fff;
+        border: none;
+    }
+
+    .p-button-text:hover {
+        color: #b52b27 !important;
+    }
+
+    .p-button-primary {
+        background-color: #48828d;
+        border: none;
+    }
+
+    .p-button-primary:hover {
+        background-color: #3a6a72;
+    }
+
+    .p-textarea {
+        border: 1px solid #48828d !important;
+    }
