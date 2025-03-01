@@ -1,3 +1,36 @@
+.table-container {
+  padding: 20px;
+}
+
+::ng-deep .p-datatable {
+  width: 80%;
+  margin: auto;
+}
+
+::ng-deep .p-datatable-thead>tr>th {
+  font-weight: bold;
+}
+
+.button-action {
+  padding: 5px;
+}
+
+::ng-deep .p-button {
+  background: #48828d;
+  border-color: #48828d;
+}
+
+::ng-deep .p-button:hover {
+  background: #fff !important;
+  color: #48828d !important;
+  border-color: #48828d !important;
+}
+
+.text-green-500 {
+  color: green;
+  font-weight: bold;
+}
+
 .label-view {
     font-weight: bold;
     color: #48828d;
