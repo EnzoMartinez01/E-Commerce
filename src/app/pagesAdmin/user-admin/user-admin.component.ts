@@ -27,7 +27,6 @@ import {AuthService} from '../../core/services/auth/auth.service';
     Paginator,
     Dialog,
     InputText,
-    InputNumber
   ],
   templateUrl: './user-admin.component.html',
   styleUrl: './user-admin.component.css'

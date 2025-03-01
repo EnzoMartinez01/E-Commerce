@@ -1,1 +1,85 @@
-<p>profile works!</p>
+<p-card>
+  <ng-template #header>
+    <div class="avatar">{{ userInitial }}</div>
+  </ng-template>
+
+  <ng-template #title>Mi Perfil</ng-template>
+  <ng-template #subtitle>Carta de Mi Perfil</ng-template>
+
+  <div class="info-container">
+    <div class="info-row">
+      <label class="label-view">Nombre Completo:</label>
+      <span class="value-view">{{ selectedUser?.fullName }}</span>
+    </div>
+    <div class="info-row">
+      <label class="label-view">DNI/RUC:</label>
+      <span class="value-view">{{ selectedUser?.dni }}</span>
+    </div>
+    <div class="info-row">
+      <label class="label-view">Email:</label>
+      <span class="value-view">{{ selectedUser?.email }}</span>
+    </div>
+    <div class="info-row">
+      <label class="label-view">Username:</label>
+      <span class="value-view">{{ selectedUser?.username }}</span>
+    </div>
+    <div class="info-row">
+      <label class="label-view">Teléfono:</label>
+      <span class="value-view">{{ selectedUser?.phoneNumber }}</span>
+    </div>
+    <div class="info-row">
+      <label class="label-view">Estado:</label>
+      <span class="value-view" [ngClass]="{'text-green-600': selectedUser?.isActive, 'text-red-600': !selectedUser?.isActive}">
+        {{ selectedUser?.isActive ? 'Activo' : 'Inactivo' }}
+      </span>
+    </div>
+  </div>
+
+  <ng-template #footer>
+    <div class="flex gap-4 mt-4">
+      <p-button label="Cancelar" severity="secondary" class="w-full" [outlined]="true" />
+      <p-button label="Guardar" class="w-full bg-blue-600 text-white" />
+    </div>
+  </ng-template>
+</p-card>
+
+
+
+
+<div class="payments-addresses-container">
+  <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
+    <ng-template #header>
+      <img alt="Card" class="w-full" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
+    </ng-template>
+    <ng-template #title> Advanced Card </ng-template>
+    <ng-template #subtitle> Card subtitle </ng-template>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
+      quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!
+    </p>
+    <ng-template #footer>
+      <div class="flex gap-4 mt-1">
+        <p-button label="Cancel" severity="secondary" class="w-full" [outlined]="true" styleClass="w-full" />
+        <p-button label="Save" class="w-full" styleClass="w-full" />
+      </div>
+    </ng-template>
+  </p-card>
+
+  <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
+    <ng-template #header>
+      <img alt="Card" class="w-full" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
+    </ng-template>
+    <ng-template #title> Advanced Card </ng-template>
+    <ng-template #subtitle> Card subtitle </ng-template>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
+      quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!
+    </p>
+    <ng-template #footer>
+      <div class="flex gap-4 mt-1">
+        <p-button label="Cancel" severity="secondary" class="w-full" [outlined]="true" styleClass="w-full" />
+        <p-button label="Save" class="w-full" styleClass="w-full" />
+      </div>
+    </ng-template>
+  </p-card>
+</div>

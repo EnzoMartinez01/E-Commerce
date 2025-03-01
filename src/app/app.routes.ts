@@ -16,6 +16,7 @@ import {AuthGuard} from './core/security/admin.guard';
 import { ContactAdminComponent } from './pagesAdmin/contact-admin/contact-admin.component';
 import { FaqAdminComponent } from './pagesAdmin/faq-admin/faq-admin.component';
 import {UserAdminComponent} from './pagesAdmin/user-admin/user-admin.component';
+import {ProfileComponent} from './pages/profile/profile.component';
 
 
 export const routes: Routes = [
@@ -30,6 +31,7 @@ export const routes: Routes = [
     {path:'FAQ', component: FAQComponent},
     {path:'home', component: HomeComponent},
     {path:'login', component: LoginComponent},
+    {path: 'profile', component: ProfileComponent},
     {path: 'admin/dashboard', component: ProductsAdminComponent, canActivate: [AuthGuard]},
     {path: 'admin/Categories', component: CategoriesAdminComponent, canActivate: [AuthGuard]},
     {path: 'admin/Brands', component: BrandsAdminComponent, canActivate: [AuthGuard]},
