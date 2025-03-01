@@ -92,6 +92,9 @@ public class FAQService {
             if (updatedFaq.getAnswer() != null && !updatedFaq.getAnswer().isEmpty()) {
                 existingFaq.setAnswer(updatedFaq.getAnswer());
             }
+            if (updatedFaq.getIsActive() != null) {
+                existingFaq.setIsActive(updatedFaq.getIsActive());
+            }
             return faqRepository.save(existingFaq);
         } catch (Exception e){
             logger.error("Error al actualizar FAQ",e);
