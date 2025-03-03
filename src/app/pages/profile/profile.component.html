@@ -1,85 +1,70 @@
-<p-card>
-  <ng-template #header>
-    <div class="avatar">{{ userInitial }}</div>
-  </ng-template>
+<div class="grid grid-cols-2 gap-4 h-full items-start">
+  <p-card class="h-full">
+    <ng-template #header>
+      <div class="avatar">{{ userInitial }}</div>
+    </ng-template>
 
-  <ng-template #title>Mi Perfil</ng-template>
-  <ng-template #subtitle>Carta de Mi Perfil</ng-template>
+    <div class="flex items-center justify-between pb-2 border-b title-content">
+      <h2 class="text-lg font-semibold">Mi Perfil</h2>
+      <div class="right-content">
+        <span class="text-gray-500 text-sm">{{ selectedUser?.username }}</span>
+        <span class="text-gray-500 text-sm">{{ selectedUser?.dni }}</span>
+      </div>
+    </div>
 
-  <div class="info-container">
-    <div class="info-row">
-      <label class="label-view">Nombre Completo:</label>
+    <div class="grid grid-cols-2 gap-2 mt-3 info-content">
       <span class="value-view">{{ selectedUser?.fullName }}</span>
-    </div>
-    <div class="info-row">
-      <label class="label-view">DNI/RUC:</label>
-      <span class="value-view">{{ selectedUser?.dni }}</span>
-    </div>
-    <div class="info-row">
-      <label class="label-view">Email:</label>
-      <span class="value-view">{{ selectedUser?.email }}</span>
-    </div>
-    <div class="info-row">
-      <label class="label-view">Username:</label>
-      <span class="value-view">{{ selectedUser?.username }}</span>
-    </div>
-    <div class="info-row">
-      <label class="label-view">Teléfono:</label>
       <span class="value-view">{{ selectedUser?.phoneNumber }}</span>
+      <span class="value-view">{{ selectedUser?.email }}</span>
+      <span class="value-view">{{ selectedUser?.birthDate | date:'dd/MM/yyyy' }}</span>
     </div>
-    <div class="info-row">
-      <label class="label-view">Estado:</label>
-      <span class="value-view" [ngClass]="{'text-green-600': selectedUser?.isActive, 'text-red-600': !selectedUser?.isActive}">
-        {{ selectedUser?.isActive ? 'Activo' : 'Inactivo' }}
+
+    <div class="flex justify-center mt-3">
+      <span class="text-lg font-bold"
+            [ngClass]="{'text-green-600': selectedUser?.isActive, 'text-red-600': !selectedUser?.isActive}">
+              {{ selectedUser?.isActive ? 'Activo' : 'Inactivo' }}
+        <i class="pi" [ngClass]="{'pi-check-circle text-green-500': selectedUser?.isActive, 'pi-times-circle text-red-500': !selectedUser?.isActive}"></i>
       </span>
     </div>
-  </div>
 
-  <ng-template #footer>
-    <div class="flex gap-4 mt-4">
-      <p-button label="Cancelar" severity="secondary" class="w-full" [outlined]="true" />
-      <p-button label="Guardar" class="w-full bg-blue-600 text-white" />
+    <ng-template #footer>
+      <div class="flex gap-2 mt-3">
+        <p-button label="Cancelar" severity="secondary" class="w-full" [outlined]="true" />
+        <p-button label="Guardar" class="w-full bg-blue-600 text-white" />
+      </div>
+    </ng-template>
+  </p-card>
+
+  <div class="flex flex-col gap-4 h-full">
+    <!-- Productos -->
+    <div class="flex gap-2 overflow-auto">
+      <p-card *ngFor="let product of cartItems" class="p-card">
+        <ng-template #header>
+          <img alt="{{ product.name }}" [src]="product.imageUrl" />
+        </ng-template>
+
+        <div class="card-producto">
+          <div class="card-producto-info">
+            <h2 class="card-producto-nombre">{{ product.name }}</h2>
+            <p class="card-producto-precio">S/. {{ product.price?.toFixed(2) }}</p>
+            <p class="card-producto-cantidad">Cantidad: {{ product.quantity }}</p>
+          </div>
+        </div>
+      </p-card>
     </div>
-  </ng-template>
-</p-card>
 
+    <p-card class="h-full">
+      <ng-template #title> Direcciones Registradas </ng-template>
 
+      <ul *ngIf="selectedUser.addresses.length > 0; else noAddresses">
+        <li *ngFor="let address of selectedUser.addresses">
+          📍 {{ address }}
+        </li>
+      </ul>
 
-
-<div class="payments-addresses-container">
-  <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
-    <ng-template #header>
-      <img alt="Card" class="w-full" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
-    </ng-template>
-    <ng-template #title> Advanced Card </ng-template>
-    <ng-template #subtitle> Card subtitle </ng-template>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
-      quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!
-    </p>
-    <ng-template #footer>
-      <div class="flex gap-4 mt-1">
-        <p-button label="Cancel" severity="secondary" class="w-full" [outlined]="true" styleClass="w-full" />
-        <p-button label="Save" class="w-full" styleClass="w-full" />
-      </div>
-    </ng-template>
-  </p-card>
-
-  <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
-    <ng-template #header>
-      <img alt="Card" class="w-full" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
-    </ng-template>
-    <ng-template #title> Advanced Card </ng-template>
-    <ng-template #subtitle> Card subtitle </ng-template>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
-      quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!
-    </p>
-    <ng-template #footer>
-      <div class="flex gap-4 mt-1">
-        <p-button label="Cancel" severity="secondary" class="w-full" [outlined]="true" styleClass="w-full" />
-        <p-button label="Save" class="w-full" styleClass="w-full" />
-      </div>
-    </ng-template>
-  </p-card>
+      <ng-template #noAddresses>
+        <p>No hay direcciones registradas.</p>
+      </ng-template>
+    </p-card>
+  </div>
 </div>

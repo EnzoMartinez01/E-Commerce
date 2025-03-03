@@ -57,6 +57,7 @@ export class CartInfoComponent implements OnInit {
     const newQuantity = cartItem.quantity + change;
 
     if (newQuantity < 1) {
+      window.location.reload();
       if (!confirm("¿Deseas eliminar este producto del carrito?")) {
         return;
       }
