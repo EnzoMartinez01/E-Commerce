@@ -3,10 +3,10 @@
         <input type="text" [(ngModel)]="filtersProducts.searchTerms" (input)="loadProducts(0, rows)" placeholder="Buscar producto..." class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
     </div>
     <div class="selects-containers">
-        <p-dropdown [(ngModel)]="filtersProducts.brandId" (onChange)="applyFilters()" [options]="brands" optionLabel="name" optionValue="id" placeholder="Seleccionar marca" class="w-1/4">
+        <p-dropdown [(ngModel)]="filtersProducts.brandId" (onChange)="applyFilters()" [options]="brands" optionLabel="name" optionValue="id" placeholder="Seleccionar marca" class="w-1/4" filter="true">
         </p-dropdown>
 
-        <p-dropdown [(ngModel)]="filtersProducts.categoryId" (onChange)="applyFilters()" [options]="categories" optionLabel="categoryName" optionValue="id" placeholder="Seleccionar categoría" class="w-1/4">
+        <p-dropdown [(ngModel)]="filtersProducts.categoryId" (onChange)="applyFilters()" [options]="categories" optionLabel="categoryName" optionValue="id" placeholder="Seleccionar categoría" class="w-1/4" filter="">
         </p-dropdown>
 
         <p-inputNumber [(ngModel)]="filtersProducts.minPrice" (onInput)="loadProducts(0, rows)" mode="decimal" placeholder="Precio mínimo" class="w-1/4">

@@ -132,19 +132,16 @@ div {
     border: 2px solid #48828d;
     border-radius: 5px;
     cursor: pointer;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
 }
 
-.carrito-letra-boton {
+.carrito-boton a {
     color: #fff;
     text-decoration: none;
     font-weight: bold;
+    font-size: 18px;
 }
 
 .carrito-boton:hover {
-    background-color: #fff;
-}
-
-.carrito-letra-boton:hover {
-    color: #48828d;
+    background-color: #2d4e54;
 }

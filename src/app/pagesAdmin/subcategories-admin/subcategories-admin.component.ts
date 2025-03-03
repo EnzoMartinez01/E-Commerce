@@ -1,11 +1,141 @@
 import { Component } from '@angular/core';
+import { SubcategoriesService } from '../../core/services/products/subcategories.service';
+import { Subcategories } from '../../Models/subcategories.model';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { Paginator } from 'primeng/paginator';
+import { DialogModule } from 'primeng/dialog';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-subcategories-admin',
-  imports: [],
+  imports: [TableModule, ButtonModule,Paginator,DialogModule,FormsModule],
   templateUrl: './subcategories-admin.component.html',
   styleUrl: './subcategories-admin.component.css'
 })
 export class SubcategoriesAdminComponent {
+
+  subcategories: any[] = [];
+  selectdSubCategory: any = [];
+  visibleDialog:boolean=false;
+  addDialog:boolean=false;
+  viewDialog:boolean=false;
+  deactivateDialog:boolean=false;
+
+  editSubCategories = {
+    idSubCategory: 0,
+    subcategoryName: '',
+    attributesNames: ''
+  };
+
+  addSubcategoryContent = {
+    subcategoryName: '',
+    attributesNames: ''
+  }
+
+  first: number = 0;
+  rows: number = 8;
+  totalRecords: number = 0;
+
+   constructor(private subcategoriesService: SubcategoriesService) {}
+
+   ngOnInit(): void {
+    this.loadSubCategory();
+  }
+
+  loadSubCategory(page: number = 0, size: number = 10): void {
+    this.subcategoriesService.getAllSubCategories(page, size)
+      .subscribe((res) => {
+        console.log('Sub-Categorias cargados:', res);
+        this.subcategories = res.content;
+        this.totalRecords = res.totalElements;
+      });
+  }
+
+   //Add SubCategories
+   addSubCategory() {
+    this.addSubcategoryContent = {
+      subcategoryName: '',
+      attributesNames: '',
+    }
+    this.addDialog = true;
+  }
+
+  saveSubCategory() {
+    this.subcategoriesService.addSubCategory(this.addSubcategoryContent).subscribe(
+    (response) => {
+    console.log('Sub-Categoria agregada:', response);
+    this.loadSubCategory();
+    this.addDialog = false;
+    },
+    (error) => {
+    console.error('Error al agregar Sub-categoria:', error);
+    }
+    );
+  }
+
+   //Edita
+  editSubCategory(subcategories: any) {
+    this.selectdSubCategory = { ...subcategories };
+    this.editSubCategories = {
+      idSubCategory: subcategories.idSubCategory,
+      subcategoryName: subcategories.subcategoryName,
+      attributesNames: subcategories.attributesNames
+    };
+    console.log('SubCategoria editada:', this.editSubCategories);
+    this.visibleDialog = true;
+  }
+
+
+  updateSubCategory() {
+    const updateSubCategory = {
+      ...this.editSubCategories,
+    };
+
+    console.log('SubCategoria antes de actualizar:', updateSubCategory);
+
+    this.subcategoriesService.updateSubCategory(
+      updateSubCategory.idSubCategory,
+      updateSubCategory
+    ).subscribe(() => {
+        console.log('SubCategoria actualizado');
+        this.visibleDialog = false;
+        this.loadSubCategory();
+      },
+      (error) => {
+        console.error('Error al actualizar el SubCategoria:', error);
+      }
+    );
+  }
+
+   // Desactiva 
+    deactivateSubCategory(subcategories: Subcategories) {
+      this.selectdSubCategory = { ...subcategories };
+      this.deactivateDialog = true;
+    }
+  
+    deleteSubCategory() {
+      const deactivateSubCategory = {
+        ...this.selectdSubCategory
+      };
+  
+      this.subcategoriesService.deactivateSubCategory(this.selectdSubCategory.idSubCategory).subscribe(() => {
+        console.log('SubCategoria desactivada');
+        this.deactivateDialog = false;
+        this.loadSubCategory();
+        }
+      );
+    }
+  
+  
+    onPageChange(event: any): void {
+      this.first = event.first;
+      this.rows = event.rows;
+      const page = event.first / event.rows;
+      this.loadSubCategory(page, this.rows);
+    }
+  
+
+
 
 }

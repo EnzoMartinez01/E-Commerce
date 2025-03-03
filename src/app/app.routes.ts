@@ -17,6 +17,7 @@ import { ContactAdminComponent } from './pagesAdmin/contact-admin/contact-admin.
 import { FaqAdminComponent } from './pagesAdmin/faq-admin/faq-admin.component';
 import {UserAdminComponent} from './pagesAdmin/user-admin/user-admin.component';
 import {ProfileComponent} from './pages/profile/profile.component';
+import { SubcategoriesAdminComponent } from './pagesAdmin/subcategories-admin/subcategories-admin.component';
 
 
 export const routes: Routes = [
@@ -39,5 +40,6 @@ export const routes: Routes = [
     {path: 'admin/contacts', component: ContactAdminComponent, canActivate: [AuthGuard]},
     {path: 'admin/faq', component: FaqAdminComponent, canActivate: [AuthGuard]},
     {path: 'admin/users', component: UserAdminComponent, canActivate: [AuthGuard]},
+    {path: 'admin/subcategories', component: SubcategoriesAdminComponent, canActivate: [AuthGuard]},
     {path: '**', redirectTo: '/home'}
 ];

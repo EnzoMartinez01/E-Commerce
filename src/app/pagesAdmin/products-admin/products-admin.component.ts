@@ -158,7 +158,7 @@ export class ProductsAdminComponent implements OnInit {
 
 
   loadCategories(): void {
-    this.categoryService.getCategories(0, 10).subscribe(
+    this.categoryService.getCategories(0, 100).subscribe(
       (data) => {
         this.categories = data.content.map((category: Categories) => ({
           id: category.idCategory,
@@ -173,7 +173,7 @@ export class ProductsAdminComponent implements OnInit {
 
 
   loadBrands(): void {
-    this.brandService.getAllBrands(0, 10).subscribe(
+    this.brandService.getAllBrands(0, 100).subscribe(
       (data) => {
         this.brands = data.content.map((brand: { brandName: string; idBrand: number }) => ({
           id: brand.idBrand,

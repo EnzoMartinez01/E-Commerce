@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Subcategories} from '../../../Models/subcategories.model';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 
 export interface SubcategoriesResponse {
   content: Subcategories[];
@@ -17,6 +17,19 @@ export class SubcategoriesService {
   private baseUrl = 'http://localhost:8080/api/v1/subcategories';
 
   constructor(private http: HttpClient) {}
+
+  // Get All
+      getAllSubCategories(
+          page: number,
+          size: number
+      ): Observable<SubcategoriesResponse> {
+  
+          let params = new HttpParams()
+              .set('page', page.toString())
+              .set('size', size.toString());
+  
+          return this.http.get<SubcategoriesResponse>(`${this.baseUrl}/getAllSubCategories`, { params });
+      }
 
   // Get Subcategories
   getSubcategories(
@@ -67,4 +80,43 @@ export class SubcategoriesService {
 
     return this.http.get<any>(`${this.baseUrl}/products/subcategories`, { params });
   }
+
+  //add SubCategories
+     addSubCategory(subcategoryDate: any): Observable<any> {
+      const token = sessionStorage.getItem('authToken');
+      if (!token) {
+        throw new Error('Token no encontrado');
+      }
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      });
+      return this.http.post<any>(`${this.baseUrl}/addSubCategory`, subcategoryDate, { headers });
+    }
+  
+      // Updated SubCategories
+    updateSubCategory(idSubCategory: number, updatedSubCategory: any): Observable<any> {
+      const token = sessionStorage.getItem('authToken');
+      if (!token) {
+        console.error('Token no encontrado');
+        return throwError(() => new Error('Token no encontrado'));
+      }
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      });
+  
+      return this.http.put<any>(`${this.baseUrl}/updateSubCategory/${idSubCategory}`, updatedSubCategory, { headers });
+    }
+  
+    // Deactivate SubCategories
+    deactivateSubCategory(idSubCategory: number): Observable<any> {
+      const token = sessionStorage.getItem('authToken');
+      if (!token) {
+        throw new Error('Token no encontrado');
+      }
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      });
+  
+      return this.http.patch<any>(`${this.baseUrl}/deactivateSubCategory/${idSubCategory}`, null, { headers });
+      }
 }
