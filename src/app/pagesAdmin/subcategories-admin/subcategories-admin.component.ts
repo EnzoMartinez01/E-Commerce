@@ -6,10 +6,12 @@ import { ButtonModule } from 'primeng/button';
 import { Paginator } from 'primeng/paginator';
 import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
+import {Ripple} from 'primeng/ripple';
+import {InputText} from 'primeng/inputtext';
 
 @Component({
   selector: 'app-subcategories-admin',
-  imports: [TableModule, ButtonModule,Paginator,DialogModule,FormsModule],
+  imports: [TableModule, ButtonModule, Paginator, DialogModule, FormsModule, Ripple, InputText],
   templateUrl: './subcategories-admin.component.html',
   styleUrl: './subcategories-admin.component.css'
 })
@@ -108,17 +110,17 @@ export class SubcategoriesAdminComponent {
     );
   }
 
-   // Desactiva 
+   // Desactiva
     deactivateSubCategory(subcategories: Subcategories) {
       this.selectdSubCategory = { ...subcategories };
       this.deactivateDialog = true;
     }
-  
+
     deleteSubCategory() {
       const deactivateSubCategory = {
         ...this.selectdSubCategory
       };
-  
+
       this.subcategoriesService.deactivateSubCategory(this.selectdSubCategory.idSubCategory).subscribe(() => {
         console.log('SubCategoria desactivada');
         this.deactivateDialog = false;
@@ -126,15 +128,15 @@ export class SubcategoriesAdminComponent {
         }
       );
     }
-  
-  
+
+
     onPageChange(event: any): void {
       this.first = event.first;
       this.rows = event.rows;
       const page = event.first / event.rows;
       this.loadSubCategory(page, this.rows);
     }
-  
+
 
 
 
