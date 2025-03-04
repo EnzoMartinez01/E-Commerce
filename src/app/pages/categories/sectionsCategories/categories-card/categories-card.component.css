@@ -5,7 +5,7 @@
     .categorias-container {
         text-align: center;
         padding: 20px;
-        margin-bottom: 5em;
+        margin-bottom: 2em;
     }
     
     .titulo {
@@ -38,6 +38,7 @@
         padding: 0 20px;
         width: 90%;
         margin: auto;
+        margin-bottom: 5em;
     }
     
     .categorias-card {

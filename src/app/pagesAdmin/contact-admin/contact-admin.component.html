@@ -1,8 +1,8 @@
 <div class="flex flex-wrap gap-4 mb-4 filters-container">
-  <div class="selects-containers">
-    <p-dropdown [(ngModel)]="filters.idStatus" (onChange)="applyFilters()" [options]="statuses" optionLabel="name" optionValue="id" placeholder="Seleccionar Estado" class="w-1/4" filter="true">
-    </p-dropdown>
-  </div>
+    <div class="selects-containers">
+        <p-dropdown [(ngModel)]="filters.idStatus" (onChange)="applyFilters()" [options]="statuses" optionLabel="name" optionValue="id" placeholder="Seleccionar Estado" class="w-1/4" filter="true">
+        </p-dropdown>
+    </div>
 </div>
 
 <p-table [value]="contacts" class="table-container" [tableStyle]="{ 'min-width': '60rem' }">
@@ -42,7 +42,7 @@
             </td>
         </tr>
     </ng-template>
-    <ng-template #footer> In total there are {{ contacts ? contacts.length : 0 }} products. </ng-template>
+    <ng-template #footer> {{ contacts ? contacts.length : 0 }} contacto. </ng-template>
 </p-table>
 
 <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="[8, 16, 24]" />
