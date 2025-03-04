@@ -1,7 +1,7 @@
 package com.empresa.empresa.Controllers.Addresses;
 
 import com.empresa.empresa.Dto.Addresses.AddressDto;
-import com.empresa.empresa.Models.Addresess.Address;
+import com.empresa.empresa.Models.Addresess.*;
 import com.empresa.empresa.Services.Addresses.AddressService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -55,5 +55,29 @@ public class AddressesController {
             @RequestBody Address updatedAddress) {
         Address address = addressService.updateAddress(idAddress, updatedAddress);
         return ResponseEntity.ok(address);
+    }
+
+    // Get all Countries
+    @GetMapping("/getAllCountries")
+    public List<Country> getAllCountries() {
+        return addressService.getAllCountries();
+    }
+
+    // Get all States
+    @GetMapping("/getAllStates/{countryId}")
+    public List<State> getAllStates(@PathVariable Integer countryId) {
+        return addressService.getAllStates(countryId);
+    }
+
+    // Get all Provinces
+    @GetMapping("/getAllProvinces/{stateId}")
+    public List<Province> getAllProvinces(@PathVariable Integer stateId) {
+        return addressService.getAllProvinces(stateId);
+    }
+
+    // Get all Districts
+    @GetMapping("/getAllDistricts/{provinceId}")
+    public List<Districts> getAllDistricts(@PathVariable Integer provinceId) {
+        return addressService.getAllDistricts(provinceId);
     }
 }

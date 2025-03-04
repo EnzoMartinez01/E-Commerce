@@ -1,7 +1,7 @@
 package com.empresa.empresa.Services.Addresses;
 
 import com.empresa.empresa.Dto.Addresses.AddressDto;
-import com.empresa.empresa.Models.Addresess.Address;
+import com.empresa.empresa.Models.Addresess.*;
 import com.empresa.empresa.Models.Authentication.CustomUserDetails;
 import com.empresa.empresa.Models.Authentication.Users;
 import com.empresa.empresa.Repositories.Adresses.*;
@@ -139,6 +139,52 @@ public class AddressService {
         } catch (Exception e) {
             logger.error("Error al actualizar dirección", e);
             throw new RuntimeException("Error al actualizar dirección", e);
+        }
+    }
+
+    // Get all Countries
+    public List<Country> getAllCountries() {
+        try {
+            return countryRepository.findAll();
+        } catch (Exception e) {
+            logger.error("Error al obtener países", e);
+            throw new RuntimeException("Error al obtener países", e);
+        }
+    }
+
+    // Get all States
+    public List<State> getAllStates(Integer countryId) {
+        try {
+            Country country = countryRepository.findById(countryId)
+                    .orElseThrow(() -> new RuntimeException("Country not found with ID: " + countryId));
+            return stateRepository.findByCountry(country);
+        } catch (Exception e) {
+            logger.error("Error al obtener estados", e);
+            throw new RuntimeException("Error al obtener estados", e);
+        }
+    }
+
+    // Get all Provinces
+    public List<Province> getAllProvinces(Integer stateId) {
+        try {
+            State state = stateRepository.findById(stateId)
+                    .orElseThrow(() -> new RuntimeException("State not found with ID: " + stateId));
+            return provincesRepository.findByState(state);
+        } catch (Exception e) {
+            logger.error("Error al obtener provincias", e);
+            throw new RuntimeException("Error al obtener provincias", e);
+        }
+    }
+
+    // Get all Districts
+    public List<Districts> getAllDistricts(Integer provinceId) {
+        try {
+            Province province = provincesRepository.findById(provinceId)
+                    .orElseThrow(() -> new RuntimeException("Province not found with ID: " + provinceId));
+            return districtsRepository.findByProvince(province);
+        } catch (Exception e) {
+            logger.error("Error al obtener distritos", e);
+            throw new RuntimeException("Error al obtener distritos", e);
         }
     }
 }
