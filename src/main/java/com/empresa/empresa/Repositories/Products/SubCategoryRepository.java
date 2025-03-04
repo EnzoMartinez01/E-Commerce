@@ -1,6 +1,8 @@
 package com.empresa.empresa.Repositories.Products;
 
 import com.empresa.empresa.Models.Products.SubCategories;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -32,5 +34,5 @@ public interface SubCategoryRepository extends JpaRepository<SubCategories, Inte
                                                    @Param("categoryId") Integer categoryId,
                                                    @Param("attributeIds") List<Integer> attributeIds,
                                                    @Param("isActive") Boolean isActive);
-
+    Page<SubCategories> findAllByIsActive(Boolean isActive, Pageable pageable);
 }

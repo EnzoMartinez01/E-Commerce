@@ -20,9 +20,9 @@ public class CategoriesService {
     }
 
     // Get all categories
-    public Page<Categories> getAllCategories(int page, int size) {
+    public Page<Categories> getAllCategories(int page, int size, Boolean isActive) {
         Pageable pageable = PageRequest.of(page, size);
-        return categoriesRepository.findAllByIsActive(true, pageable);
+        return categoriesRepository.findAllByIsActive(isActive, pageable);
     }
 
     // Get category by ID

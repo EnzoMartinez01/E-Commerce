@@ -3,6 +3,7 @@ package com.empresa.empresa.Controllers.Contact;
 
 import com.empresa.empresa.Dto.Contact.ContactDto;
 import com.empresa.empresa.Models.Contact.Contact;
+import com.empresa.empresa.Models.Contact.StatusContact;
 import com.empresa.empresa.Services.Contact.ContacService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,9 +31,10 @@ public class ContactController {
     @GetMapping("/getAllContacts")
     public Page<ContactDto> getallContacts(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size)
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) Integer status)
     {
-        return  contacService.getAllContact(page,size);
+        return  contacService.getAllContact(page,size, status);
     }
 
     //Get Contact by User
@@ -75,5 +77,11 @@ public class ContactController {
             logger.error("Error al actualizar estado del Contacto", e);
             throw new RuntimeException("Error al actualizar estado del Contacto", e);
         }
+    }
+
+    //Get all Contact Status
+    @GetMapping("/getAllContactStatus")
+    public List<StatusContact> getAllContactStatus(){
+        return contacService.getAllContactStatus();
     }
 }

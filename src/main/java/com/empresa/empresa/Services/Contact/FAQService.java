@@ -33,9 +33,9 @@ public class FAQService {
     }
 
     //Get all FAQ
-    public Page<FAQDto> getAllFaq(int page, int size) {
+    public Page<FAQDto> getAllFaq(int page, int size, Boolean isActive) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<FAQ> faqs = faqRepository.findAll(pageable);
+        Page<FAQ> faqs = faqRepository.findByIsActive(isActive, pageable);
         return faqs.map(this::mapToDto);
     }
 

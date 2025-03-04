@@ -9,7 +9,6 @@ import com.empresa.empresa.Repositories.Adresses.*;
 import com.empresa.empresa.Repositories.Authentication.UsersRepository;
 import com.empresa.empresa.Repositories.Contact.ContactRepository;
 import com.empresa.empresa.Repositories.Contact.StatusContactRepository;
-import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -26,37 +25,24 @@ import java.util.List;
 public class ContacService {
     private final static Logger logger = LoggerFactory.getLogger(ContacService.class);
 
-    private final AddressRepository addressRepository;
     private final UsersRepository usersRepository;
-    private final CountryRepository countryRepository;
-    private  final StateRepository stateRepository;
-    private final ProvincesRepository provincesRepository;
-    private final DistrictsRepository districtsRepository;
     private final ContactRepository contactRepository;
     private final StatusContactRepository statusContactRepository;
 
-    public ContacService(AddressRepository addressRepository,
-                         UsersRepository usersRepository,
-                         CountryRepository countryRepository,
-                         StateRepository stateRepository,
-                         ProvincesRepository provincesRepository,
-                         DistrictsRepository districtsRepository,
+    public ContacService(UsersRepository usersRepository,
                          ContactRepository contactRepository,
                          StatusContactRepository statusContactRepository) {
-        this.addressRepository = addressRepository;
         this.usersRepository = usersRepository;
-        this.countryRepository = countryRepository;
-        this.stateRepository = stateRepository;
-        this.provincesRepository = provincesRepository;
-        this.districtsRepository = districtsRepository;
         this.contactRepository = contactRepository;
         this.statusContactRepository = statusContactRepository;
     }
 
     //Get all Contact
-    public Page<ContactDto> getAllContact(int page, int size){
+    public Page<ContactDto> getAllContact(int page, int size, Integer status){
+        StatusContact statusContact = statusContactRepository.findById(status)
+                .orElseThrow(() -> new RuntimeException("Status Contact not found"));
         Pageable pageable = PageRequest.of(page, size);
-        Page<Contact> contacts = contactRepository.findAll(pageable);
+        Page<Contact> contacts = contactRepository.findByStatus(statusContact, pageable);
         return contacts.map(this::mapToDto);
     }
 
@@ -129,5 +115,10 @@ public class ContacService {
         contact.setStatus(status);
         contact.setAnswer(answer);
         contactRepository.save(contact);
+    }
+
+    // Get all Contact Status
+    public List<StatusContact> getAllContactStatus(){
+        return statusContactRepository.findAll();
     }
 }

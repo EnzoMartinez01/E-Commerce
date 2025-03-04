@@ -38,6 +38,15 @@ public class BrandsController {
                 .collect(Collectors.toList());
     }
 
+    // Get all Brands without Pagination
+    @GetMapping("/getAllBrandsFilter")
+    public Page<Brands> getAllBrandsFilter(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) Boolean isActive) {
+        return brandsService.getAllBrandsFilter(page, size, isActive);
+    }
+
     //Get Brand by ID
     @GetMapping("/getBrand/{id}")
     public Brands getBrandById(@PathVariable Integer id){

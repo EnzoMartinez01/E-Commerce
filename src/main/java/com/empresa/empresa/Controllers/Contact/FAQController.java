@@ -25,8 +25,9 @@ public class FAQController {
     @GetMapping("/getAllFaq")
     public Page<FAQDto> getAllFaqs(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10")int size){
-        return  faqService.getAllFaq(page, size);
+            @RequestParam(defaultValue = "10")int size,
+            @RequestParam(required = false, defaultValue = "true") Boolean isActive){
+        return  faqService.getAllFaq(page, size, isActive);
     }
 
     //Get Faq by User

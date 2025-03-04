@@ -22,8 +22,9 @@ public class CategoriesController {
     @GetMapping("/getAllCategories")
     public Page<Categories> getAllCategories(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        return categoriesService.getAllCategories(page, size);
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false, defaultValue = "true") Boolean isActive) {
+        return categoriesService.getAllCategories(page, size, isActive);
     }
 
     @GetMapping("/getCategory/{id}")

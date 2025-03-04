@@ -22,9 +22,9 @@ public class SubCategoriesService {
     }
 
     // Get all SubCategories
-    public Page<SubCategories> getAllSubCategories(int page, int size) {
+    public Page<SubCategories> getAllSubCategories(int page, int size, Boolean isActive) {
         Pageable pageable = PageRequest.of(page, size);
-        return subCategoryRepository.findAll(pageable);
+        return subCategoryRepository.findAllByIsActive(isActive, pageable);
     }
 
     // Get Available SubCategories

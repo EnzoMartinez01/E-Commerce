@@ -23,8 +23,9 @@ public class SubCategoriesController {
     @GetMapping("/getAllSubCategories")
     public Page<SubCategories> getAllSubCategories(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size){
-        return subCategoriesService.getAllSubCategories(page, size);
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "true") Boolean isActive){
+        return subCategoriesService.getAllSubCategories(page, size, isActive);
     }
 
     @GetMapping("/getSubCategory/{id}")

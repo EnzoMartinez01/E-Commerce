@@ -32,6 +32,12 @@ public class BrandsService {
         return brandsRepository.findAllByIsActive(true);
     }
 
+    // Get all Brands without Pagination
+    public Page<Brands> getAllBrandsFilter(int page, int size, Boolean isActive) {
+        Pageable pageable = PageRequest.of(page, size);
+        return brandsRepository.findAllByIsActive(pageable, isActive);
+    }
+
     //Get Brand by ID
     public Brands getBrandById(Integer id) {
         return brandsRepository.findById(id).orElse(null);
