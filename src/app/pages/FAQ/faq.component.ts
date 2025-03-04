@@ -19,7 +19,7 @@ export class FAQComponent {
   }
 
   loadFaqs(): void {
-    this.faqService.getAllFaq(0, 10).subscribe(
+    this.faqService.getAllFaq(0, 10, true).subscribe(
       response => {
         this.tabs = response.content.map((faq, index) => ({
           title: `${index + 1}. ${faq.questionFaq}`,

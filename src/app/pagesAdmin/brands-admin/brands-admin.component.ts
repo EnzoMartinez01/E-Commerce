@@ -11,11 +11,12 @@ import {Ripple} from 'primeng/ripple';
 import {InputText} from 'primeng/inputtext';
 import { NgClass} from '@angular/common';
 import { PaginatorModule } from 'primeng/paginator';
+import {DropdownModule} from 'primeng/dropdown';
 
 
 @Component({
   selector: 'app-brands-admin',
-  imports: [ButtonModule,TableModule,DialogModule,CommonModule,FormsModule,Ripple,InputText,NgClass,PaginatorModule],
+  imports: [ButtonModule, TableModule, DialogModule, CommonModule, FormsModule, Ripple, InputText, NgClass, PaginatorModule, DropdownModule],
   templateUrl: './brands-admin.component.html',
   styleUrl: './brands-admin.component.css'
 })
@@ -26,6 +27,9 @@ export class BrandsAdminComponent {
     addDialog: boolean = false;
   viewDialog: boolean = false;
   deactivateDialog: boolean = false;
+  filters = {
+    isActive: null as boolean | null
+  }
 
     addBrandContent = {
       brandName: '',
@@ -44,7 +48,7 @@ export class BrandsAdminComponent {
     }
 
   loadBrand(page: number = 0, size: number = 10): void {
-    this.brandsService.getBrands(page, size)
+    this.brandsService.getAllBrandsByFilter(page, size, this.filters.isActive ?? null)
       .subscribe((res) => {
         this.brands = res.content;
         this.totalRecords = res.totalElements;

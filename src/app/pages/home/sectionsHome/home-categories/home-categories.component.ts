@@ -19,7 +19,7 @@ export class HomeCategoriesComponent {
   }
 
   loadCategories(): void {
-    this.categoriesService.getCategories(0, 4).subscribe(
+    this.categoriesService.getCategories(0, 4, true).subscribe(
       response => {
         this.categories = response.content.map(category => ({
           image: category.categoryImage,

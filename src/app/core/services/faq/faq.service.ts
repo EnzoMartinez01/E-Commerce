@@ -21,12 +21,17 @@ export class FaqService {
     // Faq
     getAllFaq(
         page: number,
-        size: number
+        size: number,
+        isActive: boolean | null
     ): Observable<FaqResponse> {
 
         let params = new HttpParams()
             .set('page', page.toString())
             .set('size', size.toString());
+
+        if (isActive !== null) {
+          params = params.set('isActive', isActive.toString());
+        }
 
         return this.http.get<FaqResponse>(`${this.ApibaseUrl}/getAllFaq`, { params });
     }

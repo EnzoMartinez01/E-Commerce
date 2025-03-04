@@ -27,7 +27,7 @@ export class CategoriesCardComponent {
   }
 
   loadCategories(page: number, size: number): void {
-    this.categoriesService.getCategories(page, size).subscribe(
+    this.categoriesService.getCategories(page, size, true).subscribe(
       response => {
         this.categories = response.content.map(category => ({
           image: category.categoryImage,

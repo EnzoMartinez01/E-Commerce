@@ -12,7 +12,7 @@ export class ContactService {
 
   constructor(private http: HttpClient) { }
 
-  getContacts(page: number, size: number): Observable<any> {
+  getContacts(page: number, size: number, idStatus: number | null): Observable<any> {
     const token = sessionStorage.getItem('authToken');
     if (!token) {
       throw new Error('Token no encontrado');
@@ -25,7 +25,23 @@ export class ContactService {
       .set('page', page.toString())
       .set('size', size.toString());
 
+    if (idStatus !== null && idStatus !== undefined) {
+      params = params.set('status', idStatus.toString());
+    }
+
     return this.http.get<any>(`${this.baseUrl}/getAllContacts`, { headers, params });
+  }
+
+  getContactStatus(): Observable<any> {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Token no encontrado');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<any>(`${this.baseUrl}/getAllContactStatus`, { headers });
   }
 
   getContactById(idContact: number): Observable<any> {
