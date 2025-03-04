@@ -9,6 +9,7 @@ import {Dialog} from 'primeng/dialog';
 import {DropdownModule} from 'primeng/dropdown';
 import {FormsModule} from '@angular/forms';
 import {InputText} from 'primeng/inputtext';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -23,7 +24,8 @@ import {InputText} from 'primeng/inputtext';
     DropdownModule,
     FormsModule,
     InputText,
-    ButtonDirective
+    ButtonDirective,
+    RouterLink
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
