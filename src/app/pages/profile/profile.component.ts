@@ -13,7 +13,6 @@ import {CartService} from '../../core/services/cart/cart.service';
     NgClass,
     DatePipe,
     NgForOf,
-    DecimalPipe,
     NgIf
   ],
   templateUrl: './profile.component.html',

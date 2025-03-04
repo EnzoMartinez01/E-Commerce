@@ -110,10 +110,3 @@ p-card {
 div {
     font-family: "Red Hat Display", serif;
 }
-
-.carrito-vacio-mensaje {
-    text-align: center;
-    font-size: 1.2em;
-    color: #888;
-    margin-top: 20px;
-}
