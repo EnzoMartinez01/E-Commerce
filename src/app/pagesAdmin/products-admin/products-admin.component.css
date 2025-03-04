@@ -153,3 +153,8 @@
     .p-textarea {
         border: 1px solid #48828d !important;
     }
+
+    .buttons-container {
+      display: flex;
+      justify-content: space-between;
+    }

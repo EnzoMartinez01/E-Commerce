@@ -94,7 +94,7 @@
   <ng-template #noAttributes>
     <p>No hay atributos disponibles.</p>
   </ng-template>
-  <div class="flex justify-end mt-4">
+  <div class="flex justify-end mt-4 buttons-container">
     <p-button label="Cerrar" severity="secondary" (click)="attributesDialog = false"></p-button>
     <p-button label="Agregar Atributo" severity="secondary" (click)="addAttribute()"></p-button>
 
@@ -110,7 +110,7 @@
   <ng-template #noCharacteristics>
     <p>No hay Caracteristicas disponibles.</p>
   </ng-template>
-  <div class="flex justify-end mt-4">
+  <div class="flex justify-end mt-4 buttons-container">
     <p-button label="Agregar Caracteristica" severity="secondary" (click)="addCharacteristic()"></p-button>
     <p-button label="Cerrar" severity="secondary" (click)="characteristicsDialog = false"></p-button>
   </div>
