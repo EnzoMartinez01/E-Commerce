@@ -105,6 +105,12 @@
                             border: 1px solid #48828d !important;
                         }
                         
+                        .p-button:hover {
+                            background: #fff !important;
+                            border: 1px solid #48828d !important;
+                            color: #48828d !important;
+                        }
+                        
                         .p-button-text.p-button-secondary {
                             background: #48828d !important;
                             border-color: transparent;

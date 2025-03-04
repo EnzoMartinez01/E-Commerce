@@ -21,52 +21,52 @@
         </div>
 
         <div class="flex justify-center mt-3">
-            <span class="text-lg font-bold" [ngClass]="{'text-green-600': selectedUser?.isActive, 'text-red-600': !selectedUser?.isActive}">
+            <span class="text-lg font-bold status-container" [ngClass]="{'text-green-600': selectedUser?.isActive, 'text-red-600': !selectedUser?.isActive}">
             {{ selectedUser?.isActive ? 'Activo' : 'Inactivo' }}
-            <i class="pi" [ngClass]="{'pi-check-circle text-green-500': selectedUser?.isActive, 'pi-times-circle text-red-500': !selectedUser?.isActive}"></i>
+            <i class="pi icon-status" [ngClass]="{'pi-check-circle text-green-500': selectedUser?.isActive, 'pi-times-circle text-red-500': !selectedUser?.isActive}"></i>
         </span>
         </div>
 
         <ng-template #footer>
             <div class="flex gap-2 mt-3">
-                <p-button label="Cancelar" severity="secondary" class="w-full" [outlined]="true" />
-                <p-button label="Guardar" class="w-full bg-blue-600 text-white" />
+
+                <p-button label="Ver Informacion" class="w-full bg-blue-600 text-white " />
             </div>
         </ng-template>
     </p-card>
 
     <div class="carrito-contenido">
-      <div *ngIf="cartItems.length > 0; else carritoVacio">
-        <div class="productos">
-          <div class="producto" *ngFor="let product of cartItems">
-            <img [src]="product.imageUrl" class="producto-imagen" alt="Imagen del producto">
-            <div class="producto-info">
-              <h2 class="producto-nombre">{{ product.name }}</h2>
-              <p class="producto-precio">S/. {{product.price?.toFixed(2)}}</p>
-              <p class="producto-cantidad">Cantidad: {{ product.quantity }}</p>
+        <div *ngIf="cartItems.length > 0; else carritoVacio">
+            <div class="productos">
+                <div class="producto" *ngFor="let product of cartItems">
+                    <img [src]="product.imageUrl" class="producto-imagen" alt="Imagen del producto">
+                    <div class="producto-info">
+                        <h2 class="producto-nombre">{{ product.name }}</h2>
+                        <p class="producto-precio">S/. {{product.price?.toFixed(2)}}</p>
+                        <p class="producto-cantidad">Cantidad: {{ product.quantity }}</p>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-      <ng-template #carritoVacio>
-        <p class="carrito-vacio-mensaje">Tu carrito está vacío. ¡Agrega productos para comenzar!</p>
-      </ng-template>
+        <ng-template #carritoVacio>
+            <p class="carrito-vacio-mensaje">Tu carrito está vacío. ¡Agrega productos para comenzar!</p>
+        </ng-template>
 
-          <div class="direcciones">
+        <div class="direcciones">
             <p class="titulo font-bold text-lg">Direcciones Registradas</p>
             <ul *ngIf="selectedUser.addresses.length > 0; else noAddresses" class="space-y-2">
-              <li *ngFor="let address of selectedUser.addresses">
-                <p class="font-semibold">
-                  📍 {{ address.streetName }} {{ address.streetNumber }}, {{ address.districtsName }}, {{ address.provinceName }}
-                </p>
-                <p class="text-sm text-gray-600 state-country">{{ address.stateName }}, {{ address.countryName }}</p>
-              </li>
+                <li *ngFor="let address of selectedUser.addresses">
+                    <p class="font-semibold">
+                        📍 {{ address.streetName }} {{ address.streetNumber }}, {{ address.districtsName }}, {{ address.provinceName }}
+                    </p>
+                    <p class="text-sm text-gray-600 state-country">{{ address.stateName }}, {{ address.countryName }}</p>
+                </li>
             </ul>
             <ng-template #noAddresses>
-              <p>No hay direcciones registradas.</p>
-              <p-button label="Agregar" class="w-full bg-blue-600 text-white" />
+                <p>No hay direcciones registradas.</p>
+                <p-button label="Agregar" class="w-full bg-blue-600 text-white" />
             </ng-template>
-          </div>
-
         </div>
+
+    </div>
 </div>
