@@ -32,6 +32,11 @@
     text-decoration: none;
 }
 
+.a-miperfil {
+  color: #fff;
+  text-decoration: none;
+}
+
 .button-miperfil:hover {
     background-color: #36656e;
 }
