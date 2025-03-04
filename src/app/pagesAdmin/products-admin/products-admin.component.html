@@ -46,6 +46,8 @@
             <th>Stock</th>
             <th>Oferta</th>
             <th>Estado</th>
+            <th>Atributos</th>
+            <th>Caracteristicas</th>
             <th>Acciones</th>
         </tr>
     </ng-template>
@@ -66,6 +68,12 @@
                 <i class="pi" [ngClass]="{'pi-check-circle text-green-500': product.isActive, 'pi-times-circle text-red-500': !product.isActive}"></i>
             </td>
             <td>
+              <p-button icon="pi pi-list" pRipple class="button-action" (click)="showAttributes(product)"></p-button>
+            </td>
+            <td>
+              <p-button icon="pi pi-list" pRipple class="button-action" (click)="showCharacteristics(product)"></p-button>
+            </td>
+            <td>
                 <p-button icon="pi pi-pencil" pRipple class="button-action" (click)="editProduct(product)"></p-button>
                 <p-button icon="pi pi-trash" pRipple class="button-action" (click)="deactivateProduct(product)"></p-button>
                 <p-button icon="pi pi-eye" pRipple class="button-action" (click)="viewProduct(product)"></p-button>
@@ -77,6 +85,85 @@
 
 <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="[8, 16, 24]" />
 
+<p-dialog [(visible)]="attributesDialog" header="Atributos" [style]="{ width: '30rem' }">
+  <ul *ngIf="selectedAttributes.length > 0; else noAttributes">
+    <li *ngFor="let attribute of selectedAttributes">
+      {{ attribute.attributeName }}
+    </li>
+  </ul>
+  <ng-template #noAttributes>
+    <p>No hay atributos disponibles.</p>
+  </ng-template>
+  <div class="flex justify-end mt-4">
+    <p-button label="Cerrar" severity="secondary" (click)="attributesDialog = false"></p-button>
+    <p-button label="Agregar Atributo" severity="secondary" (click)="addAttribute()"></p-button>
+
+  </div>
+</p-dialog>
+
+<p-dialog [(visible)]="characteristicsDialog" header="Caracteristicas" [style]="{ width: '30rem' }">
+  <ul *ngIf="selectedCharacteristics.length > 0; else noCharacteristics">
+    <li *ngFor="let characteristic of selectedCharacteristics">
+      {{ characteristic.name }}
+    </li>
+  </ul>
+  <ng-template #noCharacteristics>
+    <p>No hay Caracteristicas disponibles.</p>
+  </ng-template>
+  <div class="flex justify-end mt-4">
+    <p-button label="Agregar Caracteristica" severity="secondary" (click)="addCharacteristic()"></p-button>
+    <p-button label="Cerrar" severity="secondary" (click)="characteristicsDialog = false"></p-button>
+  </div>
+</p-dialog>
+
+<p-dialog [(visible)]="addCharacteristicDialog" header="Agregar Caracteristica" [style]="{ width: '50vw', maxWidht: '600px',overflow: 'hidden !important' }">
+  <div class="p-fluid">
+    <div class="p-field">
+      <label for="addCharacteristicName">Nombre</label>
+      <input id="addCharacteristicName" pInputText [(ngModel)]="addCharacteristicContent.name" />
+    </div>
+
+    <div class="p-field">
+      <label for="addCharacteristicDescription">Descripción</label>
+      <textarea id="addCharacteristicDescription" pInputTextarea [(ngModel)]="addCharacteristicContent.description"></textarea>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+
+    <button pButton type="button" label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="addCharacteristicDialog = false"></button
+      >&nbsp;
+
+    <button pButton type="button" label="Agregar Otra" class="p-button-secondary" (click)="saveCharacteristic()"></button>
+    <button pButton type="button" label="Enviar Todo" class="p-button-primary" (click)="sendSingleCharacteristic()"></button>
+
+  </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="addAttributeDialog" header="Agregar Atributo" [style]="{ width: '50vw', maxWidht: '600px',overflow: 'hidden !important' }">
+  <div class="p-fluid">
+    <div class="p-field">
+      <label for="addAtributeName">Nombre</label>
+      <input id="addAtributeName" pInputText [(ngModel)]="addAttributeContent.attributeName" />
+    </div>
+
+    <div class="p-field">
+      <label for="addSubCategory">Subcategoria</label>
+      <p-dropdown id="addSubCategory" [(ngModel)]="addAttributeContent.subCategories"
+                  [options]="subcategories" optionLabel="categoryName"
+                  optionValue="id"
+                  placeholder="Seleccionar Subcategoria"></p-dropdown>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+
+    <button pButton type="button" label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="addAttributeDialog = false"></button
+      >&nbsp;
+
+    <button pButton type="button" label="Agregar Otra" class="p-button-secondary" (click)="saveAttribute()"></button>
+    <button pButton type="button" label="Enviar Todo" class="p-button-primary" (click)="sendSingleAttribute()"></button>
+
+  </ng-template>
+</p-dialog>
 
 <p-dialog [(visible)]="addDialog" [modal]="true" header="Agregar Producto" [style]="{ width: '50vw', maxWidht: '600px',overflow: 'hidden !important' }">
     <div class="p-fluid">

@@ -1,10 +1,10 @@
 <div class="boton-agregar">
-    <button pButton type="button" (click)="addSubCategory()" label="Agregar Categoria" class="p-button-primary"></button>
+    <button pButton type="button" (click)="addSubCategory()" label="Agregar SubCategoria" class="p-button-primary"></button>
 </div>
 <p-table [value]="subcategories" class="table-container" [tableStyle]="{ 'min-width': '60rem' }">
     <ng-template #caption>
         <div class="flex items-center justify-between">
-            <span class="text-xl font-bold label-view ">Preguntas Frecuentes:</span>
+            <span class="text-xl font-bold label-view ">SubCategorias:</span>
 
         </div>
     </ng-template>
@@ -12,22 +12,25 @@
         <tr>
 
             <th>SubCategoria</th>
-            <th>Atributo</th>
+            <th>Atributos</th>
+            <th>Estado</th>
             <th>Acciones</th>
         </tr>
     </ng-template>
     <ng-template #body let-subcategory>
         <tr>
 
-
             <td>{{ subcategory.subCategoryName }}</td>
-            <td>{{ subcategory.attributesNames }}</td>
-
+            <td>
+              <p-button icon="pi pi-list" pRipple class="button-action" (click)="showAttributes(subcategory)"></p-button>
+            </td>
+            <td>
+              <i class="pi" [ngClass]="{'pi-check-circle text-green-500': subcategory.isActive, 'pi-times-circle text-red-500': !subcategory.isActive}"></i>
+            </td>
             <td>
 
                 <p-button icon="pi pi-pencil" pRipple class="button-action" (click)="editSubCategory(subcategory)"></p-button>
                 <p-button icon="pi pi-trash" pRipple class="button-action" (click)="deactivateSubCategory(subcategory)"></p-button>
-
             </td>
         </tr>
     </ng-template>
@@ -35,17 +38,27 @@
 
 <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="[8, 16, 24]" />
 
-<p-dialog [(visible)]="addDialog" [modal]="true" header="Agregar FAQ" [style]="{ width: '50vw', maxWidht: '600px',overflow: 'hidden !important' }">
+<p-dialog [(visible)]="attributesDialog" header="Atributos" [style]="{ width: '30rem' }">
+  <ul *ngIf="attributes.length > 0; else noAttributes">
+    <li *ngFor="let attribute of attributes">
+      {{ attribute.attributeName }}
+    </li>
+  </ul>
+  <ng-template #noAttributes>
+    <p>No hay atributos disponibles.</p>
+  </ng-template>
+  <div class="flex justify-end mt-4">
+    <p-button label="Cerrar" severity="secondary" (click)="attributesDialog = false"></p-button>
+  </div>
+</p-dialog>
+
+<p-dialog [(visible)]="addDialog" [modal]="true" header="Agregar SubCategoria" [style]="{ width: '50vw', maxWidht: '600px',overflow: 'hidden !important' }">
     <div class="p-fluid">
         <div class="p-field">
-            <label for="addProductName">SubCategoria</label>
-            <input id="addProductName" pInputText [(ngModel)]="addSubcategoryContent.subcategoryName" />
+            <label for="addProductName">Nombre de la SubCategoria</label>
+            <input id="addProductName" pInputText [(ngModel)]="addSubcategoryContent.subCategoryName" />
         </div>
 
-        <div class="p-field">
-            <label for="addImage">Atributo</label>
-            <input id="addImage" pInputText [(ngModel)]="addSubcategoryContent.attributesNames" />
-        </div>
 
     </div>
     <ng-template pTemplate="footer">
@@ -61,11 +74,7 @@
     <div class="flex flex-col gap-4">
         <div class="flex items-center gap-4">
             <label for="questionFaq" class="font-semibold w-28">SubCategoria</label>
-            <input pInputText id="questionFaq" class="flex-auto" [(ngModel)]="editSubCategories.subcategoryName " autocomplete="off" />
-        </div>
-        <div class="flex items-center gap-4">
-            <label for="answerFaq" class="font-semibold w-28">Atributos</label>
-            <input pInputText id="answerFaq" class="flex-auto" [(ngModel)]="editSubCategories.attributesNames" autocomplete="off" />
+            <input pInputText id="questionFaq" class="flex-auto" [(ngModel)]="editSubCategories.subCategoryName " autocomplete="off" />
         </div>
     </div>
     <div class="flex justify-end gap-2 mt-4">

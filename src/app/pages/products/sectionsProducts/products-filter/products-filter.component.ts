@@ -125,19 +125,33 @@ export class ProductsFilterComponent {
         if (Array.isArray(data) && data.length > 0) {
           console.log('Subcategorías encontradas:', data);
 
-          this.filtros = data.map((sub: any) => ({
-            id: sub.id,
-            nombre: sub.subCategoryName,
-            abierto: false,
-            opciones: sub.attributes ? sub.attributes.map((attr: any) => ({
-              id: attr.id,
-              nombre: attr.attributeName,
-              seleccionado: false,
-              subCategoryId: sub.idSubCategory
-            })) : []
-          }));
+          const atributosUnicos: { [key: string]: any } = {};
 
-          console.log('Filtros generados:', this.filtros);
+          data.forEach((sub: any) => {
+            if (sub.attributes) {
+              sub.attributes.forEach((attr: any) => {
+                if (!atributosUnicos[attr.attributeName]) {
+                  atributosUnicos[attr.attributeName] = {
+                    id: attr.id,
+                    nombre: attr.attributeName,
+                    seleccionado: false,
+                    subCategoryIds: [sub.idSubCategory]
+                  };
+                } else {
+                  atributosUnicos[attr.attributeName].subCategoryIds.push(sub.idSubCategory);
+                }
+              });
+            }
+          });
+
+          this.filtros = [{
+            id: 'atributos',
+            nombre: 'Atributos',
+            abierto: false,
+            opciones: Object.values(atributosUnicos)
+          }];
+
+          console.log('Filtros agrupados:', this.filtros);
         } else {
           console.warn('No se encontraron subcategorías en la respuesta.');
         }
@@ -147,6 +161,7 @@ export class ProductsFilterComponent {
       }
     );
   }
+
 
   addToCart(product: any) {
     this.cartService.addToCart(product.idProduct, 1).subscribe(
@@ -160,18 +175,13 @@ export class ProductsFilterComponent {
   }
 
   onFilterChange(): void {
-    this.filters.attributeIds = this.filtros
-      .flatMap((filtro) => filtro.opciones)
-      .filter((opcion) => opcion.seleccionado)
-      .map((opcion) => opcion.id);
+    const selectedOptions = this.filtros[0].opciones.filter((opcion: any) => opcion.seleccionado);
 
-    const selectedAttributes = this.filtros
-      .flatMap((filtro) => filtro.opciones)
-      .filter((opcion) => opcion.seleccionado);
-
-    if (selectedAttributes.length > 0) {
-      this.filters.subCategoryId = selectedAttributes[0].subCategoryId;
+    if (selectedOptions.length > 0) {
+      this.filters.attributeIds = selectedOptions.map((opcion: { id: any; }) => opcion.id);
+      this.filters.subCategoryId = selectedOptions.flatMap((opcion: { subCategoryIds: any; }) => opcion.subCategoryIds);
     } else {
+      this.filters.attributeIds = null;
       this.filters.subCategoryId = null;
     }
 
@@ -179,6 +189,7 @@ export class ProductsFilterComponent {
 
     this.loadProducts(0, this.rows);
   }
+
 
 
   onPageChange(event: any): void {

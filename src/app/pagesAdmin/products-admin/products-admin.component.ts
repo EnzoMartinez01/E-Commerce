@@ -5,7 +5,7 @@ import {Tag} from 'primeng/tag';
 import {Products} from '../../Models/products.model';
 import {ProductsResponse, ProductsService} from '../../core/services/products/products.service';
 import {map} from 'rxjs';
-import {CurrencyPipe, NgClass, NgIf} from '@angular/common';
+import {CurrencyPipe, NgClass, NgForOf, NgIf} from '@angular/common';
 import {Ripple} from 'primeng/ripple';
 import {Dialog} from 'primeng/dialog';
 import {InputText, InputTextModule} from 'primeng/inputtext';
@@ -18,6 +18,9 @@ import {BrandsService} from '../../core/services/products/brands.service';
 import {InputNumber} from 'primeng/inputnumber';
 import {Paginator} from 'primeng/paginator';
 import {InputTextarea} from 'primeng/inputtextarea';
+import {SubcategoriesService} from '../../core/services/products/subcategories.service';
+import {CharacteristicsService} from '../../core/services/products/characteristics.service';
+import {AttributesService} from '../../core/services/products/attributes.service';
 
 @Component({
   selector: 'app-products-admin',
@@ -37,6 +40,7 @@ import {InputTextarea} from 'primeng/inputtextarea';
     InputTextModule,
     ButtonDirective,
     Paginator,
+    NgForOf,
   ],
   templateUrl: './products-admin.component.html',
   styleUrl: './products-admin.component.css'
@@ -46,6 +50,10 @@ export class ProductsAdminComponent implements OnInit {
   productsResponse!: ProductsResponse;
   categories: { id: number; categoryName: string }[] = [];
   brands: Brands[] = [];
+  subcategories: any[] = [];
+  selectedSubcategoryId: number | null = null;
+  selectedAttributes: any[] = [];
+  selectedCharacteristics: any[] = [];
 
   filtersProducts = {
     searchTerms: '',
@@ -76,6 +84,17 @@ export class ProductsAdminComponent implements OnInit {
     product_image: ''
   }
 
+  addCharacteristicContents: any[] = [];
+  addCharacteristicContent = {
+    name: '',
+    description: ''
+  };
+
+  addAttributeContents: any[] = [];
+  addAttributeContent = {
+    attributeName: '',
+    subCategories: 0
+  }
 
   editProductContent = {
     idProduct: 0,
@@ -96,6 +115,10 @@ export class ProductsAdminComponent implements OnInit {
     category: 0
   }
 
+  attributesDialog: boolean = false;
+  characteristicsDialog: boolean = false;
+  addCharacteristicDialog: boolean = false;
+  addAttributeDialog: boolean = false;
   visibleDialog: boolean = false;
   deactivateDialog: boolean = false;
   viewDialog: boolean = false;
@@ -104,12 +127,16 @@ export class ProductsAdminComponent implements OnInit {
 
   constructor(private productService: ProductsService,
               private categoryService: CategoriesService,
-              private brandService: BrandsService) {}
+              private brandService: BrandsService,
+              private subCategoryService: SubcategoriesService,
+              private characteristicService: CharacteristicsService,
+              private attributeService: AttributesService) {}
 
   ngOnInit() {
     this.loadProducts(0, this.rows);
     this.loadCategories();
     this.loadBrands();
+    this.loadSubcategories();
   }
 
   applyFilters() {
@@ -171,6 +198,34 @@ export class ProductsAdminComponent implements OnInit {
     );
   }
 
+  loadSubcategories(): void {
+    this.subCategoryService.getAllSubCategories(0, 100).subscribe(
+      (data) => {
+        this.subcategories = data.content.map((subcategory: any) => ({
+          id: subcategory.idSubCategory,
+          categoryName: subcategory.subCategoryName
+        }));
+        console.log('Subcategorias cargadas:', this.subcategories);
+      },
+      (error) => {
+        console.error('Error al cargar subcategorías:', error);
+      }
+    );
+  }
+
+  showAttributes(product: any) {
+    this.selectedProduct = product;
+    this.selectedAttributes = product.attributes || [];
+    this.attributesDialog = true;
+  }
+
+  showCharacteristics(product: any) {
+    console.log('Caracteristicas del producto:', product.characteristics);
+    this.selectedProduct = product;
+    this.selectedCharacteristics = product.characteristics || [];
+    this.characteristicsDialog = true;
+  }
+
 
   loadBrands(): void {
     this.brandService.getAllBrands(0, 100).subscribe(
@@ -195,35 +250,129 @@ export class ProductsAdminComponent implements OnInit {
       return 'danger';
     }
   }
-//Add Product
-addProduct() {
-  this.addProductContent = {
-    productName: '',
-    productDescription: '',
-    sku: '',
-    price: 0,
-    quantity: 0,
-    stock: 0,
-    brand: 0,
-    category: 0,
-    product_image: ''
-  }
-  this.addDialog = true;
-}
-
-saveProduct() {
-  this.productService.addProduct(this.addProductContent).subscribe(
-    (response) => {
-      console.log('Producto agregado:', response);
-      this.loadProducts(0, this.rows);
-      this.addDialog = false;
-    },
-    (error) => {
-      console.error('Error al agregar producto:', error);
+  //Add Product
+  addProduct() {
+    this.addProductContent = {
+      productName: '',
+      productDescription: '',
+      sku: '',
+      price: 0,
+      quantity: 0,
+      stock: 0,
+      brand: 0,
+      category: 0,
+      product_image: ''
     }
-  );
-}
+    this.addDialog = true;
+  }
 
+  saveProduct() {
+    this.productService.addProduct(this.addProductContent).subscribe(
+      (response) => {
+        console.log('Producto agregado:', response);
+        this.loadProducts(0, this.rows);
+        this.addDialog = false;
+      },
+      (error) => {
+        console.error('Error al agregar producto:', error);
+      }
+    );
+  }
+  //Add Caracteristica
+  addCharacteristic() {
+    if (!this.selectedProduct || !this.selectedProduct.idProduct) {
+      console.error('Error: selectedProduct no está definido o no tiene idProduct.');
+      return;
+    }
+    this.addCharacteristicContent = { name: '', description: '' };
+    this.addCharacteristicDialog = true;
+  }
+
+
+  saveCharacteristic() {
+    if (this.addCharacteristicContent.name && this.addCharacteristicContent.description) {
+      this.addCharacteristicContents.push({ ...this.addCharacteristicContent });
+      this.addCharacteristicContent = { name: '', description: '' };
+    }
+  }
+
+  sendSingleCharacteristic() {
+    if (this.addCharacteristicContent.name && this.addCharacteristicContent.description) {
+      this.addCharacteristicContents.push({ ...this.addCharacteristicContent });
+      this.sendCharacteristics();
+    }
+  }
+
+
+  sendCharacteristics() {
+    if (this.addCharacteristicContents.length === 0) {
+      console.warn('No hay características para enviar.');
+      return;
+    }
+
+    this.characteristicService.addCharacteristic(this.selectedProduct.idProduct, this.addCharacteristicContents)
+      .subscribe(
+        (response) => {
+          console.log('Características agregadas:', response);
+          this.loadProducts(0, this.rows);
+          this.addCharacteristicDialog = false;
+          this.addCharacteristicContents = [];
+          window.location.reload();
+        },
+        (error) => {
+          console.error('Error al agregar características:', error);
+        }
+      );
+  }
+
+
+
+  //Add Atributo
+  addAttribute() {
+    if (!this.selectedProduct || !this.selectedProduct.idProduct) {
+      console.error('Error: selectedProduct no está definido o no tiene idProduct.');
+      return;
+    }
+    this.addAttributeContent = {
+      attributeName: '',
+      subCategories: this.selectedSubcategoryId || 0
+    }
+    this.addAttributeDialog = true;
+  }
+
+  saveAttribute() {
+    if (this.addAttributeContent.attributeName && this.addAttributeContent.subCategories) {
+      this.addAttributeContents.push({ ...this.addAttributeContent });
+      this.addAttributeContent = { attributeName: '', subCategories: 0 };
+    }
+  }
+
+  sendSingleAttribute() {
+    if (this.addAttributeContent.attributeName && this.addAttributeContent.subCategories) {
+      this.addAttributeContents.push({ ...this.addAttributeContent });
+      this.sendAttributes();
+    }
+  }
+
+ sendAttributes() {
+    if (this.addAttributeContents.length === 0) {
+      console.warn('No hay atributos para enviar.');
+      return;
+    }
+    this.attributeService.addAttribute(this.selectedProduct.idProduct, this.addAttributeContents)
+      .subscribe(
+        (response: any) => {
+          console.log('Atributos agregados:', response);
+          this.loadProducts(0, this.rows);
+          this.addAttributeDialog = false;
+          this.addAttributeContents = [];
+          window.location.reload();
+        },
+        (error: any) => {
+          console.error('Error al agregar atributos:', error);
+        }
+      );
+  }
 
   //EditProducts
   editProduct(product: Products) {

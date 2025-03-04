@@ -8,31 +8,32 @@ import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import {Ripple} from 'primeng/ripple';
 import {InputText} from 'primeng/inputtext';
+import {NgClass, NgForOf, NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-subcategories-admin',
-  imports: [TableModule, ButtonModule, Paginator, DialogModule, FormsModule, Ripple, InputText],
+  imports: [TableModule, ButtonModule, Paginator, DialogModule, FormsModule, Ripple, InputText, NgIf, NgForOf, NgClass],
   templateUrl: './subcategories-admin.component.html',
   styleUrl: './subcategories-admin.component.css'
 })
 export class SubcategoriesAdminComponent {
 
   subcategories: any[] = [];
+  attributes: any[] = [];
   selectdSubCategory: any = [];
   visibleDialog:boolean=false;
+  attributesDialog: boolean = false;
   addDialog:boolean=false;
   viewDialog:boolean=false;
   deactivateDialog:boolean=false;
 
   editSubCategories = {
     idSubCategory: 0,
-    subcategoryName: '',
-    attributesNames: ''
+    subCategoryName: '',
   };
 
   addSubcategoryContent = {
-    subcategoryName: '',
-    attributesNames: ''
+    subCategoryName: ''
   }
 
   first: number = 0;
@@ -57,8 +58,7 @@ export class SubcategoriesAdminComponent {
    //Add SubCategories
    addSubCategory() {
     this.addSubcategoryContent = {
-      subcategoryName: '',
-      attributesNames: '',
+      subCategoryName: '',
     }
     this.addDialog = true;
   }
@@ -81,8 +81,7 @@ export class SubcategoriesAdminComponent {
     this.selectdSubCategory = { ...subcategories };
     this.editSubCategories = {
       idSubCategory: subcategories.idSubCategory,
-      subcategoryName: subcategories.subcategoryName,
-      attributesNames: subcategories.attributesNames
+      subCategoryName: subcategories.subCategoryName,
     };
     console.log('SubCategoria editada:', this.editSubCategories);
     this.visibleDialog = true;
@@ -138,6 +137,9 @@ export class SubcategoriesAdminComponent {
     }
 
 
-
+  showAttributes(subcategory: any) {
+    this.attributes = subcategory.attributes || [];
+    this.attributesDialog = true;
+  }
 
 }
