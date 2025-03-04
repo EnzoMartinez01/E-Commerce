@@ -1,5 +1,5 @@
 <div class="container-principal">
-    <!-- Tarjeta de perfil (Izquierda) -->
+
     <p-card class="perfil">
         <ng-template #header>
             <div class="avatar">{{ userInitial }}</div>
@@ -22,9 +22,9 @@
 
         <div class="flex justify-center mt-3">
             <span class="text-lg font-bold" [ngClass]="{'text-green-600': selectedUser?.isActive, 'text-red-600': !selectedUser?.isActive}">
-              {{ selectedUser?.isActive ? 'Activo' : 'Inactivo' }}
-              <i class="pi" [ngClass]="{'pi-check-circle text-green-500': selectedUser?.isActive, 'pi-times-circle text-red-500': !selectedUser?.isActive}"></i>
-          </span>
+            {{ selectedUser?.isActive ? 'Activo' : 'Inactivo' }}
+            <i class="pi" [ngClass]="{'pi-check-circle text-green-500': selectedUser?.isActive, 'pi-times-circle text-red-500': !selectedUser?.isActive}"></i>
+        </span>
         </div>
 
         <ng-template #footer>
@@ -35,7 +35,6 @@
         </ng-template>
     </p-card>
 
-    <!-- Contenedor derecho (Productos y Direcciones) -->
     <div class="carrito-contenido">
         <div class="carrito-contenido">
             <div class="productos">
@@ -49,9 +48,6 @@
                 </div>
             </div>
 
-
-
-            <!-- Direcciones (Abajo) -->
             <div class="direcciones">
                 <p class="titulo"> Direcciones Registradas
                 </p>
