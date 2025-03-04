@@ -57,7 +57,6 @@
     display: flex;
     justify-content: end;
     margin-right: 13em;
-    margin-top: 20px;
 }
 
 .p-button-text {
@@ -86,4 +85,17 @@
     background: #fff !important;
     color: #48828d !important;
     border-color: #48828d !important;
+}
+
+.filters-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.boton-agregar {
+    display: flex;
+    justify-content: end;
+    margin-right: 13em;
 }
