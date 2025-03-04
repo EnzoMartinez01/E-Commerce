@@ -36,34 +36,37 @@
     </p-card>
 
     <div class="carrito-contenido">
-        <div *ngIf="cartItems.length > 0; else carritoVacio">
-            <div class="productos">
-                <div class="producto" *ngFor="let product of cartItems">
-                    <img [src]="product.imageUrl" class="producto-imagen" alt="Imagen del producto">
-                    <div class="producto-info">
-                        <h2 class="producto-nombre">{{ product.name }}</h2>
-                        <p class="producto-precio">S/. {{product.price?.toFixed(2)}}</p>
-                        <p class="producto-cantidad">Cantidad: {{ product.quantity }}</p>
-                    </div>
-                </div>
+      <div *ngIf="cartItems.length > 0; else carritoVacio">
+        <div class="productos">
+          <div class="producto" *ngFor="let product of cartItems">
+            <img [src]="product.imageUrl" class="producto-imagen" alt="Imagen del producto">
+            <div class="producto-info">
+              <h2 class="producto-nombre">{{ product.name }}</h2>
+              <p class="producto-precio">S/. {{product.price?.toFixed(2)}}</p>
+              <p class="producto-cantidad">Cantidad: {{ product.quantity }}</p>
             </div>
+          </div>
         </div>
-        <ng-template #carritoVacio>
-            <p class="carrito-vacio-mensaje">Tu carrito está vacío. ¡Agrega productos para comenzar!</p>
-        </ng-template>
+      </div>
+      <ng-template #carritoVacio>
+        <p class="carrito-vacio-mensaje">Tu carrito está vacío. ¡Agrega productos para comenzar!</p>
+      </ng-template>
 
-        <div class="direcciones">
-            <p class="titulo"> Direcciones Registradas
-            </p>
-            <ul *ngIf="selectedUser.addresses.length > 0; else noAddresses">
-                <li *ngFor="let address of selectedUser.addresses">
-                    📍 {{ address }}
-                </li>
+          <div class="direcciones">
+            <p class="titulo font-bold text-lg">Direcciones Registradas</p>
+            <ul *ngIf="selectedUser.addresses.length > 0; else noAddresses" class="space-y-2">
+              <li *ngFor="let address of selectedUser.addresses">
+                <p class="font-semibold">
+                  📍 {{ address.streetName }} {{ address.streetNumber }}, {{ address.districtsName }}, {{ address.provinceName }}
+                </p>
+                <p class="text-sm text-gray-600 state-country">{{ address.stateName }}, {{ address.countryName }}</p>
+              </li>
             </ul>
             <ng-template #noAddresses>
-                <p>No hay direcciones registradas.</p>
-                <p-button label="Agregar" class="w-full bg-blue-600 text-white" />
+              <p>No hay direcciones registradas.</p>
+              <p-button label="Agregar" class="w-full bg-blue-600 text-white" />
             </ng-template>
+          </div>
+
         </div>
-    </div>
 </div>

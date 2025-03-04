@@ -12,12 +12,13 @@ import {ProductsAdminComponent} from './pagesAdmin/products-admin/products-admin
 import { CategoriesAdminComponent } from './pagesAdmin/categories-admin/categories-admin.component';
 import { BrandsAdminComponent } from './pagesAdmin/brands-admin/brands-admin.component';
 import {AuditAdminComponent} from './pagesAdmin/audit-admin/audit-admin.component';
-import {AuthGuard} from './core/security/admin.guard';
+import {AdminGuard} from './core/security/admin.guard';
 import { ContactAdminComponent } from './pagesAdmin/contact-admin/contact-admin.component';
 import { FaqAdminComponent } from './pagesAdmin/faq-admin/faq-admin.component';
 import {UserAdminComponent} from './pagesAdmin/user-admin/user-admin.component';
 import {ProfileComponent} from './pages/profile/profile.component';
 import { SubcategoriesAdminComponent } from './pagesAdmin/subcategories-admin/subcategories-admin.component';
+import {AuthGuard} from './core/security/auth.guard';
 
 
 export const routes: Routes = [
@@ -32,14 +33,14 @@ export const routes: Routes = [
     {path:'FAQ', component: FAQComponent},
     {path:'home', component: HomeComponent},
     {path:'login', component: LoginComponent},
-    {path: 'profile', component: ProfileComponent},
-    {path: 'admin/dashboard', component: ProductsAdminComponent, canActivate: [AuthGuard]},
-    {path: 'admin/Categories', component: CategoriesAdminComponent, canActivate: [AuthGuard]},
-    {path: 'admin/Brands', component: BrandsAdminComponent, canActivate: [AuthGuard]},
-    {path: 'admin/reports', component: AuditAdminComponent, canActivate: [AuthGuard]},
-    {path: 'admin/contacts', component: ContactAdminComponent, canActivate: [AuthGuard]},
-    {path: 'admin/faq', component: FaqAdminComponent, canActivate: [AuthGuard]},
-    {path: 'admin/users', component: UserAdminComponent, canActivate: [AuthGuard]},
-    {path: 'admin/subcategories', component: SubcategoriesAdminComponent, canActivate: [AuthGuard]},
+    {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+    {path: 'admin/dashboard', component: ProductsAdminComponent, canActivate: [AdminGuard]},
+    {path: 'admin/Categories', component: CategoriesAdminComponent, canActivate: [AdminGuard]},
+    {path: 'admin/Brands', component: BrandsAdminComponent, canActivate: [AdminGuard]},
+    {path: 'admin/reports', component: AuditAdminComponent, canActivate: [AdminGuard]},
+    {path: 'admin/contacts', component: ContactAdminComponent, canActivate: [AdminGuard]},
+    {path: 'admin/faq', component: FaqAdminComponent, canActivate: [AdminGuard]},
+    {path: 'admin/users', component: UserAdminComponent, canActivate: [AdminGuard]},
+    {path: 'admin/subcategories', component: SubcategoriesAdminComponent, canActivate: [AdminGuard]},
     {path: '**', redirectTo: '/home'}
 ];
