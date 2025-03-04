@@ -57,10 +57,18 @@ export class CartInfoComponent implements OnInit {
     const newQuantity = cartItem.quantity + change;
 
     if (newQuantity < 1) {
-      window.location.reload();
       if (!confirm("¿Deseas eliminar este producto del carrito?")) {
         return;
       }
+
+      this.cartService.deleteCartItem(cartItem.idCartItem).subscribe(() => {
+        this.cart.cartItems = this.cart.cartItems.filter(
+          (item: { idCartItem: any; }) => item.idCartItem !== cartItem.idCartItem
+        );
+        this.calcularSubtotal();
+      });
+
+      return;
     }
 
     this.cartService.updateCartItemQuantity(cartItem.idCartItem, newQuantity)

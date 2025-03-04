@@ -60,6 +60,18 @@ export class CartService {
 
     return this.http.put<any>(`${this.baseUrl}/updateQuantity`, null, { headers, params });
   }
+
+  deleteCartItem(idCartItem: number): Observable<any> {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Token no encontrado');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.delete(`${this.baseUrl}/items/${idCartItem}`, { headers });
+  }
+
 }
 
 
