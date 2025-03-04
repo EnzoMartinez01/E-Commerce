@@ -1,10 +1,10 @@
 <div class="flex flex-wrap gap-4 mb-4 filters-container">
-  <div class="filters-divider">
-    <p-dropdown [(ngModel)]="filters.isActive" (onChange)="loadFaqs(0, rows)" [options]="[{label: 'Activo', value: true}, {label: 'Inactivo', value: false}]" placeholder="Estado" class="w-1/4"></p-dropdown>
-  </div>
-  <div class="boton-agregar">
-      <button pButton type="button" (click)="addFaq()" label="Agregar Pregunta" class="p-button-primary"></button>
-  </div>
+    <div class="filters-divider">
+        <p-dropdown [(ngModel)]="filters.isActive" (onChange)="loadFaqs(0, rows)" [options]="[{label: 'Activo', value: true}, {label: 'Inactivo', value: false}]" placeholder="Estado" class="w-1/4"></p-dropdown>
+    </div>
+    <div class="boton-agregar">
+        <button pButton type="button" (click)="addFaq()" label="Agregar Pregunta" class="p-button-primary"></button>
+    </div>
 </div>
 
 <p-table [value]="faqs" class="table-container" [tableStyle]="{ 'min-width': '60rem' }">
@@ -83,7 +83,7 @@
 <p-dialog [(visible)]="deactivateDialog" header="Confirmar Desactivación" [style]="{ width: '25rem' }">
     <p>¿Estás seguro de que deseas desactivar esta Pregunta Frecuente?</p>
     <div class="flex justify-end gap-2 mt-4">
-        <p-button label="Desactivar" class="p-button-primary" (click)="deleteFaq()"></p-button>
-        <p-button label="Cancelar" severity="secondary" (click)="deactivateDialog = false"></p-button>&nbsp;
+        <p-button label="Desactivar" class="p-button-primary" (click)="deleteFaq()"></p-button>&nbsp;
+        <p-button label="Cancelar" severity="secondary" (click)="deactivateDialog = false"></p-button>
     </div>
 </p-dialog>

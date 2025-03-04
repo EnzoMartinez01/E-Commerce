@@ -1,5 +1,5 @@
 ::ng-deep .p-drawer {
-  padding: 20px;
+    padding: 20px;
 }
 
 .button-cerrarsesion {
@@ -12,9 +12,27 @@
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease-in-out;
+    text-decoration: none;
 }
 
 .button-cerrarsesion:hover {
+    background-color: #36656e;
+}
+
+.button-miperfil {
+    padding: 12px 16px;
+    margin: 16px;
+    background-color: #48828d;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    text-decoration: none;
+}
+
+.button-miperfil:hover {
     background-color: #36656e;
 }
 
