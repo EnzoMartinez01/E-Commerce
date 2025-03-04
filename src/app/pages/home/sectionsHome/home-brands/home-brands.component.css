@@ -15,9 +15,24 @@
     overflow: hidden;
     display: flex;
     white-space: nowrap;
-    flex: 0 0 100%;
-    &:hover .group {
-        animation-play-state: paused;
+    position: relative;
+}
+
+.carousel .group {
+    display: flex;
+    animation: scroll 100s linear infinite;
+}
+
+.carousel:hover .group {
+    animation-play-state: paused;
+}
+
+@keyframes scroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-2000%);
     }
 }
 
