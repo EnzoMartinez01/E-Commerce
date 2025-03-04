@@ -1,70 +1,70 @@
-<div class="grid grid-cols-2 gap-4 h-full items-start">
-  <p-card class="h-full">
-    <ng-template #header>
-      <div class="avatar">{{ userInitial }}</div>
-    </ng-template>
-
-    <div class="flex items-center justify-between pb-2 border-b title-content">
-      <h2 class="text-lg font-semibold">Mi Perfil</h2>
-      <div class="right-content">
-        <span class="text-gray-500 text-sm">{{ selectedUser?.username }}</span>
-        <span class="text-gray-500 text-sm">{{ selectedUser?.dni }}</span>
-      </div>
-    </div>
-
-    <div class="grid grid-cols-2 gap-2 mt-3 info-content">
-      <span class="value-view">{{ selectedUser?.fullName }}</span>
-      <span class="value-view">{{ selectedUser?.phoneNumber }}</span>
-      <span class="value-view">{{ selectedUser?.email }}</span>
-      <span class="value-view">{{ selectedUser?.birthDate | date:'dd/MM/yyyy' }}</span>
-    </div>
-
-    <div class="flex justify-center mt-3">
-      <span class="text-lg font-bold"
-            [ngClass]="{'text-green-600': selectedUser?.isActive, 'text-red-600': !selectedUser?.isActive}">
-              {{ selectedUser?.isActive ? 'Activo' : 'Inactivo' }}
-        <i class="pi" [ngClass]="{'pi-check-circle text-green-500': selectedUser?.isActive, 'pi-times-circle text-red-500': !selectedUser?.isActive}"></i>
-      </span>
-    </div>
-
-    <ng-template #footer>
-      <div class="flex gap-2 mt-3">
-        <p-button label="Cancelar" severity="secondary" class="w-full" [outlined]="true" />
-        <p-button label="Guardar" class="w-full bg-blue-600 text-white" />
-      </div>
-    </ng-template>
-  </p-card>
-
-  <div class="flex flex-col gap-4 h-full">
-    <!-- Productos -->
-    <div class="flex gap-2 overflow-auto">
-      <p-card *ngFor="let product of cartItems" class="p-card">
+<div class="container-principal">
+    <!-- Tarjeta de perfil (Izquierda) -->
+    <p-card class="perfil">
         <ng-template #header>
-          <img alt="{{ product.name }}" [src]="product.imageUrl" />
+            <div class="avatar">{{ userInitial }}</div>
         </ng-template>
 
-        <div class="card-producto">
-          <div class="card-producto-info">
-            <h2 class="card-producto-nombre">{{ product.name }}</h2>
-            <p class="card-producto-precio">S/. {{ product.price?.toFixed(2) }}</p>
-            <p class="card-producto-cantidad">Cantidad: {{ product.quantity }}</p>
-          </div>
+        <div class="flex items-center justify-between pb-2 border-b title-content">
+            <h2 class="text-lg font-semibold">Mi Perfil</h2>
+            <div class="right-content">
+                <span class="text-gray-500 text-sm">{{ selectedUser?.username }}</span>
+                <span class="text-gray-500 text-sm">{{ selectedUser?.dni }}</span>
+            </div>
         </div>
-      </p-card>
-    </div>
 
-    <p-card class="h-full">
-      <ng-template #title> Direcciones Registradas </ng-template>
+        <div class="grid grid-cols-2 gap-2 mt-3 info-content">
+            <span class="value-view">{{ selectedUser?.fullName }}</span>
+            <span class="value-view">{{ selectedUser?.phoneNumber }}</span>
+            <span class="value-view">{{ selectedUser?.email }}</span>
+            <span class="value-view">{{ selectedUser?.birthDate | date:'dd/MM/yyyy' }}</span>
+        </div>
 
-      <ul *ngIf="selectedUser.addresses.length > 0; else noAddresses">
-        <li *ngFor="let address of selectedUser.addresses">
-          📍 {{ address }}
-        </li>
-      </ul>
+        <div class="flex justify-center mt-3">
+            <span class="text-lg font-bold" [ngClass]="{'text-green-600': selectedUser?.isActive, 'text-red-600': !selectedUser?.isActive}">
+              {{ selectedUser?.isActive ? 'Activo' : 'Inactivo' }}
+              <i class="pi" [ngClass]="{'pi-check-circle text-green-500': selectedUser?.isActive, 'pi-times-circle text-red-500': !selectedUser?.isActive}"></i>
+          </span>
+        </div>
 
-      <ng-template #noAddresses>
-        <p>No hay direcciones registradas.</p>
-      </ng-template>
+        <ng-template #footer>
+            <div class="flex gap-2 mt-3">
+                <p-button label="Cancelar" severity="secondary" class="w-full" [outlined]="true" />
+                <p-button label="Guardar" class="w-full bg-blue-600 text-white" />
+            </div>
+        </ng-template>
     </p-card>
-  </div>
+
+    <!-- Contenedor derecho (Productos y Direcciones) -->
+    <div class="carrito-contenido">
+        <div class="carrito-contenido">
+            <div class="productos">
+                <div class="producto" *ngFor="let product of cartItems">
+                    <img [src]="product.imageUrl" class="producto-imagen" alt="Imagen del producto">
+                    <div class="producto-info">
+                        <h2 class="producto-nombre">{{ product.name }}</h2>
+                        <p class="producto-precio">S/. {{product.price?.toFixed(2)}}</p>
+                        <p class="producto-cantidad">Cantidad: {{ product.quantity }}</p>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Direcciones (Abajo) -->
+            <div class="direcciones">
+                <p class="titulo"> Direcciones Registradas
+                </p>
+                <ul *ngIf="selectedUser.addresses.length > 0; else noAddresses">
+                    <li *ngFor="let address of selectedUser.addresses">
+                        📍 {{ address }}
+                    </li>
+                </ul>
+                <ng-template #noAddresses>
+                    <p>No hay direcciones registradas.</p>
+                    <p-button label="Agregar" class="w-full bg-blue-600 text-white" />
+                </ng-template>
+            </div>
+        </div>
+    </div>
 </div>
