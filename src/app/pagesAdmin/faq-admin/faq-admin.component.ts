@@ -11,10 +11,11 @@ import { NgClass} from '@angular/common';
 import { FaqService } from '../../core/services/faq/faq.service';
 import { Faq } from '../../Models/faq.model';
 import { Paginator } from 'primeng/paginator';
+import {DropdownModule} from 'primeng/dropdown';
 
 @Component({
   selector: 'app-faq-admin',
-  imports: [ButtonModule,TableModule,DialogModule,CommonModule,FormsModule,Ripple,InputText,Paginator],
+  imports: [ButtonModule, TableModule, DialogModule, CommonModule, FormsModule, Ripple, InputText, Paginator, DropdownModule],
   templateUrl: './faq-admin.component.html',
   styleUrl: './faq-admin.component.css'
 })
@@ -25,6 +26,10 @@ export class FaqAdminComponent {
   addDialog: boolean = false;
   viewDialog: boolean = false;
   deactivateDialog: boolean = false;
+
+  filters = {
+    isActive: null as boolean | null
+  }
 
   editFaq = {
     idFaq: 0,
@@ -50,7 +55,7 @@ export class FaqAdminComponent {
     }
 
   loadFaqs(page: number = 0, size: number = 10): void {
-    this.faqService.getAllFaq(page, size)
+    this.faqService.getAllFaq(page, size, this.filters.isActive ?? null)
       .subscribe((res) => {
         console.log('FAQ cargados:', res);
         this.faqs = res.content;

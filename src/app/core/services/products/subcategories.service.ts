@@ -21,14 +21,27 @@ export class SubcategoriesService {
   // Get All
       getAllSubCategories(
           page: number,
-          size: number
+          size: number,
+          isActive: boolean | null
       ): Observable<SubcategoriesResponse> {
-  
+        const token = sessionStorage.getItem('authToken');
+
+        if (!token) {
+          throw new Error('Token not found');
+        }
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+        });
+
           let params = new HttpParams()
               .set('page', page.toString())
               .set('size', size.toString());
-  
-          return this.http.get<SubcategoriesResponse>(`${this.baseUrl}/getAllSubCategories`, { params });
+
+          if (isActive !== null) {
+            params = params.set('isActive', isActive.toString());
+          }
+
+          return this.http.get<SubcategoriesResponse>(`${this.baseUrl}/getAllSubCategories`, { params, headers });
       }
 
   // Get Subcategories
@@ -92,7 +105,7 @@ export class SubcategoriesService {
       });
       return this.http.post<any>(`${this.baseUrl}/addSubCategory`, subcategoryDate, { headers });
     }
-  
+
       // Updated SubCategories
     updateSubCategory(idSubCategory: number, updatedSubCategory: any): Observable<any> {
       const token = sessionStorage.getItem('authToken');
@@ -103,10 +116,10 @@ export class SubcategoriesService {
       const headers = new HttpHeaders({
         'Authorization': `Bearer ${token}`
       });
-  
+
       return this.http.put<any>(`${this.baseUrl}/updateSubCategory/${idSubCategory}`, updatedSubCategory, { headers });
     }
-  
+
     // Deactivate SubCategories
     deactivateSubCategory(idSubCategory: number): Observable<any> {
       const token = sessionStorage.getItem('authToken');
@@ -116,7 +129,7 @@ export class SubcategoriesService {
       const headers = new HttpHeaders({
         'Authorization': `Bearer ${token}`
       });
-  
+
       return this.http.patch<any>(`${this.baseUrl}/deactivateSubCategory/${idSubCategory}`, null, { headers });
       }
 }

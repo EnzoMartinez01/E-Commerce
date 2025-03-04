@@ -20,11 +20,16 @@ export class CategoriesService {
   getCategories(
     page: number,
     size: number,
+    isActive: boolean | null
   ): Observable<CategoryResponse> {
 
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
+
+    if (isActive !== null) {
+      params = params.set('isActive', isActive.toString());
+    }
 
     return this.http.get<any>(`${this.baseUrl}/getAllCategories`, {params});
   }

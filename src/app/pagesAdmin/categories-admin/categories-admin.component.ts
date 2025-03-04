@@ -12,11 +12,12 @@ import {InputText} from 'primeng/inputtext';
 import { NgClass} from '@angular/common';
 import { ProductsService } from '../../core/services/products/products.service';
 import { Paginator } from 'primeng/paginator';
+import {DropdownModule} from 'primeng/dropdown';
 
 
 @Component({
   selector: 'app-categories-admin',
-  imports: [ButtonModule,TableModule,DialogModule,CommonModule,FormsModule,Ripple,InputText,NgClass,Paginator],
+  imports: [ButtonModule, TableModule, DialogModule, CommonModule, FormsModule, Ripple, InputText, NgClass, Paginator, DropdownModule],
   templateUrl: './categories-admin.component.html',
   styleUrl: './categories-admin.component.css'
 })
@@ -32,6 +33,9 @@ export class CategoriesAdminComponent {
     categoryName: '',
     categoryImage: ''
   }
+  filters = {
+    isActive: null as boolean | null
+  }
 
   first: number = 0;
   rows: number = 8;
@@ -45,7 +49,10 @@ export class CategoriesAdminComponent {
   }
 
   loadCategories(page: number = 0, size: number = 10): void {
-    this.categoriesService.getCategories(page, size)
+    this.categoriesService.getCategories(
+      page,
+      size,
+      this.filters.isActive ?? null)
       .subscribe((res) => {
         this.categories = res.content;
         this.totalRecords = res.totalElements;

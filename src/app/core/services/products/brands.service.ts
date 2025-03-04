@@ -28,10 +28,14 @@ export class BrandsService {
         return this.http.get<any>(`${this.baseUrl}/getAllBrands`, {params});
       }
 
-  getAllBrands(page: number, size: number): Observable<any> {
+  getAllBrands(page: number, size: number, isActive: boolean | null): Observable<any> {
       let params = new HttpParams()
         .set('page', page.toString())
         .set('size', size.toString());
+
+      if (isActive !== null) {
+        params = params.set('isActive', isActive.toString());
+      }
 
       return this.http.get<any>(`${this.baseUrl}/getAllBrands`, { params });
   }
@@ -84,4 +88,23 @@ export class BrandsService {
     return this.http.patch<any>(`${this.baseUrl}/deactivateBrand/${idBrand}`, null, { headers });
   }
 
+  getAllBrandsByFilter(page: number, size: number, isActive: boolean | null): Observable<any> {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Token no encontrado');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    if (isActive !== null) {
+      params = params.set('isActive', isActive.toString());
+    }
+
+    return this.http.get<any>(`${this.baseUrl}/getAllBrandsFilter`, { params, headers });
+  }
 }

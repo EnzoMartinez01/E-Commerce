@@ -1,6 +1,12 @@
-<div class="boton-agregar">
+<div class="flex flex-wrap gap-4 mb-4 filters-container">
+  <div class="filters-divider">
+    <p-dropdown [(ngModel)]="filters.isActive" (onChange)="loadCategories(0, rows)" [options]="[{label: 'Activo', value: true}, {label: 'Inactivo', value: false}]" placeholder="Estado" class="w-1/4"></p-dropdown>
+  </div>
+  <div class="boton-agregar">
     <button pButton type="button" (click)="addCategory()" label="Agregar Categoria" class="p-button-primary"></button>
+  </div>
 </div>
+
 <p-table [value]="categories" class="table-container" [tableStyle]="{ 'min-width': '60rem' }">
     <ng-template #caption>
         <div class="flex items-center justify-between">

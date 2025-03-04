@@ -9,10 +9,11 @@ import { FormsModule } from '@angular/forms';
 import {Ripple} from 'primeng/ripple';
 import {InputText} from 'primeng/inputtext';
 import {NgClass, NgForOf, NgIf} from '@angular/common';
+import {DropdownModule} from 'primeng/dropdown';
 
 @Component({
   selector: 'app-subcategories-admin',
-  imports: [TableModule, ButtonModule, Paginator, DialogModule, FormsModule, Ripple, InputText, NgIf, NgForOf, NgClass],
+  imports: [TableModule, ButtonModule, Paginator, DialogModule, FormsModule, Ripple, InputText, NgIf, NgForOf, NgClass, DropdownModule],
   templateUrl: './subcategories-admin.component.html',
   styleUrl: './subcategories-admin.component.css'
 })
@@ -26,6 +27,9 @@ export class SubcategoriesAdminComponent {
   addDialog:boolean=false;
   viewDialog:boolean=false;
   deactivateDialog:boolean=false;
+  filters = {
+    isActive: null as boolean | null
+  }
 
   editSubCategories = {
     idSubCategory: 0,
@@ -47,7 +51,7 @@ export class SubcategoriesAdminComponent {
   }
 
   loadSubCategory(page: number = 0, size: number = 10): void {
-    this.subcategoriesService.getAllSubCategories(page, size)
+    this.subcategoriesService.getAllSubCategories(page, size, this.filters.isActive ?? null)
       .subscribe((res) => {
         console.log('Sub-Categorias cargados:', res);
         this.subcategories = res.content;

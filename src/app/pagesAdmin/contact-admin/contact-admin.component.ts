@@ -31,6 +31,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 })
 export class ContactAdminComponent {
   contacts: any[] = [];
+  statuses: any[] = [];
   selectedContact: any = {};
   editDialog: boolean = false;
   editDialogCall: boolean = false;
@@ -41,6 +42,10 @@ export class ContactAdminComponent {
     idContact: 0,
     idStatus: 0,
     answer: ''
+  }
+
+  filters = {
+    idStatus: null as number | null
   }
 
   statusMap: { [key: number]: string } = {
@@ -57,10 +62,16 @@ export class ContactAdminComponent {
 
   ngOnInit(): void {
     this.loadContacts(0, this.rows);
+    this.loadStatuses();
+  }
+
+  applyFilters() {
+    console.log("Aplicando filtros:", JSON.stringify(this.filters, null, 2));
+    this.loadContacts(0, this.rows);
   }
 
   loadContacts(page: number, size: number): void {
-    this.contactsService.getContacts(0, 10).subscribe(
+    this.contactsService.getContacts(0, 10, this.filters.idStatus ?? null).subscribe(
       (data) => {
         console.log('Contactos cargados:', data.content);
         this.contacts = data.content;
@@ -68,6 +79,18 @@ export class ContactAdminComponent {
       },
       (error) => {
         console.error('Error al cargar contactos:', error);
+      }
+    );
+  }
+
+  loadStatuses(): void {
+    this.contactsService.getContactStatus().subscribe(
+      (data) => {
+        console.log('Estatus de Contactos cargados:', data);
+        this.statuses = data;
+      },
+      (error) => {
+        console.error('Error al cargar estatus de contactos:', error);
       }
     );
   }
