@@ -53,7 +53,11 @@
         </ng-template>
 
         <div class="direcciones">
-            <p class="titulo font-bold text-lg">Direcciones Registradas</p>
+            <div class="titulo-boton ">
+                <p class="titulo font-bold text-lg">Direcciones Registradas</p>
+                <p-button label="Agregar Direccion" class=" boton w-full bg-blue-600 text-white" />
+            </div>
+
             <ul *ngIf="selectedUser.addresses.length > 0; else noAddresses" class="space-y-2">
                 <li *ngFor="let address of selectedUser.addresses">
                     <p class="font-semibold">

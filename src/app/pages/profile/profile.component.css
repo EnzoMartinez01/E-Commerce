@@ -7,10 +7,14 @@
 
 .productos {
     flex: 2;
-    background: white;
+    background: #fff;
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    max-height: 300px;
+    scrollbar-color: #48828d transparent;
 }
 
 .producto {
@@ -65,6 +69,10 @@ p-card {
     padding: 20px 0px 20px 0px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    max-height: 250px;
+    scrollbar-color: #48828d transparent;
 }
 
 .avatar {
@@ -141,4 +149,15 @@ div {
 .icon-status {
     color: green;
     font-size: 25px;
+}
+
+.titulo-boton {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 100%;
+}
+
+.boton {
+    margin-right: 10px;
 }
