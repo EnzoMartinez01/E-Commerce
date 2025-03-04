@@ -1,3 +1,15 @@
+<p-toast position="bottom-center" key="confirm" [baseZIndex]="5000">
+  <ng-template let-message #message>
+    <div class="flex flex-col items-start flex-auto">
+      <div class="flex items-center gap-2">
+        <span class="font-bold">Notificación</span>
+      </div>
+      <div class="font-medium text-lg my-4">{{ message.summary }}</div>
+      <p-button severity="success" size="small" label="Ver carrito" routerLink="/cart" />
+    </div>
+  </ng-template>
+</p-toast>
+
 <div class="container">
     <aside class="filtros-container">
         <h3>FILTRAR POR</h3>

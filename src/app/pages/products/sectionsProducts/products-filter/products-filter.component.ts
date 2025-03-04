@@ -59,8 +59,8 @@ export class ProductsFilterComponent {
               private categoriesService: CategoriesService,
               private subCategoriesService: SubcategoriesService,
               private cartService: CartService,
-            ) {
-  }
+              private messageService: MessageService,
+              ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -167,12 +167,22 @@ export class ProductsFilterComponent {
     this.cartService.addToCart(product.idProduct, 1).subscribe(
       response => {
         console.log('Producto agregado correctamente:', response);
+
+        this.messageService.add({
+          key: 'confirm',
+          severity: 'success',
+          summary: 'Producto agregado',
+          detail: `${product.name} se ha agregado al carrito.`,
+        });
+
+        product.addedToCart = true;
       },
       error => {
         console.error('Error al agregar producto al carrito:', error);
       }
     );
   }
+
 
   onFilterChange(): void {
     const selectedOptions = this.filtros[0].opciones.filter((opcion: any) => opcion.seleccionado);
