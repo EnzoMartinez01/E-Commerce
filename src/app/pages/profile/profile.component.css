@@ -60,7 +60,7 @@ p-card {
 
 .direcciones {
     width: 100%;
-    text-align: center;
+    text-align: left;
     margin-top: 3em;
     padding: 20px 0px 20px 0px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -109,4 +109,8 @@ p-card {
 
 div {
     font-family: "Red Hat Display", serif;
+}
+
+.titulo {
+  font-weight: bold;
 }

@@ -48,19 +48,19 @@
                 </div>
             </div>
 
-            <div class="direcciones">
-                <p class="titulo"> Direcciones Registradas
-                </p>
-                <ul *ngIf="selectedUser.addresses.length > 0; else noAddresses">
-                    <li *ngFor="let address of selectedUser.addresses">
-                        📍 {{ address }}
-                    </li>
-                </ul>
-                <ng-template #noAddresses>
-                    <p>No hay direcciones registradas.</p>
-                    <p-button label="Agregar" class="w-full bg-blue-600 text-white" />
-                </ng-template>
-            </div>
+          <div class="direcciones">
+            <p class="titulo">Direcciones Registradas</p>
+            <ul *ngIf="selectedUser.addresses.length > 0; else noAddresses">
+              <li *ngFor="let address of selectedUser.addresses">
+                📍 {{ address.streetName }} {{ address.streetNumber }}, {{ address.districtsName }}, {{ address.provinceName }}, {{ address.stateName }}, {{ address.countryName }}
+              </li>
+            </ul>
+            <ng-template #noAddresses>
+              <p>No hay direcciones registradas.</p>
+              <p-button label="Agregar" class="w-full bg-blue-600 text-white" />
+            </ng-template>
+          </div>
+
         </div>
     </div>
 </div>
