@@ -32,7 +32,7 @@ public class ContactController {
     public Page<ContactDto> getallContacts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false) Integer status)
+            @RequestParam(required = false, defaultValue = "1") Integer status)
     {
         return  contacService.getAllContact(page,size, status);
     }

@@ -43,7 +43,7 @@ public class BrandsController {
     public Page<Brands> getAllBrandsFilter(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false) Boolean isActive) {
+            @RequestParam(required = false, defaultValue = "true") Boolean isActive) {
         return brandsService.getAllBrandsFilter(page, size, isActive);
     }
 
