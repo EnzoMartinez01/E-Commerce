@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
 import {AuthService} from '../../core/services/auth/auth.service';
 import {Card} from 'primeng/card';
-import {Button} from 'primeng/button';
+import {Button, ButtonDirective} from 'primeng/button';
 import {DatePipe, DecimalPipe, NgClass, NgForOf, NgIf} from '@angular/common';
 import {CartService} from '../../core/services/cart/cart.service';
+import {AddressesService} from '../../core/services/users/addresses.service';
+import {Dialog} from 'primeng/dialog';
+import {DropdownModule} from 'primeng/dropdown';
+import {FormsModule} from '@angular/forms';
+import {InputText} from 'primeng/inputtext';
 
 @Component({
   selector: 'app-profile',
@@ -13,7 +18,12 @@ import {CartService} from '../../core/services/cart/cart.service';
     NgClass,
     DatePipe,
     NgForOf,
-    NgIf
+    NgIf,
+    Dialog,
+    DropdownModule,
+    FormsModule,
+    InputText,
+    ButtonDirective
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
@@ -22,13 +32,42 @@ export class ProfileComponent {
   selectedUser: any = {};
   userInitial: string = "U";
   cartItems: any[] = [];
+  addresses: any[] = [];
+  countries: any[] = [];
+  idCountry: number | null = null;
+  states: any[] = [];
+  idState: number | null = null;
+  provinces: any[] = [];
+  idProvinces: number | null = null;
+  districts: any[] = [];
+  idDistricts: number | null = null;
+
+  addAddressDialog: boolean = false;
+  addAddressContents: any[] = [];
+  addAddressContent: {
+    street_name: string;
+    street_number: string;
+    country: number | null;
+    state: number | null;
+    province: number | null;
+    district: number | null;
+  } = {
+    street_name: '',
+    street_number: '',
+    country: null,
+    state: null,
+    province: null,
+    district: null
+  };
 
   constructor(private authService: AuthService,
-              private cartService: CartService) {}
+              private cartService: CartService,
+              private addressService: AddressesService) {}
 
   ngOnInit(): void {
     this.loadUser();
     this.userInitial = this.getUserInitial();
+    this.loadCountries();
   }
 
   loadUser(): void {
@@ -83,4 +122,82 @@ export class ProfileComponent {
     );
   }
 
+  addAddress() {
+    this.addAddressContent = {
+      street_name: '',
+      street_number: '',
+      country: this.idCountry ?? null,
+      state: this.idState ?? null,
+      province: this.idProvinces ?? null,
+      district: this.idDistricts ?? null
+    };
+    this.addAddressDialog = true;
+  }
+
+  loadCountries() {
+    this.addressService.getCountries().subscribe(
+      data => this.countries = data,
+      error => console.error('Error al cargar países', error)
+    );
+  }
+
+  onCountryChange(countryId: number) {
+    this.states = [];
+    this.provinces = [];
+    this.districts = [];
+    this.addAddressContent.state = null;
+    this.addAddressContent.province = null;
+    this.addAddressContent.district = null;
+
+    this.addressService.getStates(countryId).subscribe(
+      data => this.states = data,
+      error => console.error('Error al cargar estados', error)
+    );
+  }
+
+  onStateChange(stateId: number) {
+    this.provinces = [];
+    this.districts = [];
+    this.addAddressContent.province = null;
+    this.addAddressContent.district = null;
+
+    this.addressService.getProvinces(stateId).subscribe(
+      data => this.provinces = data,
+      error => console.error('Error al cargar provincias', error)
+    );
+  }
+
+  onProvinceChange(provinceId: number) {
+    this.districts = [];
+    this.addAddressContent.district = null;
+
+    this.addressService.getDistricts(provinceId).subscribe(
+      data => this.districts = data,
+      error => console.error('Error al cargar distritos', error)
+    );
+  }
+
+  saveAddress() {
+    if (this.addAddressContent.street_name && this.addAddressContent.street_number) {
+      this.addAddressContents.push({ ...this.addAddressContent });
+    }
+  }
+
+  sendSingleAddress() {
+    if (this.addAddressContent.street_name && this.addAddressContent.street_number) {
+      this.addAddressContents.push({ ...this.addAddressContent });
+      this.sendAddresses();
+    }
+  }
+
+  sendAddresses() {
+    this.addressService.addAddress(this.addAddressContents).subscribe(
+      response => {
+        console.log('Direcciones agregadas:', response);
+        this.addAddressDialog = false;
+        this.addAddressContents = [];
+      },
+      error => console.error('Error al agregar direcciones:', error)
+    );
+  }
 }

@@ -55,7 +55,7 @@
         <div class="direcciones">
             <div class="titulo-boton ">
                 <p class="titulo font-bold text-lg">Direcciones Registradas</p>
-                <p-button label="Agregar Direccion" class=" boton w-full bg-blue-600 text-white" />
+                <p-button label="Agregar Direccion" (click)="addAddress()" class=" boton w-full bg-blue-600 text-white" />
             </div>
 
             <ul *ngIf="selectedUser.addresses.length > 0; else noAddresses" class="space-y-2">
@@ -68,9 +68,71 @@
             </ul>
             <ng-template #noAddresses>
                 <p>No hay direcciones registradas.</p>
-                <p-button label="Agregar" class="w-full bg-blue-600 text-white" />
+                <p-button label="Agregar" (click)="addAddress()" class="w-full bg-blue-600 text-white" />
             </ng-template>
         </div>
 
     </div>
 </div>
+
+<p-dialog [(visible)]="addAddressDialog" [modal]="true" header="Agregar Dirección"
+          [style]="{ width: '50vw', maxWidth: '600px', overflow: 'hidden !important' }">
+
+  <div class="p-fluid">
+    <div class="p-field">
+      <label for="addStreetName">Nombre de la Calle</label>
+      <input id="addStreetName" pInputText [(ngModel)]="addAddressContent.street_name" />
+    </div>
+
+    <div class="p-field">
+      <label for="addStreetNumber">Número de la Calle</label>
+      <input id="addStreetNumber" pInputText [(ngModel)]="addAddressContent.street_number" />
+    </div>
+
+    <div class="p-field">
+      <label for="addCountry">País</label>
+      <p-dropdown id="addCountry" [(ngModel)]="addAddressContent.country"
+                  [options]="countries" optionLabel="name" optionValue="id"
+                  placeholder="Seleccionar País" (onChange)="onCountryChange($event.value)">
+      </p-dropdown>
+    </div>
+
+    <div class="p-field">
+      <label for="addState">Estado</label>
+      <p-dropdown id="addState" [(ngModel)]="addAddressContent.state"
+                  [options]="states" optionLabel="name" optionValue="id"
+                  placeholder="Seleccionar Estado" (onChange)="onStateChange($event.value)">
+      </p-dropdown>
+    </div>
+
+    <div class="p-field">
+      <label for="addProvince">Provincia</label>
+      <p-dropdown id="addProvince" [(ngModel)]="addAddressContent.province"
+                  [options]="provinces" optionLabel="name" optionValue="id"
+                  placeholder="Seleccionar Provincia" (onChange)="onProvinceChange($event.value)">
+      </p-dropdown>
+    </div>
+
+    <div class="p-field">
+      <label for="addDistrict">Distrito</label>
+      <p-dropdown id="addDistrict" [(ngModel)]="addAddressContent.district"
+                  [options]="districts" optionLabel="name" optionValue="id"
+                  placeholder="Seleccionar Distrito">
+      </p-dropdown>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button pButton type="button" label="Cancelar" icon="pi pi-times"
+            class="p-button-text" (click)="addAddressDialog = false">
+    </button>
+    &nbsp;
+    <button pButton type="button" label="Agregar Otra" class="p-button-secondary"
+            (click)="saveAddress()">
+    </button>
+    <button pButton type="button" label="Enviar Todo" class="p-button-primary"
+            (click)="sendSingleAddress()">
+    </button>
+  </ng-template>
+</p-dialog>
+
