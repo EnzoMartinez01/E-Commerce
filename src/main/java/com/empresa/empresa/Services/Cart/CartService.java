@@ -220,8 +220,8 @@ public class CartService {
         return cartItemRepository.save(existingCartItem);
     }
 
-    //Delete Producto fromt Cart
-    public void deleteProductToCart(Integer idProduct) {
+    // Delete CartItem from Cart
+    public void deleteCartItem(Integer idCartItem) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
@@ -231,7 +231,7 @@ public class CartService {
                     .orElseThrow(() -> new RuntimeException("Cart not found for the current user"));
 
             Optional<CartItems> existingItem = cart.getCartItems().stream()
-                    .filter(cartItem -> cartItem.getProduct().getId().equals(idProduct))
+                    .filter(cartItem -> cartItem.getId().equals(idCartItem))
                     .findFirst();
 
             if (existingItem.isPresent()) {
@@ -243,11 +243,12 @@ public class CartService {
                 cart.setTotal(total);
                 cartRepository.save(cart);
             } else {
-                throw new RuntimeException("Product not found in the cart");
+                throw new RuntimeException("Cart item not found in the cart");
             }
         } catch (Exception e) {
-            logger.error("Error al eliminar producto del carrito", e);
-            throw new RuntimeException("Error al eliminar producto del carrito");
+            logger.error("Error al eliminar item del carrito", e);
+            throw new RuntimeException("Error al eliminar item del carrito");
         }
     }
+
 }

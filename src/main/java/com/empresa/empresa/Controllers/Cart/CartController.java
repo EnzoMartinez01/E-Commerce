@@ -59,13 +59,11 @@ public class CartController {
     }
 
     //Delete Product to Cart
-    @DeleteMapping("/deleteProductToCart")
-    public ResponseEntity<Map<String, String>> deleteProductToCart(@RequestParam Integer idProduct) {
-        cartService.deleteProductToCart(idProduct);
+    @DeleteMapping("/items/{idCartItem}")
+    public ResponseEntity<Map<String, String>> deleteCartItem(@PathVariable Integer idCartItem) {
+        cartService.deleteCartItem(idCartItem);
         Map<String, String> response = new HashMap<>();
-        response.put("message", "Producto eliminado del carrito satisfactoriamente.");
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        response.put("message", "Item eliminado del carrito satisfactoriamente.");
+        return ResponseEntity.ok(response);
     }
-
-
 }
