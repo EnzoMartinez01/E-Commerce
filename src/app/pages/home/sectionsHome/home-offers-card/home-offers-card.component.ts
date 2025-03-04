@@ -7,10 +7,12 @@ import {NgIf} from '@angular/common';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {CartService} from '../../../../core/services/cart/cart.service';
 import {HttpHeaders} from '@angular/common/http';
+import {MessageService} from 'primeng/api';
+import {Toast} from 'primeng/toast';
 
 @Component({
   selector: 'app-home-offers-card',
-  imports: [CarouselModule, ButtonModule, TagModule,RouterLink],
+  imports: [CarouselModule, ButtonModule, TagModule, RouterLink, Toast],
   templateUrl: './home-offers-card.component.html',
   styleUrl: './home-offers-card.component.css'
 })
@@ -52,7 +54,8 @@ export class HomeOffersCardComponent {
 
   constructor(private productsService: ProductsService,
               private route: ActivatedRoute,
-              private cartService: CartService
+              private cartService: CartService,
+              private messageService: MessageService,
                 ) {}
 
   ngOnInit(): void {
@@ -63,6 +66,14 @@ export class HomeOffersCardComponent {
     this.cartService.addToCart(product.idProduct, 1).subscribe(
       response => {
         console.log('Producto agregado correctamente:', response);
+        this.messageService.add({
+          key: 'confirm',
+          severity: 'success',
+          summary: 'Producto agregado satisfactoriamente',
+          detail: `${product.name} se ha agregado al carrito.`,
+        });
+
+        product.addedToCart = true;
       },
       error => {
         console.error('Error al agregar producto al carrito:', error);
