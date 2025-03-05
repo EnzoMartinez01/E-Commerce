@@ -198,6 +198,7 @@ export class ProfileComponent {
         console.log('Direcciones agregadas:', response);
         this.addAddressDialog = false;
         this.addAddressContents = [];
+        window.location.reload();
       },
       error => console.error('Error al agregar direcciones:', error)
     );
