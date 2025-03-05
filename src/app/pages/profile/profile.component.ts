@@ -10,6 +10,7 @@ import {DropdownModule} from 'primeng/dropdown';
 import {FormsModule} from '@angular/forms';
 import {InputText} from 'primeng/inputtext';
 import { RouterLink } from '@angular/router';
+import { UsersService } from '../../core/services/users/users.service';
 
 @Component({
   selector: 'app-profile',
@@ -32,6 +33,7 @@ import { RouterLink } from '@angular/router';
 })
 export class ProfileComponent {
   selectedUser: any = {};
+  viewDialog: boolean = false;
   userInitial: string = "U";
   cartItems: any[] = [];
   addresses: any[] = [];
@@ -64,7 +66,8 @@ export class ProfileComponent {
 
   constructor(private authService: AuthService,
               private cartService: CartService,
-              private addressService: AddressesService) {}
+              private addressService: AddressesService,
+            private usersService: UsersService) {}
 
   ngOnInit(): void {
     this.loadUser();
@@ -95,6 +98,20 @@ export class ProfileComponent {
       return userName.charAt(0).toUpperCase();
     }
     return "U";
+  }
+
+  viewInfo(user: any): void {
+    this.selectedUser = { ...user };
+    this.viewDialog = true;
+
+    this.usersService.getUsersById(this.selectedUser.idUser).subscribe(
+      (data) => {
+        console.log("Usuario obtenido:", data);
+      },
+      (error) => {
+        console.error('Error al obtener el usuario:', error);
+      }
+    );
   }
 
   // Cargar productos en el carrito
