@@ -165,3 +165,7 @@
                                     .p-paginator-page.p-paginator-page-selected {
                                         color: #48828d !important;
                                     }
+                                    
+                                    .p-dialog-content {
+                                        overflow-y: scroll !important;
+                                    }
