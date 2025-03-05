@@ -159,5 +159,31 @@
             <label class="font-semibold w-28 label-view">Username : </label>&nbsp;
             <span class="flex-auto">{{ selectedUser?.username }}</span>
         </div>
+        <p-button label="Editar Informacion" pRipple class="button-action" (click)="editUser(selectedUser)"></p-button>
+    </div>
+</p-dialog>
+
+<p-dialog header="Editar Usuario" [(visible)]="editDialog" [style]="{ width: '30rem' }">
+    <div class="flex flex-col gap-4">
+        <div class="flex items-center gap-4">
+            <label for="username" class="font-semibold w-28 label-edit">Email </label>
+            <input pInputText id="username" class="flex-auto" [(ngModel)]="editUserContetn.email" autocomplete="off" />
+        </div>
+
+        <div class="flex items-center gap-4">
+            <label for="telephone" class="font-semibold w-28 label-edit">Telefono </label>
+            <input pInputText id="telephone" class="flex-auto" [(ngModel)]="editUserContetn.telephone" autocomplete="off" />
+        </div>
+
+        <div class="flex items-center gap-4">
+            <label for="password" class="font-semibold w-28 label-edit">Contraseña </label>
+            <input pInputText id="password" class="flex-auto" [(ngModel)]="editUserContetn.password" autocomplete="off" />
+        </div>
+
+
+        <div class="flex justify-end gap-2 mt-4 button-container">
+            <p-button label="Guardar" (click)="updatedUser()" />
+            <p-button label="Cancelar" severity="secondary" (click)="editDialog = false" />
+        </div>
     </div>
 </p-dialog>

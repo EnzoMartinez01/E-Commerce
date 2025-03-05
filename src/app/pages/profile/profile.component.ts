@@ -34,6 +34,7 @@ import { UsersService } from '../../core/services/users/users.service';
 export class ProfileComponent {
   selectedUser: any = {};
   viewDialog: boolean = false;
+  editDialog: boolean = false;
   userInitial: string = "U";
   cartItems: any[] = [];
   addresses: any[] = [];
@@ -63,6 +64,14 @@ export class ProfileComponent {
     province: null,
     district: null
   };
+
+  editUserContetn = {
+    idUser: 0,
+    email: '',
+    telephone: '',
+    password: '',
+    
+  }
 
   constructor(private authService: AuthService,
               private cartService: CartService,
@@ -220,4 +229,33 @@ export class ProfileComponent {
       error => console.error('Error al agregar direcciones:', error)
     );
   }
+
+  // Edit User
+  editUser(user: any) {
+    console.log('User recibido:', user);
+
+    this.editUserContetn = {
+      idUser: user.idUser,
+      email: user.email,
+      telephone: user.telephone,
+      password: user.password
+    };
+
+    console.log("Usuario preparado para editar:", this.editUser);
+    this.editDialog = true;
+  }
+
+  updatedUser() {
+    const updatedUser = {
+      ...this.editUserContetn
+    };
+    console.log("Usuario antes de actualizar:", updatedUser);
+
+    this.usersService.updatedUsers(updatedUser.idUser, updatedUser).subscribe(() => {
+      console.log('Usuario Actualizado');
+      this.editDialog = false;
+      this.loadUser();
+    })
+  }
+
 }
