@@ -114,56 +114,6 @@
             <input id="addStreetNumber" pInputText [(ngModel)]="addAddressContent.street_number" />
         </div>
     </div>
-
-    <p-dialog header="Detalles del Usuario:" [(visible)]="viewDialog" [style]="{ width: '30rem' }">
-        <div class="flex flex-col gap-4">
-            <div class="flex items-center gap-4">
-                <label class="font-semibold w-28 label-view">Nombre Completo : </label>&nbsp;
-                <span class="flex-auto">{{ selectedUser?.fullName }}</span>
-            </div>
-
-            <div class="flex items-center gap-4">
-                <label class="font-semibold w-28 label-view">Username : </label>&nbsp;
-                <span class="flex-auto">{{ selectedUser?.username }}</span>
-            </div>
-
-            <div class="flex items-center gap-4">
-                <label class="font-semibold w-28 label-view">Razón Social : </label>&nbsp;
-                <span class="flex-auto">{{ selectedUser?.socialReason }}</span>
-            </div>
-
-            <div class="flex items-center gap-4">
-                <label class="font-semibold w-28 label-view">DNI/RUC : </label>&nbsp;
-                <span class="flex-auto">{{ selectedUser?.dni }}</span>
-            </div>
-
-            <div class="flex items-center gap-4">
-                <label class="font-semibold w-28 label-view">Email :</label>&nbsp;
-                <span class="flex-auto">{{ selectedUser?.email }}</span>
-            </div>
-
-            <div class="flex items-center gap-4">
-                <label class="font-semibold w-28 label-view">Telefono :</label>&nbsp;
-                <span class="flex-auto">{{ selectedUser?.phoneNumber }}</span>
-            </div>
-
-            <div class="flex items-center gap-4">
-                <label class="font-semibold w-28 label-view">Fecha de Nacimiento :</label>&nbsp;
-                <span class="flex-auto text-blue-500 break-words">{{ selectedUser?.birthDate }}</span>
-            </div>
-        </div>
-
-        <div class="flex items-center gap-4">
-            <label class="font-semibold w-28 label-view">Rol de Usuario :</label>&nbsp;
-            <span class="flex-auto">{{ selectedUser?.roleName }}</span>&nbsp;
-        </div>
-
-        <div class="flex items-center gap-4">
-            <label class="font-semibold w-28 label-view">Estado de Contacto :</label>&nbsp;
-            <span class="flex-auto">{{ selectedUser?.isActive }}</span>
-        </div>
-    </p-dialog>
-
     <ng-template pTemplate="footer">
         <button pButton type="button" label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="addAddressDialog = false">
     </button> &nbsp;
@@ -172,4 +122,53 @@
         <button pButton type="button" label="Enviar Todo" class="p-button-primary" (click)="sendSingleAddress()">
     </button>
     </ng-template>
+</p-dialog>
+
+<p-dialog header="Detalles del Usuario:" [(visible)]="viewDialog" [style]="{ width: '30rem' }">
+  <div class="flex flex-col gap-4">
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-28 label-view">Nombre Completo : </label>&nbsp;
+      <span class="flex-auto">{{ selectedUser?.fullName }}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-28 label-view">Username : </label>&nbsp;
+      <span class="flex-auto">{{ selectedUser?.username }}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-28 label-view">Razón Social : </label>&nbsp;
+      <span class="flex-auto">{{ selectedUser?.socialReason }}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-28 label-view">DNI/RUC : </label>&nbsp;
+      <span class="flex-auto">{{ selectedUser?.dni }}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-28 label-view">Email :</label>&nbsp;
+      <span class="flex-auto">{{ selectedUser?.email }}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-28 label-view">Telefono :</label>&nbsp;
+      <span class="flex-auto">{{ selectedUser?.phoneNumber }}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-28 label-view">Fecha de Nacimiento :</label>&nbsp;
+      <span class="flex-auto text-blue-500 break-words">{{ selectedUser?.birthDate }}</span>
+    </div>
+  </div>
+
+  <div class="flex items-center gap-4">
+    <label class="font-semibold w-28 label-view">Rol de Usuario :</label>&nbsp;
+    <span class="flex-auto">{{ selectedUser?.roleName }}</span>&nbsp;
+  </div>
+
+  <div class="flex items-center gap-4">
+    <label class="font-semibold w-28 label-view">Estado de Contacto :</label>&nbsp;
+    <span class="flex-auto">{{ selectedUser?.isActive }}</span>
+  </div>
 </p-dialog>
