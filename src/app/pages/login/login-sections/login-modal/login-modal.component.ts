@@ -18,6 +18,7 @@ export class LoginModalComponent {
   password = '';
   errorMessage = '';
   isLoading = false;
+  rememberPassword = false;
 
   isRegistering = false;
 
@@ -49,12 +50,20 @@ export class LoginModalComponent {
     });
   }
 
+  ngOnInit() {
+    this.loadRememberedCredentials();
+  }
+
   onSubmit(): void {
     this.isLoading = true;
     this.authService.login(this.username, this.password).subscribe(
       (response) => {
+        if (this.rememberPassword) {
+          this.saveRememberMe();
+        }
         this.showSnackBar('Sesión iniciada con éxito');
         this.authService.saveToken(response.token);
+
         window.location.reload();
       },
       (err) => {
@@ -63,6 +72,28 @@ export class LoginModalComponent {
         console.log('Login error', err);
       }
     ).add(() => this.isLoading = false);
+  }
+
+  loadRememberedCredentials() {
+    const savedRemember = localStorage.getItem('rememberPassword') === 'true';
+    this.rememberPassword = savedRemember;
+
+    if (savedRemember) {
+      this.username = localStorage.getItem('savedUsername') || '';
+      this.password = localStorage.getItem('savedPassword') || '';
+    }
+  }
+
+  saveRememberMe() {
+    if (this.rememberPassword) {
+      localStorage.setItem('rememberPassword', 'true');
+      localStorage.setItem('savedUsername', this.username);
+      localStorage.setItem('savedPassword', this.password);
+    } else {
+      localStorage.removeItem('rememberPassword');
+      localStorage.removeItem('savedUsername');
+      localStorage.removeItem('savedPassword');
+    }
   }
 
   register() {

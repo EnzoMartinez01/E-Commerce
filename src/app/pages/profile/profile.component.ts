@@ -11,6 +11,7 @@ import {FormsModule} from '@angular/forms';
 import {InputText} from 'primeng/inputtext';
 import { RouterLink } from '@angular/router';
 import { UsersService } from '../../core/services/users/users.service';
+import {Ripple} from 'primeng/ripple';
 
 @Component({
   selector: 'app-profile',
@@ -26,7 +27,8 @@ import { UsersService } from '../../core/services/users/users.service';
     FormsModule,
     InputText,
     ButtonDirective,
-    RouterLink
+    RouterLink,
+    Ripple
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
@@ -70,8 +72,8 @@ export class ProfileComponent {
     email: '',
     telephone: '',
     username: '',
-    
-    
+
+
   }
 
   constructor(private authService: AuthService,
