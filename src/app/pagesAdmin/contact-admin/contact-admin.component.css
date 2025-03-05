@@ -1,10 +1,12 @@
     .table-container {
         padding: 20px;
+        overflow-x: auto;
     }
     
      ::ng-deep .p-datatable {
         width: 80%;
         margin: auto;
+        max-width: 100%;
     }
     
      ::ng-deep .p-datatable-thead>tr>th {
@@ -67,4 +69,52 @@
     
     .p-button-text:hover {
         color: #48828d !important;
+    }
+    
+    @media (max-width: 1200px) {
+         ::ng-deep .p-datatable {
+            width: 90%;
+        }
+        .filters-container {
+            margin-right: 5em;
+            margin-top: 19em;
+        }
+    }
+    
+    @media (max-width: 768px) {
+         ::ng-deep .p-datatable {
+            width: 100%;
+        }
+        .filters-container {
+            flex-direction: column;
+            align-items: flex-start;
+            margin-right: 0;
+            gap: 10px;
+            margin-top: 19em;
+        }
+        .button-container {
+            justify-content: center;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .label-view,
+        .label-edit {
+            font-size: 14px;
+        }
+         ::ng-deep .p-datatable {
+            width: 100%;
+            font-size: 12px;
+        }
+        .button-container {
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        .filters-container {
+            width: 100%;
+            align-items: center;
+            text-align: center;
+            margin-top: 19em;
+        }
     }

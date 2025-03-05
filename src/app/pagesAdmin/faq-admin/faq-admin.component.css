@@ -1,10 +1,12 @@
 .table-container {
     padding: 20px;
+    overflow-x: auto;
 }
 
 ::ng-deep .p-datatable {
     width: 80%;
     margin: auto;
+    max-width: 100%;
 }
 
 ::ng-deep .p-datatable-thead>tr>th {
@@ -18,6 +20,7 @@
 ::ng-deep .p-button {
     background: #48828d;
     border-color: #48828d;
+    transition: 0.3s ease-in-out;
 }
 
 ::ng-deep .p-button:hover {
@@ -26,19 +29,10 @@
     border-color: #48828d !important;
 }
 
-.text-green-500 {
-    color: green;
-    font-weight: bold;
-}
-
-.label-view {
-    font-weight: bold;
-    color: #48828d;
-    font-size: 18px;
-}
-
 .p-button-text {
-    color: #fff!important;
+    color: #fff !important;
+    background: transparent;
+    border: none;
 }
 
 .p-button-text:hover {
@@ -54,15 +48,15 @@
     color: red !important;
 }
 
-::ng-deep .p-button {
-    background: #48828d;
-    border-color: #48828d;
+.text-green-500 {
+    color: green;
+    font-weight: bold;
 }
 
- ::ng-deep .p-button:hover {
-    background: #fff !important;
-    color: #48828d !important;
-    border-color: #48828d !important;
+.label-view {
+    font-weight: bold;
+    color: #48828d;
+    font-size: 18px;
 }
 
 .filters-container {
@@ -70,10 +64,54 @@
     gap: 20px;
     align-items: center;
     justify-content: flex-end;
+    flex-wrap: wrap;
 }
 
 .boton-agregar {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     margin-right: 13em;
+}
+
+
+/* Responsive */
+
+@media (max-width: 1200px) {
+    .boton-agregar {
+        margin-right: 5em;
+    }
+     ::ng-deep .p-datatable {
+        width: 90%;
+    }
+    .filters-container {
+        justify-content: center;
+        margin-top: 19em
+    }
+}
+
+@media (max-width: 768px) {
+    .filters-container {
+        justify-content: center;
+        margin-top: 19em
+    }
+    .boton-agregar {
+        margin-right: 0;
+        justify-content: center;
+    }
+     ::ng-deep .p-datatable {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .label-view {
+        font-size: 14px;
+    }
+    .button-action {
+        padding: 3px;
+    }
+    .filters-container {
+        justify-content: center;
+        margin-top: 19em
+    }
 }
