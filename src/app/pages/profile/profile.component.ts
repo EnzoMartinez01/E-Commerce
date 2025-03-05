@@ -69,7 +69,8 @@ export class ProfileComponent {
     idUser: 0,
     email: '',
     telephone: '',
-    password: '',
+    username: '',
+    
     
   }
 
@@ -237,8 +238,8 @@ export class ProfileComponent {
     this.editUserContetn = {
       idUser: user.idUser,
       email: user.email,
-      telephone: user.telephone,
-      password: user.password
+      username: user.username,
+      telephone: user.phoneNumber
     };
 
     console.log("Usuario preparado para editar:", this.editUser);
