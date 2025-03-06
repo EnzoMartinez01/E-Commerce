@@ -52,6 +52,18 @@ export class AddressesService {
     return this.http.put<any>(`${this.baseUrl}/updatedAddress/${idAddress}`, updatedAddress, { headers });
   }
 
+  // Delete Address
+  deleteAddress(idAddress:number):Observable<any>{
+    const token = sessionStorage.getItem("authToken");
+    if(!token){
+      throw new Error ('Token no Encontrado');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.delete<any>(`${this.baseUrl}/deleteAddress/${idAddress}`,  { headers }) 
+  }
+
   // Get all Countries
   getCountries(): Observable<any> {
     const token = sessionStorage.getItem('authToken');

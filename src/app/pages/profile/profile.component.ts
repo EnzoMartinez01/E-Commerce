@@ -37,6 +37,7 @@ export class ProfileComponent {
   selectedUser: any = {};
   viewDialog: boolean = false;
   editDialog: boolean = false;
+  deactivateDialog: boolean = false;
   userInitial: string = "U";
   cartItems: any[] = [];
   addresses: any[] = [];
@@ -258,6 +259,20 @@ export class ProfileComponent {
       console.log('Usuario Actualizado');
       this.editDialog = false;
       this.loadUser();
+    })
+  }
+
+  //delete Address
+  deleteAddress(){
+    const deleteAddress = {
+      ...this.selectedUser
+    };
+
+    this.addressService.deleteAddress(this.selectedUser.idAddress).subscribe(() => {
+      console.log('Direccion eliminada');
+      this.deactivateDialog = false;
+      this.loadUser();
+
     })
   }
 
