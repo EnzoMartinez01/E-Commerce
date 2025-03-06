@@ -296,6 +296,10 @@ body {
     padding: 0;
 }
 
+.titulo-boton {
+    margin-bottom: 15px !important;
+}
+
 @media (max-width: 1200px) {
     .container-principal {
         max-width: 1200px;
