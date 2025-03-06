@@ -48,4 +48,36 @@ public class EmailService {
             e.printStackTrace();
         }
     }
+
+    // Send password reset email
+    public void sendPasswordResetEmail(String to, String verificationCode, String fullname) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setTo(to);
+            helper.setSubject("Restablecimiento de contraseña");
+
+            String htmlContent = "<html>"
+                    + "<body style='font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;'>"
+                    + "<div style='max-width: 600px; margin: auto; background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0px 0px 10px #cccccc;'>"
+                    + "<h2 style='color: #333333; text-align: center;'>Hola, " + fullname + "!</h2>"
+                    + "<p style='color: #555555; text-align: center;'>Hemos recibido una solicitud para restablecer tu contraseña.</p>"
+                    + "<p style='color: #555555; text-align: center;'>Tu código de verificación es:</p>"
+                    + "<h3 style='color: #007BFF; text-align: center; background: #f8f9fa; padding: 10px; border-radius: 5px;'>" + verificationCode + "</h3>"
+                    + "<p style='color: #555555; text-align: center;'>Este código expirará en 10 minutos.</p>"
+                    + "<p style='color: #555555; text-align: center;'>Si no solicitaste este cambio, puedes ignorar este mensaje.</p>"
+                    + "<p style='color: #555555; text-align: center;'>Saludos,</p>"
+                    + "<p style='color: #007BFF; text-align: center; font-weight: bold;'>Equipo EMPRESARIAL</p>"
+                    + "</div>"
+                    + "</body>"
+                    + "</html>";
+
+            helper.setText(htmlContent, true);
+
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
 }

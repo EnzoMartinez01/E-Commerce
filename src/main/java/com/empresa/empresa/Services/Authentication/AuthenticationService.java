@@ -11,10 +11,12 @@ import com.empresa.empresa.Services.Mails.EmailService;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -84,7 +86,7 @@ public class AuthenticationService {
         emailService.sendVerificationEmail(users.getEmail(), code, users.getFullname());
     }
 
-    // Re send verification code
+    // Re-send verification code
     public boolean resendVerificationCode(String email) {
         Optional<Users> userOptional = usersRepository.findByEmail(email);
 
@@ -95,6 +97,51 @@ public class AuthenticationService {
             return true;
         }
         return false;
+    }
+
+    // Send Reset Password Verification Code
+    public void sendResetPasswordVerificationCode(Users users) {
+        Random random = new Random();
+        String code = String.format("%06d", random.nextInt(1000000));
+        users.setVerificationCode(code);
+        users.setVerificationCodeExpiry(LocalDateTime.now().plusMinutes(10));
+        usersRepository.save(users);
+        emailService.sendPasswordResetEmail(users.getEmail(), code, users.getFullname());
+    }
+
+    // Re-send password reset email
+    public boolean resendPasswordResetVerificationCode(String email) {
+        Optional<Users> userOptional = usersRepository.findByEmail(email);
+
+        if (userOptional.isPresent()) {
+            Users user = userOptional.get();
+
+            sendResetPasswordVerificationCode(user);
+            return true;
+        }
+        return false;
+    }
+
+    public String changePassword(String code, String newPassword) {
+        try {
+            Users user = usersRepository.findByVerificationCode(code)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Código inválido"));
+
+            if (user.getVerificationCodeExpiry().isBefore(LocalDateTime.now())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Código expirado");
+            }
+
+            user.addPasswordToHistory(user.getPassword());
+            user.setPassword(passwordEncoder.encode(newPassword));
+            user.setVerificationCode(null);
+            user.setVerificationCodeExpiry(null);
+            usersRepository.save(user);
+
+            return "Contraseña actualizada correctamente.";
+        } catch (Exception e) {
+            logger.error("Error al cambiar la contraseña", e);
+            throw new RuntimeException("Error al cambiar la contraseña", e);
+        }
     }
 
     // Verification Code

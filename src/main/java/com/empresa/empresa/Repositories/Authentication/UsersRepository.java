@@ -14,6 +14,7 @@ import java.util.Optional;
 public interface UsersRepository extends JpaRepository<Users, Integer> {
     Optional<Users> findByUsername(String username);
     Optional<Users> findByEmail(String email);
+    Optional<Users> findByVerificationCode(String code);
 
     @Query("""
         SELECT u FROM Users u 

@@ -89,6 +89,35 @@ public class AuthenticationController {
                     .body(Map.of("message", "Error verifying personal."));        }
     }
 
+    // Reset Password
+    @PostMapping("/reset-password")
+    public ResponseEntity<Map<String, String>> resetPassword(@RequestParam String email) {
+        try {
+            boolean resent = authenticationService.resendPasswordResetVerificationCode(email);
+            if (resent) {
+                return ResponseEntity.ok(Map.of("message", "El código de verificación ha sido enviado nuevamente."));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("message", "No se encontró un usuario con el correo proporcionado."));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "Error al enviar el código de verificación."));
+        }
+    }
+
+    //Change Password
+    @PostMapping("/change-password")
+    public ResponseEntity<Map<String, String>> changePassword(@RequestParam String code, @RequestParam String newPassword) {
+        try {
+            String message = authenticationService.changePassword(code, newPassword);
+            return ResponseEntity.ok(Map.of("message", message));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "Error al cambiar la contraseña."));
+        }
+    }
+
     //Login
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> authenticateUser(@RequestBody LoginDto loginDto) {
