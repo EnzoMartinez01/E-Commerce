@@ -1,4 +1,4 @@
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import {jwtDecode} from 'jwt-decode';
@@ -82,5 +82,20 @@ export class AuthService {
 
     const url = 'http://localhost:8080/api/v1/User/me';
     return this.http.get(url, { headers });
+  }
+
+  sendRecoveryCode(email: string): Observable<any> {
+    let params = new HttpParams()
+      .set('email', email.toString());
+
+    return this.http.post<any>(`${this.apiBaseUrl}/reset-password`, {}, { params });
+  }
+
+  changePassword(code: string, password: string): Observable<any> {
+    let params = new HttpParams()
+      .set('code', code.toString())
+      .set('newPassword', password.toString());
+
+    return this.http.post<any>(`${this.apiBaseUrl}/change-password`, {}, { params });
   }
 }
