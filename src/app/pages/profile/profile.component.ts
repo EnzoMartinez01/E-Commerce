@@ -35,6 +35,7 @@ import {Ripple} from 'primeng/ripple';
 })
 export class ProfileComponent {
   selectedUser: any = {};
+  selectedAddress: any;
   viewDialog: boolean = false;
   editDialog: boolean = false;
   deactivateDialog: boolean = false;
@@ -263,17 +264,24 @@ export class ProfileComponent {
   }
 
   //delete Address
-  deleteAddress(){
-    const deleteAddress = {
-      ...this.selectedUser
-    };
+  deleteLogAddressDialog(address: any) {
+    this.selectedAddress = { ...address };
+    this.deactivateDialog = true;
+  }
 
-    this.addressService.deleteAddress(this.selectedUser.idAddress).subscribe(() => {
-      console.log('Direccion eliminada');
+  deleteAddress() {
+    if (!this.selectedAddress || !this.selectedAddress.idAdress) {
+      console.error('No hay dirección seleccionada para eliminar.');
+      return;
+    }
+
+    this.addressService.deleteAddress(this.selectedAddress.idAdress).subscribe(() => {
+      console.log('Dirección eliminada');
       this.deactivateDialog = false;
       this.loadUser();
-
-    })
+    }, (error) => {
+      console.error('Error al eliminar la dirección:', error);
+    });
   }
 
 }
