@@ -57,6 +57,15 @@ public class AddressesController {
         return ResponseEntity.ok(address);
     }
 
+    // Delete Address
+    @DeleteMapping("/deleteAddress/{idAddress}")
+    public ResponseEntity<Map<String, String>> deleteAddress(@PathVariable Integer idAddress) {
+        addressService.deleteAddress(idAddress);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Address deleted successfully");
+        return ResponseEntity.ok(response);
+    }
+
     // Get all Countries
     @GetMapping("/getAllCountries")
     public List<Country> getAllCountries() {

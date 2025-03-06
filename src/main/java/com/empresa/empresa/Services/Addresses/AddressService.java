@@ -187,4 +187,16 @@ public class AddressService {
             throw new RuntimeException("Error al obtener distritos", e);
         }
     }
+
+    //Delete Adress by id
+    public void deleteAddress(Integer id){
+        try{
+            Address address = addressRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Address not found with ID: " + id));
+            addressRepository.delete(address);
+        }catch (Exception e){
+            logger.error("Error al eliminar dirección", e);
+            throw new RuntimeException("Error al eliminar dirección", e);
+        }
+    }
 }
