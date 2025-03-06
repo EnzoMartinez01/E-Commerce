@@ -75,6 +75,31 @@ p-card {
     scrollbar-color: #48828d transparent;
 }
 
+.address-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.address-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.address-info {
+    flex-grow: 1;
+}
+
+.button-action {
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px 8px;
+}
+
 .avatar {
     display: flex;
     align-items: center;
@@ -161,6 +186,7 @@ div {
 
 .boton {
     margin-right: 10px;
+    margin-bottom: 15px;
 }
 
 .button-miperfil {

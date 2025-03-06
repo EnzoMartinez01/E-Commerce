@@ -60,16 +60,20 @@
                 <p class="titulo font-bold text-lg">Direcciones Registradas:</p>
                 <p-button label="Agregar Direccion" (click)="addAddress()" class=" boton w-full bg-blue-600 text-white" />
             </div>
-            <ul *ngIf="selectedUser.addresses.length > 0; else noAddresses" class="space-y-2">
-                <li *ngFor="let address of selectedUser.addresses">
-                    <p class="font-semibold">
-                        📍 {{ address.streetName }} {{ address.streetNumber }}, {{ address.districtsName }}, {{ address.provinceName }}
-                    </p>
-                    <p class="text-sm text-gray-600 state-country">{{ address.stateName }}, {{ address.countryName }}</p>
-                    <p-button icon="pi pi-trash" pRipple class="button-action" (click)="deleteLogAddressDialog(address)"></p-button>
+            <ul *ngIf="selectedUser.addresses.length > 0; else noAddresses" class="address-list">
+                <li *ngFor="let address of selectedUser.addresses" class="address-item">
+                    <div class="address-info">
+                        <p class="font-semibold">
+                            📍 {{ address.streetName }} {{ address.streetNumber }}, {{ address.districtsName }}, {{ address.provinceName }}
+                        </p>
+                        <p class="text-sm text-gray-600 state-country">
+                            {{ address.stateName }}, {{ address.countryName }}
+                        </p>
+                    </div>
+                    <p-button icon="pi pi-trash" pRipple class="button-action"></p-button>
                 </li>
-
             </ul>
+
             <ng-template #noAddresses>
                 <p>No hay direcciones registradas.</p>
                 <p-button label="Agregar" (click)="addAddress()" class="w-full bg-blue-600 text-white" />

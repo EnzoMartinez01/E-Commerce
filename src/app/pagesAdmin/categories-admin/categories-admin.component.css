@@ -99,3 +99,49 @@
     justify-content: end;
     margin-right: 13em;
 }
+
+
+/* Responsive */
+
+@media (max-width: 1200px) {
+    .filters-container {
+        justify-content: center;
+        margin-top: 19em;
+    }
+    .boton-agregar {
+        margin-right: 5em;
+    }
+     ::ng-deep .p-datatable {
+        width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
+    .filters-container {
+        justify-content: center;
+        margin-top: 19em;
+    }
+    .boton-agregar {
+        margin-right: 0;
+        justify-content: center;
+    }
+     ::ng-deep .p-datatable {
+        width: 100%;
+    }
+    .button-container {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .filters-container {
+        justify-content: center;
+        margin-top: 19em;
+    }
+    .label-view {
+        font-size: 14px;
+    }
+    .button-action {
+        padding: 3px;
+    }
+}

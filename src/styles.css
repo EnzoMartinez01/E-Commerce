@@ -170,3 +170,21 @@
                                     .p-dialog-content {
                                         overflow-y: scroll !important;
                                     }
+                                    
+                                    @media (max-width: 1200px) {
+                                        .p-dialog {
+                                            width: 90% !important;
+                                        }
+                                    }
+                                    
+                                    @media (max-width: 768px) {
+                                        .p-dialog {
+                                            width: 90% !important;
+                                        }
+                                    }
+                                    
+                                    @media (max-width: 480px) {
+                                        .p-dialog {
+                                            width: 90% !important;
+                                        }
+                                    }
