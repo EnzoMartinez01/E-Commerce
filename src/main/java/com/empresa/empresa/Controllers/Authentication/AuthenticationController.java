@@ -118,28 +118,32 @@ public class AuthenticationController {
         }
     }
 
-    //Login
+    // Login
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> authenticateUser(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<Map<String, String>> authenticateUser(@RequestBody LoginDto loginDto) {
         try {
             Users authenticatedPersonal = authenticationService.authenticate(loginDto);
 
-            if (authenticatedPersonal.getIsActive()) {
-                String role = authenticatedPersonal.getRole() != null ? authenticatedPersonal.getRole().getName() : "ROLE_USER";
-
-                String jwtToken = jwtService.generateToken(new CustomUserDetails(authenticatedPersonal));
-
-                LoginResponse loginResponse = new LoginResponse(jwtToken, null, role);
-                return ResponseEntity.ok(loginResponse);
-            } else {
-                return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+            if (!authenticatedPersonal.getIsActive()) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Map.of("message", "Cuenta inactiva. Contacte con el administrador."));
             }
+
+            String role = (authenticatedPersonal.getRole() != null) ? authenticatedPersonal.getRole().getName() : "ROLE_USER";
+            String jwtToken = jwtService.generateToken(new CustomUserDetails(authenticatedPersonal));
+
+            return ResponseEntity.ok(Map.of(
+                    "token", jwtToken,
+                    "role", role,
+                    "message", "Inicio de sesión exitoso."
+            ));
         } catch (RuntimeException e) {
-            System.out.println("No se encontró el personal tampoco.");
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "Credenciales incorrectas o usuario no encontrado."));
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "Error interno al procesar la solicitud."));
         }
     }
 
