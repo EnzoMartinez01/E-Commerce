@@ -283,5 +283,4 @@ export class ProfileComponent {
       console.error('Error al eliminar la dirección:', error);
     });
   }
-
 }
