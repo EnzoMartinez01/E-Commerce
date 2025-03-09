@@ -115,6 +115,13 @@ export class ProductsAdminComponent implements OnInit {
     category: 0
   }
 
+  editProductOfferContent = {
+    idProduct: 0,
+    offerDescount: 0,
+    isOffer: true
+  }
+
+  offerDialog: boolean = false;
   attributesDialog: boolean = false;
   characteristicsDialog: boolean = false;
   addCharacteristicDialog: boolean = false;
@@ -372,6 +379,40 @@ export class ProductsAdminComponent implements OnInit {
           console.error('Error al agregar atributos:', error);
         }
       );
+  }
+
+  // Edit Product Offer
+  editProductOffer(product: Products) {
+    console.log("Producto recibido:", product);
+    this.editProductOfferContent = {
+      idProduct: product.idProduct,
+      offerDescount: product.productOfferDiscount,
+      isOffer: product.isOffer
+    };
+    console.log("Producto preparado para editar:", this.editProductOffer);
+    this.offerDialog = true;
+  }
+
+  updatedProductOffer() {
+    const updatedProductOffer = {
+      ...this.editProductOfferContent,
+      isOffer: true
+    };
+
+    console.log('Producto antes de actualizar:', updatedProductOffer);
+
+    this.productService.updateProductOffer(
+      updatedProductOffer.idProduct,
+      updatedProductOffer
+    ).subscribe(() => {
+        console.log('Producto actualizado');
+        this.offerDialog = false;
+        this.loadProducts(0, this.rows);
+      },
+      (error) => {
+        console.error('Error al actualizar el producto:', error);
+      }
+    );
   }
 
   //EditProducts

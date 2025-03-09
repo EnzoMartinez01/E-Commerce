@@ -97,6 +97,18 @@ export class ProductsService {
     return this.http.post<any>(`${this.baseUrl}/addProduct`, productDate, { headers });
   }
 
+  // Update Product Offer
+  updateProductOffer(idProduct: number, updatedProductOffer: any): Observable<any> {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Token no encontrado');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.put<any>(`${this.baseUrl}/updateProductOffer/${idProduct}`, updatedProductOffer, { headers });
+  }
+
   // Updated Product
   updateProduct(idProduct: number, updatedProduct: any): Observable<any> {
     const token = sessionStorage.getItem('authToken');

@@ -74,6 +74,7 @@
                 <p-button icon="pi pi-list" pRipple class="button-action" (click)="showCharacteristics(product)"></p-button>
             </td>
             <td>
+                <p-button icon="pi pi-dollar" pRipple class="button-action" (click)="editProductOffer(product)"></p-button>
                 <p-button icon="pi pi-pencil" pRipple class="button-action" (click)="editProduct(product)"></p-button>
                 <p-button icon="pi pi-trash" pRipple class="button-action" (click)="deactivateProduct(product)"></p-button>
                 <p-button icon="pi pi-eye" pRipple class="button-action" (click)="viewProduct(product)"></p-button>
@@ -218,7 +219,18 @@
     </ng-template>
 </p-dialog>
 
-
+<p-dialog header="Crear Oferta" [(visible)]="offerDialog" [style]="{ width: '30rem' }">
+    <div class="flex flex-col gap-4">
+        <div class="flex items-center gap-4">
+            <label for="offerDescount" class="font-semibold w-28 label-edit">Porcentaje de Descuento </label>
+            <input pInputText id="offerDescount" class="flex-auto" type="number" [(ngModel)]="editProductOfferContent.offerDescount" autocomplete="off" />
+        </div>
+    </div>
+    <div class="flex justify-end gap-2 mt-4 button-container">
+        <p-button label="Guardar" (click)="updatedProductOffer()" />
+        <p-button label="Cancelar" severity="secondary" (click)="offerDialog = false" />
+    </div>
+</p-dialog>
 
 <p-dialog header="Editar Producto" [(visible)]="visibleDialog" [style]="{ width: '30rem' }">
     <div class="flex flex-col gap-4">
