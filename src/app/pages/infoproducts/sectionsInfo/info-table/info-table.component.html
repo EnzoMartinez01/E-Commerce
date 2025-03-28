@@ -6,7 +6,7 @@
         </p-tablist>
         <p-tabpanels>
             <p-tabpanel value="0">
-                <p-table stripedRows [value]="characteristics" [tableStyle]="{'min-width': '50rem'}">
+                <p-table stripedRows [value]="characteristics">
                     <ng-template pTemplate="header">
                         <tr>
                             <th>Nombre</th>
@@ -23,17 +23,17 @@
             </p-tabpanel>
 
             <p-tabpanel value="1">
-                <p-table stripedRows [value]="attributes" [tableStyle]="{'min-width': '50rem'}">
+                <p-table stripedRows [value]="attributes">
                     <ng-template pTemplate="header">
                         <tr>
                             <th>Atributos</th>
                             <th>PDF</th>
                         </tr>
                     </ng-template>
-                    <ng-template pTemplate="body" let-product>
+                    <ng-template pTemplate="body" let-product let-i="index">
                         <tr>
                             <td>{{ product.attributeName }}</td>
-                            <td>
+                            <td *ngIf="attributes.indexOf(product) === 0">
                                 <a *ngIf="pdfFileUrl" [href]="pdfFileUrl" target="_blank">
                                     <i class="pi pi-file-pdf"></i>
                                 </a>

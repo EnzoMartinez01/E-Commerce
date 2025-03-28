@@ -29,7 +29,7 @@
 .modal-content {
     margin: 20px;
     height: 90%;
-  overflow: scroll;
+    overflow: scroll;
     background: white;
     padding: 50px;
     border-radius: 8px;
@@ -114,6 +114,29 @@
 
 .register a:hover {
     text-decoration: underline;
+}
+
+.password-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.password-container input {
+    padding-right: 40px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6c757d;
+}
+
+.password-toggle:hover {
+    color: #000;
 }
 
 

@@ -200,8 +200,6 @@ export class ProductsFilterComponent {
     this.loadProducts(0, this.rows);
   }
 
-
-
   onPageChange(event: any): void {
     this.first = event.first;
     this.rows = event.rows;

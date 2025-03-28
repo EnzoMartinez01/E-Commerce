@@ -1,13 +1,13 @@
 <p-toast position="bottom-center" key="confirm" [baseZIndex]="5000">
-  <ng-template let-message #message>
-    <div class="flex flex-col items-start flex-auto">
-      <div class="flex items-center gap-2">
-        <span class="font-bold">Notificación</span>
-      </div>
-      <div class="font-medium text-lg my-4">{{ message.summary }}</div>
-      <p-button severity="success" size="small" label="Ver carrito" routerLink="/cart" />
-    </div>
-  </ng-template>
+    <ng-template let-message #message>
+        <div class="flex flex-col items-start flex-auto">
+            <div class="flex items-center gap-2">
+                <span class="font-bold">Notificación</span>
+            </div>
+            <div class="font-medium text-lg my-4">{{ message.summary }}</div>
+            <p-button severity="success" size="small" label="Ver carrito" routerLink="/cart" />
+        </div>
+    </ng-template>
 </p-toast>
 
 <div class="container">
@@ -18,7 +18,7 @@
                 {{ filtro.nombre }}
                 <span class="filtro-icono">{{ filtro.abierto ? '▲' : '▼' }}</span>
             </h4>
-            <div class="filtro-opciones" [class.abierto]="filtro.abierto">
+            <div class="filtro-opciones" *ngIf="filtro.abierto">
                 <label *ngFor="let opcion of filtro.opciones" class="filtro-opcion">
           <input type="checkbox" [(ngModel)]="opcion.seleccionado" (change)="onFilterChange()">
           {{ opcion.nombre }}

@@ -5,10 +5,13 @@ import { AuthService } from '../../../../core/services/auth/auth.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgIf } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-login-modal',
-  imports: [FormsModule, NgIf, ReactiveFormsModule],
+  imports: [FormsModule, NgIf, ReactiveFormsModule, CommonModule],
   templateUrl: './login-modal.component.html',
   styleUrl: './login-modal.component.css'
 })
@@ -19,6 +22,7 @@ export class LoginModalComponent {
   errorMessage = '';
   isLoading = false;
   rememberPassword = false;
+  showPassword: boolean = false;
 
   isRegistering = false;
 
@@ -33,6 +37,7 @@ export class LoginModalComponent {
     password: '',
     birthDate: ''
   };
+
 
   idRole: number = 3;
 
@@ -135,5 +140,9 @@ export class LoginModalComponent {
 
   toggleForm(): void {
     this.isRegistering = !this.isRegistering;
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 }

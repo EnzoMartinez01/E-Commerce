@@ -31,13 +31,20 @@ export class InfoTableComponent implements OnInit{
   loadProductData(idProduct: number): void {
     this.productService.getProductsById(idProduct).subscribe(
       (data) => {
-        console.log("📥 Datos del producto recibidos:", data);
+        console.log(" Datos del producto recibidos:", data);
         this.productData = data;
         this.characteristics = data.characteristics || [];
         this.attributes = data.attributes || [];
-        this.pdfFileUrl = data.pdfFile || '';
+        if (data.pdfFile) {
+          this.pdfFileUrl = data.pdfFile;
+          console.log("PDF encontrado:", this.pdfFileUrl);
+        } else {
+          console.warn("No se encontró pdfFile en la respuesta del backend.");
+        }
       },
-      (error) => console.error("❌ Error al cargar datos del producto:", error)
+      (error) => console.error("Error al cargar datos del producto:", error)
     );
+    
   }
+  
 }
