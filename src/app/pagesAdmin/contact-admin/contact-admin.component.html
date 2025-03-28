@@ -125,7 +125,7 @@
 
 <p-dialog [(visible)]="deactivateDialog" header="Confirmar Desactivación" [style]="{ width: '25rem' }">
     <p>¿Estás seguro de que deseas desactivar este contacto? <strong>Indique su motivo de desactivación.</strong></p>
-    <div class="p-field">
+    <div class="p-field desactivate-fields-container">
         <label for="deactivateContact">Respuesta</label>
         <textarea id="deactivateContact" pInputTextarea [(ngModel)]="selectedContact.answer"></textarea>
     </div>

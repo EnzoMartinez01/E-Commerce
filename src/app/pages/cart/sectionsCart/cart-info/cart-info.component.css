@@ -150,3 +150,9 @@ div {
 .carrito-boton:hover {
     background-color: #2d4e54;
 }
+
+@media (max-width: 768px) {
+    .carrito-contenido {
+      flex-direction: column;
+    }
+}

@@ -147,4 +147,8 @@ div {
         flex-direction: column;
         align-items: center;
     }
+    ::ng-deep .p-breadcrumb-item-label {
+      text-overflow: ellipsis;
+      text-wrap: nowrap;
+    }
 }

@@ -2,59 +2,71 @@
         padding: 20px;
         overflow-x: auto;
     }
-    
+
      ::ng-deep .p-datatable {
         width: 80%;
         margin: auto;
         max-width: 100%;
     }
-    
+
      ::ng-deep .p-datatable-thead>tr>th {
         font-weight: bold;
     }
-    
+
     .button-action {
         padding: 5px;
     }
-    
+
      ::ng-deep .p-button {
         background: #48828d;
         border-color: #48828d;
     }
-    
+
      ::ng-deep .p-button:hover {
         background: #fff !important;
         color: #48828d !important;
         border-color: #48828d !important;
     }
-    
+
     .text-green-500 {
         color: green;
         font-weight: bold;
     }
-    
+
      ::ng-deep .p-button-secondary {
         color: #fff;
     }
-    
+
     .button-container {
         display: flex;
         justify-content: flex-end;
         gap: 10px;
     }
-    
+
     .label-view {
         font-weight: bold;
         color: #48828d;
         font-size: 18px;
     }
-    
+
+    .desactivate-fields-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      textarea {
+        border-radius: 5px;
+        transition: 0.3s ease-in-out;
+        border: 1px solid #48828d !important;
+        color: #334155 !important;
+      }
+    }
+
     .label-edit {
         font-weight: bold;
         color: #48828d;
         font-size: 18px;
     }
-    
+
     .filters-container {
         display: flex;
         gap: 20px;
@@ -62,15 +74,15 @@
         justify-content: flex-end;
         margin-right: 13em;
     }
-    
+
     .p-button-text {
         color: #fff !important;
     }
-    
+
     .p-button-text:hover {
         color: #48828d !important;
     }
-    
+
     @media (max-width: 1200px) {
          ::ng-deep .p-datatable {
             width: 90%;
@@ -80,7 +92,7 @@
             margin-top: 19em;
         }
     }
-    
+
     @media (max-width: 768px) {
          ::ng-deep .p-datatable {
             width: 100%;
@@ -96,7 +108,7 @@
             justify-content: center;
         }
     }
-    
+
     @media (max-width: 480px) {
         .label-view,
         .label-edit {
