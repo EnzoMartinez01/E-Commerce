@@ -15,8 +15,8 @@ public class EmailConfig {
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
 
-        mailSender.setUsername("72355194@certus.edu.pe");
-        mailSender.setPassword("YourPass2024.");
+        mailSender.setUsername("MAIL");
+        mailSender.setPassword("PASS.");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
