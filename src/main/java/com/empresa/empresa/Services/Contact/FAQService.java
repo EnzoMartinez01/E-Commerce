@@ -72,7 +72,6 @@ public class FAQService {
                     .orElseThrow(() -> new RuntimeException("Usuario no Encontrado"));
             faq.setCreatedBy(users);
             faq.setCreated_at(LocalDateTime.now());
-            faq.setIsActive(true);
 
             return  faqRepository.save(faq);
         } catch (Exception e){

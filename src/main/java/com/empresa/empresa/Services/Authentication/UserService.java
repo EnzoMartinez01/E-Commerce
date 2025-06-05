@@ -14,7 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import com.empresa.empresa.Dto.Authentication.UserUpdateDto;
 
 import java.util.Collections;
 import java.util.List;
@@ -177,16 +176,4 @@ public class UserService {
     public List<Roles> getRolesAll(){
         return rolesRepository.findAll();
     }
-
-    // Updated User
-    public Users updateUserFromDto(Integer idUser, UserUpdateDto dto) {
-    Users existingUser = usersRepository.findById(idUser)
-            .orElseThrow(() -> new RuntimeException("User not found"));
-
-    if (dto.getUsername() != null) existingUser.setUsername(dto.getUsername());
-    if (dto.getEmail() != null) existingUser.setEmail(dto.getEmail());
-    if (dto.getphoneNumber() != null) existingUser.setTelephone(dto.getphoneNumber());
-
-    return usersRepository.save(existingUser);
-}
 }

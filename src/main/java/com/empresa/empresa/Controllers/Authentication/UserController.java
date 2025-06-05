@@ -1,7 +1,6 @@
 package com.empresa.empresa.Controllers.Authentication;
 
 import com.empresa.empresa.Dto.Authentication.UserDto;
-import com.empresa.empresa.Dto.Authentication.UserUpdateDto;
 import com.empresa.empresa.Models.Authentication.Roles;
 import com.empresa.empresa.Models.Authentication.Users;
 import com.empresa.empresa.Services.Authentication.UserService;
@@ -84,19 +83,19 @@ public class UserController {
         }
     }
 
-  @PutMapping("/updateUser/{idUser}")
-public ResponseEntity<Map<String, String>> updateUser(@PathVariable Integer idUser, @RequestBody UserUpdateDto updatedUser){
-    try {
-        userService.updateUserFromDto(idUser, updatedUser);
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "User updated successfully");
-        return ResponseEntity.ok(response);
-    } catch (AccessDeniedException ex) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
-    } catch (RuntimeException ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+    @PutMapping("/updateUser/{idUser}")
+    public ResponseEntity<Map<String, String>> updateUser(@PathVariable Integer idUser, @RequestBody Users updatedUser){
+        try {
+            Users user = userService.updateUser(idUser, updatedUser);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "User updated successfully");
+            return ResponseEntity.ok(response);
+        } catch (AccessDeniedException ex) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
-}
 
     @PatchMapping("/deactivateUser/{idUser}")
     public ResponseEntity<Map<String, String>> deactivateUser(@PathVariable Integer idUser){
