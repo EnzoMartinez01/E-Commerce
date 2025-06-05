@@ -87,7 +87,7 @@ public class UserController {
   @PutMapping("/updateUser/{idUser}")
 public ResponseEntity<Map<String, String>> updateUser(@PathVariable Integer idUser, @RequestBody UserUpdateDto updatedUser){
     try {
-        userService.updateUserFromDto(idUser, updatedUser);
+        Users user = userService.updateUser(idUser, updatedUser);
         Map<String, String> response = new HashMap<>();
         response.put("message", "User updated successfully");
         return ResponseEntity.ok(response);

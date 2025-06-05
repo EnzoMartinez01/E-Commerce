@@ -174,19 +174,9 @@ public class UserService {
     }
 
     // Get Roles all
-    public List<Roles> getRolesAll(){
+    public List<Roles> getRolesAll()
+    {
         return rolesRepository.findAll();
     }
 
-    // Updated User
-    public Users updateUserFromDto(Integer idUser, UserUpdateDto dto) {
-    Users existingUser = usersRepository.findById(idUser)
-            .orElseThrow(() -> new RuntimeException("User not found"));
-
-    if (dto.getUsername() != null) existingUser.setUsername(dto.getUsername());
-    if (dto.getEmail() != null) existingUser.setEmail(dto.getEmail());
-    if (dto.getphoneNumber() != null) existingUser.setTelephone(dto.getphoneNumber());
-
-    return usersRepository.save(existingUser);
-}
 }
