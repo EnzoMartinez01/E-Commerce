@@ -5,18 +5,14 @@ import com.empresa.empresa.Models.Authentication.CustomUserDetails;
 import com.empresa.empresa.Models.Authentication.Users;
 import com.empresa.empresa.Repositories.Authentication.RolesRepository;
 import com.empresa.empresa.Security.JWTService;
-import com.empresa.empresa.Security.LoginResponse;
 import com.empresa.empresa.Services.Authentication.AuthenticationService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
+import java.io.Serializable;
 import java.util.Map;
 
 @RestController
@@ -120,7 +116,7 @@ public class AuthenticationController {
 
     // Login
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> authenticateUser(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<Map<String, Serializable>> authenticateUser(@RequestBody LoginDto loginDto) {
         try {
             Users authenticatedPersonal = authenticationService.authenticate(loginDto);
 
@@ -130,12 +126,14 @@ public class AuthenticationController {
             }
 
             String role = (authenticatedPersonal.getRole() != null) ? authenticatedPersonal.getRole().getName() : "ROLE_USER";
+            Integer idUser = authenticatedPersonal.getId() != null ? authenticatedPersonal.getId() : 0;
             String jwtToken = jwtService.generateToken(new CustomUserDetails(authenticatedPersonal));
 
             return ResponseEntity.ok(Map.of(
                     "token", jwtToken,
+                    "user", idUser,
                     "role", role,
-                    "message", "Inicio de sesión exitoso."
+                    "message", "Inicio de sesión exitoso!"
             ));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)

@@ -14,7 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import com.empresa.empresa.Dto.Authentication.UserUpdateDto;
 
 import java.util.Collections;
 import java.util.List;
@@ -174,9 +173,7 @@ public class UserService {
     }
 
     // Get Roles all
-    public List<Roles> getRolesAll()
-    {
+    public List<Roles> getRolesAll(){
         return rolesRepository.findAll();
     }
-
 }
