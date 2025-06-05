@@ -133,7 +133,7 @@ public class AuthenticationController {
                     "token", jwtToken,
                     "user", idUser,
                     "role", role,
-                    "message", "Inicio de sesión exitoso."
+                    "message", "Inicio de sesión exitoso!"
             ));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
