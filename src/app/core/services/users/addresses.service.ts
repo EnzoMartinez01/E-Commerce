@@ -61,7 +61,7 @@ export class AddressesService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.delete<any>(`${this.baseUrl}/deleteAddress/${idAddress}`,  { headers }) 
+    return this.http.delete<any>(`${this.baseUrl}/deleteAddress/${idAddress}`,  { headers })
   }
 
   // Get all Countries

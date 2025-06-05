@@ -86,11 +86,18 @@ export class CartInfoComponent implements OnInit {
   calcularSubtotal() {
     if (this.cart.cartItems) {
       this.subtotal = this.cart.cartItems.reduce(
-        (acc: number, item: { product: { productPrice: any; }; quantity: any; }) =>
-          acc + ((item.product?.productPrice || 0) * (item.quantity || 1)), 0
+        (acc: number, item: { product: { productPrice: number; priceOffer?: number; }; quantity: number; }) =>
+          acc + (
+            (
+              item.product?.priceOffer != null
+                ? item.product.priceOffer
+                : item.product?.productPrice || 0
+            ) * (item.quantity || 1)
+          ), 0
       );
 
       this.cart.total = this.subtotal;
     }
   }
+
 }
