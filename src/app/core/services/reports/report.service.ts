@@ -53,4 +53,17 @@ export class ReportService {
       .set('size', size.toString())
     return this.http.get<any>(`${this.baseUrl}/getAuditLogsByUser/${idUser}`, { params, headers });
   }
+
+  exportToExcelFile(): Observable<Blob> {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Token no encontrado');
+    }
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get(`${this.baseUrl}/exportToExcel`, { headers, responseType: 'blob' });
+  }
 }

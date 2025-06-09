@@ -93,6 +93,19 @@ export class AuditAdminComponent implements OnInit {
     );
   }
 
+  exportToExcel() {
+    this.reportService.exportToExcelFile().subscribe(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a =  document.createElement('a');
+      a.href = url;
+      a.download = 'audit-logs.xlsx';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }, error => {
+      console.error('Error al exportar: ', error);
+    })
+  }
+
 
   updateChart(auditData: any): void {
     this.chartData = auditData;
