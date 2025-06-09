@@ -2,10 +2,13 @@ package com.empresa.empresa.Controllers.Reports;
 
 import com.empresa.empresa.Dto.Reports.AuditLogDto;
 import com.empresa.empresa.Services.Reports.AuditLogService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/v1/AuditLogs")
@@ -32,5 +35,11 @@ public class AuditLogController {
             @RequestParam(defaultValue = "10")int size,
             @PathVariable Integer idUser){
         return auditLogService.getAuditLogsByUser(page, size, idUser);
+    }
+
+    // Export to Excel
+    @GetMapping("/api/audit-logs/export")
+    public void exportAuditLogs(HttpServletResponse response) throws IOException {
+        auditLogService.exportAuditLogsToExcel(response);
     }
 }

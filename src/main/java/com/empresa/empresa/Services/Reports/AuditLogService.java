@@ -7,6 +7,9 @@ import com.empresa.empresa.Models.Reports.Action;
 import com.empresa.empresa.Models.Reports.AuditLog;
 import com.empresa.empresa.Repositories.Authentication.UsersRepository;
 import com.empresa.empresa.Repositories.Reports.AuditRepository;
+import jakarta.servlet.http.HttpServletResponse;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -16,7 +19,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Service
@@ -153,6 +158,82 @@ public class AuditLogService {
         } catch (Exception e) {
             logger.error("Error al eliminar Producto", e);
             throw new RuntimeException("Error al eliminar Producto", e);
+        }
+    }
+
+    // Exportar archivo Excel con registros de auditoría
+    public void exportAuditLogsToExcel(HttpServletResponse response) throws IOException {
+        List<AuditLog> auditLogs = auditRepository.findAll();
+
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Audit Logs");
+
+            CellStyle borderedStyle = workbook.createCellStyle();
+            borderedStyle.setBorderTop(BorderStyle.THIN);
+            borderedStyle.setBorderBottom(BorderStyle.THIN);
+            borderedStyle.setBorderLeft(BorderStyle.THIN);
+            borderedStyle.setBorderRight(BorderStyle.THIN);
+
+            CellStyle headerStyle = workbook.createCellStyle();
+            headerStyle.cloneStyleFrom(borderedStyle);
+            headerStyle.setFillForegroundColor(IndexedColors.TEAL.getIndex());
+            headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+            Font headerFont = workbook.createFont();
+            headerFont.setBold(true);
+            headerFont.setColor(IndexedColors.WHITE.getIndex());
+            headerStyle.setFont(headerFont);
+
+            CellStyle dateStyle = workbook.createCellStyle();
+            dateStyle.cloneStyleFrom(borderedStyle);
+            CreationHelper createHelper = workbook.getCreationHelper();
+            dateStyle.setDataFormat(createHelper.createDataFormat().getFormat("yyyy-MM-dd HH:mm:ss"));
+
+            String[] columns = {"ID", "Acción", "ID Usuario", "Nombre", "Detalles", "Fecha"};
+            Row headerRow = sheet.createRow(0);
+            for (int i = 0; i < columns.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(columns[i]);
+                cell.setCellStyle(headerStyle);
+            }
+
+            int rowNum = 1;
+            for (AuditLog log : auditLogs) {
+                Row row = sheet.createRow(rowNum++);
+
+                Cell cell0 = row.createCell(0);
+                cell0.setCellValue(log.getId());
+                cell0.setCellStyle(borderedStyle);
+
+                Cell cell1 = row.createCell(1);
+                cell1.setCellValue(log.getAction().name());
+                cell1.setCellStyle(borderedStyle);
+
+                Cell cell2 = row.createCell(2);
+                cell2.setCellValue(log.getPerformedBy().getId());
+                cell2.setCellStyle(borderedStyle);
+
+                Cell cell3 = row.createCell(3);
+                cell3.setCellValue(log.getPerformedBy().getFullname());
+                cell3.setCellStyle(borderedStyle);
+
+                Cell cell4 = row.createCell(4);
+                cell4.setCellValue(log.getDetails());
+                cell4.setCellStyle(borderedStyle);
+
+                Cell cell5 = row.createCell(5);
+                cell5.setCellValue(log.getPerformed_at());
+                cell5.setCellStyle(dateStyle);
+            }
+
+            for (int i = 0; i < columns.length; i++) {
+                sheet.autoSizeColumn(i);
+            }
+
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            response.setHeader("Content-Disposition", "attachment; filename=audit-logs.xlsx");
+
+            workbook.write(response.getOutputStream());
         }
     }
 }
