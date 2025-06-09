@@ -38,7 +38,7 @@ public class AuditLogController {
     }
 
     // Export to Excel
-    @GetMapping("/api/audit-logs/export")
+    @GetMapping("/exportToExcel")
     public void exportAuditLogs(HttpServletResponse response) throws IOException {
         auditLogService.exportAuditLogsToExcel(response);
     }
