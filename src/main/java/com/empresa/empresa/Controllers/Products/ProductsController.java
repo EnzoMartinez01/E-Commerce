@@ -78,6 +78,16 @@ public class ProductsController {
         return ResponseEntity.ok(response);
     }
 
+    // Deactivate offer Product
+    @PatchMapping("/deactivateProductOffer/{idProduct}")
+    public ResponseEntity<Map<String, String>> deactivateProductOffer(@PathVariable Integer idProduct){
+        productsService.deactivateProductOffer(idProduct);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Product offer deactivated successfully");
+        return ResponseEntity.ok(response);
+    }
+
+
     //Updated Product
     @PutMapping("/updateProduct/{idProduct}")
     public ResponseEntity<Map<String, String>> updateProduct(@PathVariable Integer idProduct,

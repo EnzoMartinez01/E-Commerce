@@ -9,13 +9,9 @@ import com.empresa.empresa.Models.Products.Products;
 import com.empresa.empresa.Repositories.Products.ProductsRepository;
 import com.empresa.empresa.Services.Reports.AuditLogService;
 
-import javax.management.RuntimeErrorException;
-
 import jakarta.persistence.EntityNotFoundException;
-import org.eclipse.angus.mail.handlers.message_rfc822;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -169,6 +165,30 @@ public class ProductsService {
             throw new RuntimeException("Error al añadir Producto", e);
         }
     }
+
+    // Deactivate offer Product
+    public void deactivateProductOffer(Integer idProduct) {
+        try {
+            Products existingProduct = productsRepository.findById(idProduct)
+                    .orElseThrow(() -> new RuntimeException("Product not found with ID: " + idProduct));
+
+            if (existingProduct.getIsOffer() != null && existingProduct.getIsOffer()) {
+                existingProduct.setIsOffer(false);
+                existingProduct.setOfferDescount(null);
+                existingProduct.setPriceOffer(null);
+            } else {
+                throw new RuntimeException("El producto no tiene una oferta activa");
+            }
+
+            auditLogService.logActionCreated("SE DESACTIVÓ LA OFERTA DE PRODUCTO: " + existingProduct.getProductName());
+
+            productsRepository.save(existingProduct);
+        } catch (Exception e) {
+            logger.error("Error al desactivar la oferta del producto", e);
+            throw new RuntimeException("Error al desactivar la oferta del producto", e);
+        }
+    }
+
 
     // Updated Product
     public Products updateProduct(Integer idProduct, Products updatedProduct) {
