@@ -415,6 +415,20 @@ export class ProductsAdminComponent implements OnInit {
     );
   }
 
+  // Deactivate Offer Product
+  deactivateOfferProduct() {
+    const deactivateOffer = {
+      ...this.editProductOffer
+    };
+    console.log(this.editProductOfferContent.idProduct);
+    
+    this.productService.deactivateOfferProduct(this.editProductOfferContent.idProduct).subscribe(() => {
+      console.log('Oferta desactivada');
+      this.offerDialog = false;
+      this.loadProducts(0, this.rows);
+    })
+  }
+
   //EditProducts
   editProduct(product: Products) {
     console.log("Producto recibido:", product);
