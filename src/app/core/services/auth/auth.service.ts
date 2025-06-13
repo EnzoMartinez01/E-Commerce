@@ -2,6 +2,7 @@ import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/c
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import {jwtDecode} from 'jwt-decode';
+import {CartService} from '../cart/cart.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AuthService {
 
   private apiBaseUrl = 'http://localhost:8080/api/v1/auth';
 
-  constructor( private http: HttpClient ) { }
+  constructor(private http: HttpClient, private cartService: CartService) {}
 
   registerUser(user: any, idRole: number): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/register/user/${idRole}`, user).pipe(
@@ -25,10 +26,20 @@ export class AuthService {
     return throwError(() => new Error('Error al registrar usuario.'));
   }
 
-  login (username: string, password: string): Observable<any> {
+  login(username: string, password: string): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/login`, { username, password }).pipe(
-      map((response) => {
+      map((response: any) => {
         this.isAuthenticated = true;
+
+        const token = response.token;
+        const idUser = response.user;
+
+        if (token && idUser !== undefined) {
+          this.saveToken(token, idUser);
+        } else {
+          console.warn("Token o ID de usuario no presente en la respuesta:", response);
+        }
+
         return response;
       }),
       catchError((error) => {
@@ -46,8 +57,13 @@ export class AuthService {
     return this.http.post(`${this.apiBaseUrl}/logout`, {}, { headers });
   }
 
-  saveToken(token: string): void {
-    sessionStorage.setItem('authToken', token);
+  saveToken(token: string, idUser: number): void {
+    if (token && idUser !== undefined) {
+      sessionStorage.setItem('authToken', token);
+      sessionStorage.setItem('idUser', idUser.toString());
+    } else {
+      console.error("Token o ID de usuario inválido al guardar.");
+    }
   }
 
   getToken(): string | null {
