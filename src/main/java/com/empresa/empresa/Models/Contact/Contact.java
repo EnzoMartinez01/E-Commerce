@@ -23,7 +23,9 @@ public class Contact {
     private String email;
     private String dniRuc;
     private String telephone;
+    @Column(length = 1000)
     private String message;
+    @Column(length = 1000)
     private String answer;
 
     @ManyToOne(fetch = FetchType.LAZY)

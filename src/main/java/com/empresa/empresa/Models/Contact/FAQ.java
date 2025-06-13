@@ -16,7 +16,9 @@ public class FAQ {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(length = 400)
     private String question;
+    @Column(length = 400)
     private String answer;
 
     private Boolean isActive;
