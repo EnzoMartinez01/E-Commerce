@@ -3,6 +3,7 @@ package com.empresa.empresa.Models.Cart;
 import com.empresa.empresa.Deserializer.Authentication.UsersDeserializer;
 import com.empresa.empresa.Deserializer.Cart.PaymentMethodDeserializer;
 import com.empresa.empresa.Models.Authentication.Users;
+import com.empresa.empresa.Models.Payments.Payment;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;
@@ -38,4 +39,7 @@ public class Cart {
     private List<CartItems> cartItems = new ArrayList<>();
 
     private Double total;
+
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Payment> payments = new ArrayList<>();
 }
