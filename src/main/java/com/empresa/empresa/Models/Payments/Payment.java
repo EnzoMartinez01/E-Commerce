@@ -1,5 +1,6 @@
 package com.empresa.empresa.Models.Payments;
 
+import com.empresa.empresa.Models.Authentication.Users;
 import com.empresa.empresa.Models.Cart.Cart;
 import com.empresa.empresa.Models.Cart.PaymentMethod;
 import jakarta.persistence.*;
@@ -36,4 +37,13 @@ public class Payment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "paymentMethod_id", nullable = false)
     private PaymentMethod paymentMethod;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "validated_by")
+    private Users validatedBy;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date validationDate;
+
+    private Boolean emailSent = false;
 }

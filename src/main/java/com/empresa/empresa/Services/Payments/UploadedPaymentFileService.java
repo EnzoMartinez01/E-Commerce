@@ -24,10 +24,13 @@ public class UploadedPaymentFileService {
 
     public UploadedPaymentFile saveFile(MultipartFile file, Payment payment) {
         try {
-            Files.createDirectories(Paths.get(UPLOAD_DIR));
+            String docNumber = payment.getCart().getUsers().getDni();
+
+            Path dirPath = Paths.get(UPLOAD_DIR, docNumber);
+            Files.createDirectories(dirPath);
 
             String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
-            Path path = Paths.get(UPLOAD_DIR, fileName);
+            Path path = dirPath.resolve(fileName);
             Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
             UploadedPaymentFile uploadedFile = new UploadedPaymentFile();

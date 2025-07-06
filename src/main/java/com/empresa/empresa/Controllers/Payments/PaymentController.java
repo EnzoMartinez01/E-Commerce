@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/v1/payments")
@@ -26,6 +27,17 @@ public class PaymentController {
             @RequestParam("reference") String reference,
             @RequestParam("file") MultipartFile file) {
         paymentService.registerPayment(cartId, reference, file);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Payment registered successfully.");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Payment registered, waiting for approbation.");
+    }
+
+    @PostMapping("/validatePayment")
+    public ResponseEntity<String> validatePayment(
+            @RequestParam Integer paymentId,
+            @RequestParam Boolean isValid,
+            Principal principal
+    ) {
+        String username = principal.getName();
+        paymentService.validatePayment(paymentId, isValid, username);
+        return ResponseEntity.ok("Payment validation processed successfully.");
     }
 }

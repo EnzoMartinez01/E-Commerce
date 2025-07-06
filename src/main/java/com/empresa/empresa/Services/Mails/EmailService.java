@@ -80,4 +80,60 @@ public class EmailService {
             e.printStackTrace();
         }
     }
+
+    // Send payment approval or rejection emails
+    public void sendPaymentApprovedEmail(String to, String fullName, String reference) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setTo(to);
+            helper.setSubject("Confirmación de pago recibido Ecommerce");
+
+            String htmlContent = "<html>"
+                    + "<body style='font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;'>"
+                    + "<div style='max-width: 600px; margin: auto; background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0px 0px 10px #cccccc;'>"
+                    + "<h2 style='color: #28a745; text-align: center;'>¡Hola, " + fullName + "!</h2>"
+                    + "<p style='color: #555555; text-align: center;'>Tu pago con referencia <strong>" + reference + "</strong> ha sido <strong>aprobado</strong>.</p>"
+                    + "<p style='color: #555555; text-align: center;'>Gracias por tu compra. Ya estamos procesando tu pedido.</p>"
+                    + "<p style='color: #555555; text-align: center;'>Saludos,</p>"
+                    + "<p style='color: #007BFF; text-align: center; font-weight: bold;'>Equipo EMPRESARIAL</p>"
+                    + "</div>"
+                    + "</body>"
+                    + "</html>";
+
+            helper.setText(htmlContent, true);
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendPaymentRejectedEmail(String to, String fullName, String reference) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setTo(to);
+            helper.setSubject("Pago rechazado Ecommerce");
+
+            String htmlContent = "<html>"
+                    + "<body style='font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;'>"
+                    + "<div style='max-width: 600px; margin: auto; background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0px 0px 10px #cccccc;'>"
+                    + "<h2 style='color: #dc3545; text-align: center;'>Hola, " + fullName + ".</h2>"
+                    + "<p style='color: #555555; text-align: center;'>Lamentamos informarte que tu pago con referencia <strong>" + reference + "</strong> ha sido <strong>rechazado</strong>.</p>"
+                    + "<p style='color: #555555; text-align: center;'>Por favor revisa los datos del comprobante o comunícate con soporte.</p>"
+                    + "<p style='color: #555555; text-align: center;'>Saludos,</p>"
+                    + "<p style='color: #007BFF; text-align: center; font-weight: bold;'>Equipo EMPRESARIAL</p>"
+                    + "</div>"
+                    + "</body>"
+                    + "</html>";
+
+            helper.setText(htmlContent, true);
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

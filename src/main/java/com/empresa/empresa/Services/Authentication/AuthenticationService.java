@@ -106,7 +106,7 @@ public class AuthenticationService {
         users.setVerificationCode(code);
         users.setVerificationCodeExpiry(LocalDateTime.now().plusMinutes(10));
         usersRepository.save(users);
-        //emailService.sendPasswordResetEmail(users.getEmail(), code, users.getFullname());
+        emailService.sendPasswordResetEmail(users.getEmail(), code, users.getFullname());
     }
 
     // Re-send password reset email
