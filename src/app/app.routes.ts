@@ -21,6 +21,7 @@ import { SubcategoriesAdminComponent } from './pagesAdmin/subcategories-admin/su
 import {AuthGuard} from './core/security/auth.guard';
 import {PasswordrecoveryComponent} from './pages/passwordrecovery/passwordrecovery.component';
 import {LoginGuard} from './core/security/login.guard';
+import {PurchaseSummaryComponent} from './pages/purchase-summary/purchase-summary.component';
 
 
 export const routes: Routes = [
@@ -37,6 +38,7 @@ export const routes: Routes = [
     {path:'login', component: LoginComponent},
     {path: 'login/recover', component: PasswordrecoveryComponent, canActivate: [LoginGuard]},
     {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+    {path: 'purchase-summary', component: PurchaseSummaryComponent, canActivate: [AuthGuard] },
     {path: 'admin/dashboard', component: ProductsAdminComponent, canActivate: [AdminGuard]},
     {path: 'admin/Categories', component: CategoriesAdminComponent, canActivate: [AdminGuard]},
     {path: 'admin/Brands', component: BrandsAdminComponent, canActivate: [AdminGuard]},

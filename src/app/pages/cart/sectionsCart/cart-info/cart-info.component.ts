@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CartService } from '../../../../core/services/cart/cart.service';
 import { ButtonDirective } from 'primeng/button';
 import { AuthService } from '../../../../core/services/auth/auth.service';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { ProductsService } from '../../../../core/services/products/products.service';
 
 @Component({
@@ -20,8 +20,19 @@ export class CartInfoComponent implements OnInit {
   constructor(
     private cartService: CartService,
     private authService: AuthService,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private router: Router
   ) {}
+
+  goToConfirmacion() {
+    const payload = {
+      cartItems: this.cart.cartItems,
+      subtotal: this.subtotal
+    };
+    localStorage.setItem('purchaseSummary', JSON.stringify(payload));
+
+    this.router.navigate(['/purchase-summary'], { state: payload });
+  }
 
   ngOnInit(): void {
     const token = sessionStorage.getItem('authToken');

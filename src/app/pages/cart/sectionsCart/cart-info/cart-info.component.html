@@ -25,7 +25,7 @@
         <p>Subtotal: S/. {{ cart.total?.toFixed(2) }}</p>
         <p>Envío: <span class="envio">{{ cart.typeShipment }}</span></p>
         <p class="total">Total: S/. {{ cart.total?.toFixed(2) }}</p>
-        <button pButton label="Finalizar Compra" class="boton-finalizar"></button>
+        <button pButton label="Finalizar Compra" class="boton-finalizar" (click)="goToConfirmacion()"></button>
     </div>
 </div>
 

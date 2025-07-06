@@ -111,4 +111,18 @@ export class AddressesService {
     });
     return this.http.get<any>(`${this.baseUrl}/getAllDistricts/${provinceId}`, { headers });
   }
+
+  getUserAddresses(): Observable<any[]> {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Token no encontrado');
+    }
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<any[]>(`${this.baseUrl}/getUserAddresses`, { headers });
+  }
+
 }
