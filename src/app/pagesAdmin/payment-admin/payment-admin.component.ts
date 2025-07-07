@@ -1,47 +1,78 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { HttpClient } from '@angular/common/http';
-import { PaymentService } from '../../core/services/payment/payment.service'; // ajusta la ruta si es necesario
+import { PaymentService } from '../../core/services/payment/payment.service';
+import { PaymentDto } from '../../Models/payment.model';
+import {FormsModule} from '@angular/forms';
+import {TableModule} from 'primeng/table';
+import {DecimalPipe} from '@angular/common';
+import {Button} from 'primeng/button';
 
 @Component({
   selector: 'app-payment-admin',
-  standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule],
   templateUrl: './payment-admin.component.html',
-  styleUrls: ['./payment-admin.component.css']
+  styleUrls: ['./payment-admin.component.css'],
+  standalone: true,
+  imports: [
+    FormsModule,
+    TableModule,
+    DecimalPipe,
+    Button
+  ]
 })
 export class PaymentAdminComponent implements OnInit {
-  payments: any[] = [];
-  loading: boolean = true;
+  payments: PaymentDto[] = [];
+  filteredPayments: PaymentDto[] = [];
+  filterReference: string = '';
+  loading = true;
 
-  constructor(private paymentService: PaymentService, private http: HttpClient) {}
+  constructor(private paymentService: PaymentService) {}
 
   ngOnInit(): void {
-    this.loadPendingPayments();
+    this.loadAllPayments();
   }
 
-  loadPendingPayments() {
-    this.paymentService.getPendingPayments().subscribe({
+  loadAllPayments(): void {
+    this.paymentService.getAllPayments(0, 100).subscribe({
       next: (res) => {
-        this.payments = res;
+        console.log('Respuesta completa del backend:', res);
+        this.payments = res.content;
+        this.filteredPayments = res.content;
         this.loading = false;
       },
       error: (err) => {
-        console.error('Error cargando pagos pendientes', err);
+        console.error('Error cargando pagos', err);
         this.loading = false;
       }
     });
   }
 
-  validate(paymentId: number, isValid: boolean) {
-    this.paymentService.validatePayment(paymentId, isValid).subscribe({
+
+  filterPayments(): void {
+    const query = this.filterReference.toLowerCase().trim();
+    this.filteredPayments = this.payments.filter((pago) =>
+      pago.reference.toLowerCase().includes(query) ||
+      pago.username.toLowerCase().includes(query)
+    );
+  }
+
+  validate(id: number, valid: boolean): void {
+    const username = localStorage.getItem('username');
+    if (!username) {
+      console.error('Usuario no autenticado');
+      return;
+    }
+
+    this.paymentService.validatePayment(id, valid, username).subscribe({
       next: () => {
-        this.payments = this.payments.filter(p => p.id !== paymentId);
-        alert(isValid ? 'Pago validado' : 'Pago rechazado');
+        console.log(`Pago ${id} ${valid ? 'verificado' : 'rechazado'} correctamente`);
+        this.loadAllPayments();
       },
-      error: () => alert('Error al procesar la validación.')
+      error: (err) => {
+        console.error('Error al validar pago:', err);
+      }
     });
+  }
+
+  getVoucherUrl(pago: any): string {
+    return `/uploads/payments/${pago.dni}/${pago.voucherFile}`;
   }
 }

@@ -1,0 +1,99 @@
+::ng-deep .p-card {
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(72, 130, 141, 0.1);
+  background-color: #ffffff;
+  padding: 1rem;
+}
+
+::ng-deep .p-card-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #48828d;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+::ng-deep .p-panel {
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+::ng-deep .p-panel .p-panel-header {
+  background-color: #f0f9fa;
+  color: #334155;
+  font-weight: bold;
+  font-size: 1rem;
+  border-radius: 10px 10px 0 0;
+}
+
+::ng-deep .p-panel-content {
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 0 0 10px 10px;
+}
+
+.product-image {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+::ng-deep .p-radiobutton {
+  margin-right: 0.5rem;
+}
+
+label {
+  color: #334155;
+  font-weight: 500;
+}
+
+::ng-deep .p-dropdown {
+  border-radius: 6px;
+  height: 3rem;
+}
+
+.w-full,
+.md\:w-30rem {
+  width: 100%;
+}
+
+.mt-4 {
+  margin-top: 1.5rem;
+}
+
+.mt-4 p {
+  font-size: 1rem;
+  color: #334155;
+}
+
+.mt-4 p strong {
+  color: #48828d;
+}
+
+::ng-deep .p-button {
+  background-color: #48828d;
+  border: none;
+  transition: all 0.3s ease-in-out;
+}
+
+::ng-deep .p-button:hover {
+  background-color: #3a6a72;
+}
+
+@media (max-width: 768px) {
+  .product-image {
+    width: 60px;
+    height: 60px;
+  }
+
+  ::ng-deep .p-card-header {
+    font-size: 1.2rem;
+  }
+
+  .mt-4 p {
+    font-size: 0.95rem;
+  }
+}

@@ -2,7 +2,7 @@
   <ng-container *ngIf="cartItems.length > 0; else emptyCart">
     <div class="grid">
       <div class="col-12" *ngFor="let item of cartItems">
-        <p-panel header="{{ item.product.productName }}" toggleable>
+        <p-panel header="{{ item.product.productName }}" toggleable [collapsed]="true">
           <div class="flex flex-column md:flex-row md:align-items-center gap-3">
             <!--<img [src]="item.product.productImg" alt="imagen" class="product-image" />-->
             <div class="flex flex-column gap-2">

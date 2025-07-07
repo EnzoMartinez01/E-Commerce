@@ -7,13 +7,26 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { CartService } from '../../core/services/cart/cart.service';
 
+import { Card } from 'primeng/card';
+import { Divider } from 'primeng/divider';
+import { Button } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @Component({
   selector: 'app-payment',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    Divider,
+    Button,
+    InputTextModule,
+    FileUploadModule
+  ],
   templateUrl: './payment.component.html',
-  styleUrl: './payment.component.css'
+  styleUrls: ['./payment.component.css']
 })
 export class PaymentComponent implements OnInit {
   paymentForm!: FormGroup;
@@ -21,6 +34,8 @@ export class PaymentComponent implements OnInit {
   total: number = 0;
   delivery: number = 0;
   cartId: number = 0;
+  fileTouched: boolean = false;
+  loading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -28,20 +43,22 @@ export class PaymentComponent implements OnInit {
     private cartService: CartService,
     private authService: AuthService,
     private router: Router
-  ) {
-  }
-
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
+
+    const resumen = JSON.parse(localStorage.getItem('purchaseSummary') || '{}');
+    this.delivery = resumen.shippingCost ?? 0;
+
     this.authService.getUserInfoFromToken().subscribe({
       next: (user) => {
         this.cartService.getCartSummaryByUser(user.idUser).subscribe({
           next: (summary) => {
             if (summary) {
               this.cartId = summary.idCart;
-              this.delivery = summary.delivery;
-              this.total = summary.total;
+              const baseTotal = summary.total || 0;
+              this.total = resumen.total ?? (baseTotal + this.delivery);
             } else {
               alert('No se encontró el carrito. Redirigiendo...');
               this.router.navigate(['/home']);
@@ -60,36 +77,42 @@ export class PaymentComponent implements OnInit {
     });
   }
 
-
   initForm(): void {
     this.paymentForm = this.fb.group({
       reference: ['', Validators.required]
     });
   }
 
-  fileTouched: boolean = false;
-
   onFileChange(event: any) {
     this.fileTouched = true;
     const file = event.target.files?.[0];
-    if (file) {
-      this.selectedFile = file;
-    } else {
+
+    const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+    const maxSize = 5 * 1024 * 1024; // 5MB
+
+    if (!file || !allowedTypes.includes(file.type)) {
+      alert('Archivo no válido. Solo se permiten JPG, PNG o PDF.');
       this.selectedFile = null;
+      return;
     }
+
+    if (file.size > maxSize) {
+      alert('Archivo demasiado grande. Máximo 5MB.');
+      this.selectedFile = null;
+      return;
+    }
+
+    this.selectedFile = file;
   }
 
-
   submit() {
-    console.log('Form válido:', this.paymentForm.valid);
-    console.log('Archivo seleccionado:', this.selectedFile);
-    console.log('ID del carrito:', this.cartId);
-
     if (this.paymentForm.valid && this.selectedFile && this.cartId) {
+      this.loading = true;
       const reference = this.paymentForm.value.reference;
 
       this.paymentService.registerPayment(this.cartId, reference, this.selectedFile).subscribe({
         next: (response) => {
+          this.loading = false;
           if (response.status === 201) {
             alert('Pago enviado correctamente. Recibirás confirmación por correo.');
             this.router.navigate(['/home']);
@@ -100,6 +123,7 @@ export class PaymentComponent implements OnInit {
         error: (err) => {
           console.error('Error en la respuesta del servidor:', err);
           alert('Error al enviar el pago. Intenta nuevamente.');
+          this.loading = false;
         }
       });
     } else {

@@ -1,40 +1,55 @@
-<div class="payment-container">
-  <div class="resumen-pago">
-    <p>Envío: S/ {{ delivery }}</p>
-    <p><strong>Total a pagar: S/ {{ total }}</strong></p>
+<div class="payment-card">
+  <h2 class="mb-3">Resumen del Pago</h2>
+  <p><strong>Envío:</strong> S/ {{ delivery }}</p>
+  <p><strong>Total a pagar:</strong> S/ {{ total }}</p>
+
+  <p-divider></p-divider>
+  <div class="payment-info-container mb-3">
+    <div class="payment-details">
+      <h3>Realiza el pago a:</h3>
+      <p><strong>Yape:</strong> 999 999 999</p>
+      <p><strong>BCP:</strong> 123-456-789</p>
+    </div>
+    <div class="qr-image">
+      <img src="assets/media/qr.png" alt="QR Yape" width="200" />
+    </div>
   </div>
 
-  <section class="info-pago">
-    <h3>Realiza el pago a:</h3>
-    <p><strong>Yape:</strong> 999 999 999</p>
-    <p><strong>BCP:</strong> 123-456-789</p>
-    <img src="assets/qr.png" alt="QR Yape" width="200">
-  </section>
-
   <form *ngIf="paymentForm" [formGroup]="paymentForm" (ngSubmit)="submit()">
-    <div>
-      <label for="reference">Referencia de pago:</label><br>
-      <input type="text" id="reference" formControlName="reference">
-      <div *ngIf="paymentForm && paymentForm.get('reference')?.invalid && paymentForm.get('reference')?.touched" style="color:red">
+    <div class="field">
+      <label for="reference">Referencia de pago:</label>
+      <input
+        pInputText
+        id="reference"
+        type="text"
+        formControlName="reference"
+        placeholder="Ej: Numero de Comprobante"
+      />
+      <div *ngIf="paymentForm.get('reference')?.invalid && paymentForm.get('reference')?.touched" class="p-error">
         La referencia es obligatoria.
       </div>
     </div>
 
-    <div style="margin-top: 10px;">
-      <label for="file">Comprobante de pago (archivo):</label><br>
+    <div class="field">
+      <label for="file">Comprobante de pago (JPG, PNG o PDF):</label>
       <input
         type="file"
         id="file"
         (change)="onFileChange($event)"
         accept=".jpg,.jpeg,.png,.pdf"
       />
-      <div *ngIf="fileTouched && !selectedFile" style="color:red">
-        Debes seleccionar un archivo válido (JPG, PNG o PDF).
+      <div *ngIf="fileTouched && !selectedFile" class="p-error">
+        Debes seleccionar un archivo válido.
       </div>
     </div>
 
-    <div style="margin-top: 20px;">
-      <button type="submit">Enviar Pago</button>
+    <div class="button-container">
+      <p-button
+        type="submit"
+        label="Enviar Pago"
+        icon="pi pi-check"
+        [loading]="loading"
+      ></p-button>
     </div>
   </form>
 </div>

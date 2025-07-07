@@ -59,6 +59,20 @@
                         <li><a href="/admin/users"><i class="pi pi-shield"></i>&nbsp; Usuarios</a></li>
                     </ul>
                 </li>
+
+              <li>
+                <div class="menu-item" (click)="toggleMenu('pagos')">
+                  <i class="pi pi-credit-card"></i>&nbsp; Pagos
+                </div>
+                <ul class="submenu" [ngClass]="{'active': activeMenu === 'pagos'}">
+                  <li>
+                    <a href="/admin/payments">
+                      <i class="pi pi-check-square"></i>&nbsp; Validar Pagos
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
             </ul>
             <div class="container-boton">
                 <a class="button-miperfil" href="/profile">Mi Perfil</a>

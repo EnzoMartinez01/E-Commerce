@@ -1,11 +1,79 @@
-.payment-container {
+.payment-card {
   max-width: 600px;
-  margin: auto;
-  padding: 1rem;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  background-color: #fff;
 }
 
-form {
+.field {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.field label {
+  font-weight: 600;
+  color: #334155;
+}
+
+input[type="file"] {
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 6px;
+  font-family: inherit;
+  background-color: #f9fafb;
+  transition: border-color 0.2s ease-in-out;
+}
+
+input[type="file"]:hover,
+input[type="file"]:focus {
+  border-color: #48828d;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  background: #48828d;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+  background: #336972;
+}
+
+.p-error {
+  color: #e63946;
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+}
+
+.button-container {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.payment-info-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 1rem;
 }
+
+.payment-details {
+  flex: 1;
+  min-width: 200px;
+}
+
+.qr-image {
+  flex-shrink: 0;
+  text-align: right;
+}
+

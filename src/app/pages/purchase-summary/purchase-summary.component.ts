@@ -45,7 +45,9 @@ export class PurchaseSummaryComponent implements OnInit {
               this.cartItems = cart.cartItems;
               this.idCart = cart.id;
 
-              // CALCULAR EL SUBTOTAL DESDE EL FRONTEND (NO usar cart.total directamente)
+              console.log('Carrito recibido:', this.cartItems);
+
+              // CALCULAR EL SUBTOTAL DESDE EL FRONTEND
               this.subtotal = this.cartItems.reduce((acc, item) => {
                 const price = item.product?.priceOffer ?? item.product?.productPrice ?? 0;
                 const quantity = item.quantity ?? 1;

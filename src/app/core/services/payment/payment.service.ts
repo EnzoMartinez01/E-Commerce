@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -31,16 +31,15 @@ export class PaymentService {
     });
   }
 
-
-  getPendingPayments() {
-    return this.http.get<any[]>('http://localhost:8080/api/v1/payments/pending');
+  validatePayment(paymentId: number, isValid: boolean, username: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/validatePayment`, {
+      paymentId,
+      isValid,
+      username
+    });
   }
 
-  validatePayment(paymentId: number, isValid: boolean) {
-    const params = new FormData();
-    params.append('paymentId', paymentId.toString());
-    params.append('isValid', isValid.toString());
-    return this.http.post('http://localhost:8080/api/v1/payments/validatePayment', params);
+  getAllPayments(page: number = 0, size: number = 10): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/getAllPayments?page=${page}&size=${size}`);
   }
-
 }

@@ -1,54 +1,79 @@
-<p-table
-  [value]="payments"
-  [loading]="loading"
-  [paginator]="true"
-  [rows]="10"
-  [rowsPerPageOptions]="[5, 10, 20]"
-  sortMode="multiple"
-  responsiveLayout="scroll"
-  emptyMessage="No hay pagos pendientes"
->
-  <ng-template pTemplate="header">
-    <tr>
-      <th pSortableColumn="username">Usuario <p-sortIcon field="username"></p-sortIcon></th>
-      <th pSortableColumn="reference">Referencia <p-sortIcon field="reference"></p-sortIcon></th>
-      <th>Total</th>
-      <th>Método</th>
-      <th>Dirección</th>
-      <th>Voucher</th>
-      <th>Acciones</th>
-    </tr>
-  </ng-template>
+<div class="filters-container">
+  <div class="input-search">
+    <input
+      type="text"
+      [(ngModel)]="filterReference"
+      (input)="filterPayments()"
+      placeholder="Buscar por referencia o usuario..."
+      class="input-search"
+    />
+  </div>
+</div>
 
-  <ng-template pTemplate="body" let-pago>
-    <tr>
-      <td>{{ pago.username }}</td>
-      <td>{{ pago.reference }}</td>
-      <td>S/ {{ pago.total }}</td>
-      <td>{{ pago.typeShipment }}</td>
-      <td *ngIf="pago.typeShipment === 'DOMICILIO'">
-        {{ pago.address?.streetName }} {{ pago.address?.streetNumber }}
-      </td>
-      <td *ngIf="pago.typeShipment !== 'DOMICILIO'">-</td>
-      <td>
-        <a [href]="pago.voucherUrl" target="_blank">Ver</a>
-      </td>
-      <td>
-        <button
-          pButton
-          type="button"
-          icon="pi pi-check"
-          class="p-button-success p-button-sm mr-2"
-          (click)="validate(pago.id, true)"
-        ></button>
-        <button
-          pButton
-          type="button"
-          icon="pi pi-times"
-          class="p-button-danger p-button-sm"
-          (click)="validate(pago.id, false)"
-        ></button>
-      </td>
-    </tr>
-  </ng-template>
-</p-table>
+<div class="table-container">
+  <p-table
+    [value]="filteredPayments"
+    [tableStyle]="{ 'min-width': '60rem' }"
+    [paginator]="true"
+    [rows]="10"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    sortMode="multiple"
+    responsiveLayout="scroll"
+    [loading]="loading"
+    emptyMessage="No hay pagos"
+    class="table-container"
+  >
+    <ng-template #caption>
+      <div class="flex items-center justify-between mb-4">
+        <span class="text-xl font-bold label-view">Pagos Registrados:</span>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="username">Usuario <p-sortIcon field="username"></p-sortIcon></th>
+        <th pSortableColumn="reference">Referencia <p-sortIcon field="reference"></p-sortIcon></th>
+        <th>Total</th>
+        <th>Método</th>
+        <th>Estado</th>
+        <th>Voucher</th>
+        <th>Acciones</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-pago>
+      <tr>
+        <td>{{ pago.username }}</td>
+        <td>{{ pago.reference }}</td>
+        <td>S/ {{ pago.totalAmount | number: '1.2-2' }}</td>
+        <td>{{ pago.paymentMethod }}</td>
+        <td>{{ pago.status }}</td>
+        <td>
+          <a
+            [href]="getVoucherUrl(pago)"
+            target="_blank"
+            class="text-blue-600 hover:underline"
+          >Ver</a>
+        </td>
+        <td>
+          <div class="flex gap-2" *ngIf="pago.status === 'EN_REVISION'">
+            <p-button
+              icon="pi pi-check"
+              class="p-button-success p-button-sm button-action"
+              (click)="validate(pago.idPayment, true)"
+            ></p-button>
+            <p-button
+              icon="pi pi-times"
+              class="p-button-danger p-button-sm button-action"
+              (click)="validate(pago.idPayment, false)"
+            ></p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #footer>
+      En total hay {{ filteredPayments?.length || 0 }} pagos registrados.
+    </ng-template>
+  </p-table>
+</div>
