@@ -1,0 +1,11 @@
+.payment-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 1rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

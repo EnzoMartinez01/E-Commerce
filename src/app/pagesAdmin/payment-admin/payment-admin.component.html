@@ -1,1 +1,54 @@
-<p>payment-admin works!</p>
+<p-table
+  [value]="payments"
+  [loading]="loading"
+  [paginator]="true"
+  [rows]="10"
+  [rowsPerPageOptions]="[5, 10, 20]"
+  sortMode="multiple"
+  responsiveLayout="scroll"
+  emptyMessage="No hay pagos pendientes"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="username">Usuario <p-sortIcon field="username"></p-sortIcon></th>
+      <th pSortableColumn="reference">Referencia <p-sortIcon field="reference"></p-sortIcon></th>
+      <th>Total</th>
+      <th>Método</th>
+      <th>Dirección</th>
+      <th>Voucher</th>
+      <th>Acciones</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-pago>
+    <tr>
+      <td>{{ pago.username }}</td>
+      <td>{{ pago.reference }}</td>
+      <td>S/ {{ pago.total }}</td>
+      <td>{{ pago.typeShipment }}</td>
+      <td *ngIf="pago.typeShipment === 'DOMICILIO'">
+        {{ pago.address?.streetName }} {{ pago.address?.streetNumber }}
+      </td>
+      <td *ngIf="pago.typeShipment !== 'DOMICILIO'">-</td>
+      <td>
+        <a [href]="pago.voucherUrl" target="_blank">Ver</a>
+      </td>
+      <td>
+        <button
+          pButton
+          type="button"
+          icon="pi pi-check"
+          class="p-button-success p-button-sm mr-2"
+          (click)="validate(pago.id, true)"
+        ></button>
+        <button
+          pButton
+          type="button"
+          icon="pi pi-times"
+          class="p-button-danger p-button-sm"
+          (click)="validate(pago.id, false)"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

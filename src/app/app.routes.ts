@@ -22,6 +22,8 @@ import {AuthGuard} from './core/security/auth.guard';
 import {PasswordrecoveryComponent} from './pages/passwordrecovery/passwordrecovery.component';
 import {LoginGuard} from './core/security/login.guard';
 import {PurchaseSummaryComponent} from './pages/purchase-summary/purchase-summary.component';
+import {PaymentComponent} from './pages/payment/payment.component';
+import {PaymentAdminComponent} from './pagesAdmin/payment-admin/payment-admin.component';
 
 
 export const routes: Routes = [
@@ -39,6 +41,7 @@ export const routes: Routes = [
     {path: 'login/recover', component: PasswordrecoveryComponent, canActivate: [LoginGuard]},
     {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
     {path: 'purchase-summary', component: PurchaseSummaryComponent, canActivate: [AuthGuard] },
+  { path: 'checkout/payment', component: PaymentComponent, canActivate: [AuthGuard] },
     {path: 'admin/dashboard', component: ProductsAdminComponent, canActivate: [AdminGuard]},
     {path: 'admin/Categories', component: CategoriesAdminComponent, canActivate: [AdminGuard]},
     {path: 'admin/Brands', component: BrandsAdminComponent, canActivate: [AdminGuard]},
@@ -47,5 +50,6 @@ export const routes: Routes = [
     {path: 'admin/faq', component: FaqAdminComponent, canActivate: [AdminGuard]},
     {path: 'admin/users', component: UserAdminComponent, canActivate: [AdminGuard]},
     {path: 'admin/subcategories', component: SubcategoriesAdminComponent, canActivate: [AdminGuard]},
+  { path: 'admin/payments', component: PaymentAdminComponent, canActivate: [AdminGuard] },
     {path: '**', redirectTo: '/home'}
 ];

@@ -26,11 +26,11 @@ export class CartInfoComponent implements OnInit {
 
   goToConfirmacion() {
     const payload = {
+      id: this.cart.id,
       cartItems: this.cart.cartItems,
       subtotal: this.subtotal
     };
     localStorage.setItem('purchaseSummary', JSON.stringify(payload));
-
     this.router.navigate(['/purchase-summary'], { state: payload });
   }
 
