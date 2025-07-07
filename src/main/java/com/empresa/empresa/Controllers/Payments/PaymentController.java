@@ -1,12 +1,11 @@
 package com.empresa.empresa.Controllers.Payments;
 
+import com.empresa.empresa.Dto.Payments.PaymentDto;
 import com.empresa.empresa.Services.Payments.PaymentService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -21,6 +20,14 @@ public class PaymentController {
 
     public PaymentController(PaymentService paymentService) {
         this.paymentService = paymentService;
+    }
+
+    @GetMapping("/getAllPayments")
+    public ResponseEntity<Page<PaymentDto>> getAllPayments(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Page<PaymentDto> payments = paymentService.getAllPayments(page, size);
+        return ResponseEntity.ok(payments);
     }
 
     @PostMapping("/registerPayment")

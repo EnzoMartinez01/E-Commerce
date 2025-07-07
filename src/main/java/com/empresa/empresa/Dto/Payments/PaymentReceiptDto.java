@@ -4,6 +4,7 @@ import jakarta.xml.bind.annotation.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class PaymentReceiptDto {
     private String name;
     private String reference;
     private BigDecimal total;
-    private Date paymentDate;
+    private LocalDateTime paymentDate;
     private String status;
     private String paymentMethod;
 

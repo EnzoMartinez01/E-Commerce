@@ -6,6 +6,7 @@ import com.empresa.empresa.Models.Cart.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -32,7 +33,7 @@ public class Payment {
     private String receiptPath;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date paymentDate;
+    private LocalDateTime paymentDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "paymentMethod_id", nullable = false)
@@ -43,7 +44,7 @@ public class Payment {
     private Users validatedBy;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date validationDate;
+    private LocalDateTime validationDate;
 
     private Boolean emailSent = false;
 }

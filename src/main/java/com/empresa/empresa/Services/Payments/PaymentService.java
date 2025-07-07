@@ -1,5 +1,8 @@
 package com.empresa.empresa.Services.Payments;
 
+import com.empresa.empresa.Dto.Cart.CartItemsDto;
+import com.empresa.empresa.Dto.Payments.PaymentDto;
+import com.empresa.empresa.Dto.Product.ProductsDto;
 import com.empresa.empresa.Models.Authentication.Users;
 import com.empresa.empresa.Models.Cart.Cart;
 import com.empresa.empresa.Models.Cart.CartItems;
@@ -11,11 +14,14 @@ import com.empresa.empresa.Repositories.Cart.CartRepository;
 import com.empresa.empresa.Repositories.Payments.PaymentRepository;
 import com.empresa.empresa.Repositories.Products.ProductsRepository;
 import com.empresa.empresa.Services.Mails.EmailService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -42,6 +48,65 @@ public class PaymentService {
         this.productRepository = productRepository;
     }
 
+    // Get all payments
+    public Page<PaymentDto> getAllPayments(int page, int size) {
+        return paymentRepository.findAll(PageRequest.of(page, size)).map(this::mapToDto);
+    }
+
+    // Map Payment to DTO
+    public PaymentDto mapToDto(Payment payment) {
+        PaymentDto dto = new PaymentDto();
+        dto.setIdPayment(payment.getId());
+        dto.setFullName(payment.getCart().getUsers().getFullname());
+        dto.setEmail(payment.getCart().getUsers().getEmail());
+        dto.setDni(payment.getCart().getUsers().getDni());
+        dto.setUsername(payment.getCart().getUsers().getUsername());
+        dto.setCartItems(payment.getCart().getCartItems().stream().map(this::mapToCartItemsDto).toList());
+        dto.setPaymentMethod(payment.getCart().getPaymentMethod().getName());
+        dto.setTypeShipment(payment.getCart().getTypeShipment().name());
+        dto.setTotalAmount(payment.getCart().getTotal());
+        dto.setReference(payment.getReference());
+        dto.setDatePayment(payment.getPaymentDate());
+        dto.setVoucherFile(payment.getReceiptPath());
+        dto.setAmount(payment.getAmount());
+        dto.setStatus(payment.getStatus().name());
+        return dto;
+    }
+
+    //Map to Cart Items Dto
+    public CartItemsDto mapToCartItemsDto(CartItems cartItems) {
+        CartItemsDto dto = new CartItemsDto();
+        dto.setIdCartItem(cartItems.getId());
+        dto.setProduct(mapProductsToDto(cartItems.getProduct()));
+        dto.setQuantity(cartItems.getQuantity());
+        dto.setSubTotal(cartItems.getSubTotal());
+        return dto;
+    }
+
+    // Map Products to DTO
+    public ProductsDto mapProductsToDto (Products products) {
+        ProductsDto dto = new ProductsDto();
+        dto.setIdProduct(products.getId());
+        dto.setProductName(products.getProductName());
+        dto.setProductDescription(products.getProductDescription());
+        dto.setProductSku(products.getSku());
+        dto.setProductPrice(products.getPrice());
+        dto.setPriceCreditCard(products.getPrice_creditcard());
+        dto.setQuantity(products.getQuantity());
+        dto.setStock(products.getStock());
+        dto.setProductOfferDiscount(products.getOfferDescount());
+        dto.setPriceOffer(products.getPriceOffer());
+        dto.setIdBrand(products.getBrand().getIdBrand());
+        dto.setBrandName(products.getBrand().getBrandName());
+        dto.setIdCategory(products.getCategory().getIdCategory());
+        dto.setCategoryName(products.getCategory().getCategoryName());
+        dto.setPdfFile(products.getPdfFile());
+        dto.setIsOffer(products.getIsOffer());
+        dto.setIsActive(products.getIsActive());
+        dto.setProductImg(products.getProduct_image());
+        return dto;
+    }
+
     public void registerPayment(Integer cartId, String reference, MultipartFile file) {
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new RuntimeException("Cart not found with id: " + cartId));
@@ -50,7 +115,7 @@ public class PaymentService {
         payment.setCart(cart);
         payment.setAmount(cart.getTotal());
         payment.setReference(reference);
-        payment.setPaymentDate(new Date());
+        payment.setPaymentDate(LocalDateTime.now());
         payment.setStatus(PaymentStatus.EN_REVISION);
         payment.setReceiptPath(file.getOriginalFilename());
         payment.setPaymentMethod(cart.getPaymentMethod());
@@ -82,7 +147,7 @@ public class PaymentService {
         }
 
         payment.setValidatedBy(user);
-        payment.setValidationDate(new Date());
+        payment.setValidationDate(LocalDateTime.now());
 
         paymentRepository.save(payment);
     }

@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -36,7 +37,7 @@ public class UploadedPaymentFileService {
             UploadedPaymentFile uploadedFile = new UploadedPaymentFile();
             uploadedFile.setFileName(file.getOriginalFilename());
             uploadedFile.setFilePath(path.toString());
-            uploadedFile.setUploadDate(new Date());
+            uploadedFile.setUploadDate(LocalDateTime.now());
             uploadedFile.setPayment(payment);
 
             return uploadedPaymentFileRepository.save(uploadedFile);

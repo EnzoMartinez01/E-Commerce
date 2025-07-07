@@ -3,6 +3,7 @@ package com.empresa.empresa.Models.Payments;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -17,7 +18,7 @@ public class UploadedPaymentFile {
 
     private String filePath;
 
-    private Date uploadDate;
+    private LocalDateTime uploadDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_id", nullable = false)
