@@ -1,6 +1,6 @@
 <div class="payment-container">
   <div class="resumen-pago">
-    <p>Envío: S/ {{ envio }}</p>
+    <p>Envío: S/ {{ delivery }}</p>
     <p><strong>Total a pagar: S/ {{ total }}</strong></p>
   </div>
 
@@ -11,14 +11,30 @@
     <img src="assets/qr.png" alt="QR Yape" width="200">
   </section>
 
-  <form [formGroup]="paymentForm" (ngSubmit)="submit()">
-    <label>Código de referencia:</label>
-    <input type="text" formControlName="reference" required>
+  <form *ngIf="paymentForm" [formGroup]="paymentForm" (ngSubmit)="submit()">
+    <div>
+      <label for="reference">Referencia de pago:</label><br>
+      <input type="text" id="reference" formControlName="reference">
+      <div *ngIf="paymentForm && paymentForm.get('reference')?.invalid && paymentForm.get('reference')?.touched" style="color:red">
+        La referencia es obligatoria.
+      </div>
+    </div>
 
-    <label>Sube tu voucher:</label>
-    <input type="file" (change)="onFileChange($event)" required>
+    <div style="margin-top: 10px;">
+      <label for="file">Comprobante de pago (archivo):</label><br>
+      <input
+        type="file"
+        id="file"
+        (change)="onFileChange($event)"
+        accept=".jpg,.jpeg,.png,.pdf"
+      />
+      <div *ngIf="fileTouched && !selectedFile" style="color:red">
+        Debes seleccionar un archivo válido (JPG, PNG o PDF).
+      </div>
+    </div>
 
-    <button type="submit">Finalizar</button>
+    <div style="margin-top: 20px;">
+      <button type="submit">Enviar Pago</button>
+    </div>
   </form>
 </div>
-

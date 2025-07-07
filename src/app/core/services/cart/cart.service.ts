@@ -53,6 +53,23 @@ export class CartService {
     return this.http.get<any>(`${this.baseUrl}/getCartByUser/${idUser}`, { headers, params });
   }
 
+  getCartSummaryByUser(idUser: number): Observable<{ idCart: number, delivery: number, total: number } | null> {
+    return this.getCartByUser(idUser).pipe(
+      map((res) => {
+        console.log('Respuesta del backend en getCartByUser:', res);
+        if (res?.content?.length > 0) {
+          const cart = res.content[0];
+          return {
+            idCart: cart.idCart,
+            delivery: cart.delivery ?? 0,
+            total: cart.total ?? 0
+          };
+        }
+        return null;
+      })
+    );
+  }
+
   updateCartItemQuantity(idCartItem: number, quantity: number): Observable<any> {
     const token = sessionStorage.getItem('authToken');
     if (!token) throw new Error('Token no encontrado');

@@ -23,7 +23,7 @@ export class PurchaseSummaryComponent implements OnInit {
   selectedAddress: any = null;
   cartItems: any[] = [];
   subtotal: number = 0;
-  cartId!: number;
+  idCart: number = 0;
   addresses: any[] = [];
   shippingCost = 20;
 
@@ -43,7 +43,7 @@ export class PurchaseSummaryComponent implements OnInit {
             if (res && res.content && res.content.length > 0) {
               const cart = res.content[0];
               this.cartItems = cart.cartItems;
-              this.cartId = cart.id;
+              this.idCart = cart.id;
 
               // CALCULAR EL SUBTOTAL DESDE EL FRONTEND (NO usar cart.total directamente)
               this.subtotal = this.cartItems.reduce((acc, item) => {
@@ -54,20 +54,20 @@ export class PurchaseSummaryComponent implements OnInit {
             } else {
               this.cartItems = backup.cartItems || [];
               this.subtotal = backup.subtotal || 0;
-              this.cartId = backup.id || null;
+              this.idCart = backup.id || null;
             }
           },
           error: () => {
             this.cartItems = backup.cartItems || [];
             this.subtotal = backup.subtotal || 0;
-            this.cartId = backup.id || null;
+            this.idCart = backup.id || null;
           }
         });
       },
       error: () => {
         this.cartItems = backup.cartItems || [];
         this.subtotal = backup.subtotal || 0;
-        this.cartId = backup.id || null;
+        this.idCart = backup.id || null;
       }
     });
 
@@ -90,7 +90,7 @@ export class PurchaseSummaryComponent implements OnInit {
     }
 
     const order = {
-      id: this.cartId,
+      id: this.idCart,
       items: this.cartItems,
       typeShipment: this.tipoEntrega.toUpperCase(),
       address: this.tipoEntrega === 'domicilio' ? this.selectedAddress : null,

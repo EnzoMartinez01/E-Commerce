@@ -26,7 +26,7 @@ export class CartInfoComponent implements OnInit {
 
   goToConfirmacion() {
     const payload = {
-      id: this.cart.id,
+      id: this.cart.idCart,
       cartItems: this.cart.cartItems,
       subtotal: this.subtotal
     };
