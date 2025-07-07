@@ -7,14 +7,17 @@ import com.empresa.empresa.Models.Payments.Payment;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "dbo_cart")
-@Data
+@Getter
+@Setter
+@ToString(exclude = "cartItems")
+@EqualsAndHashCode(exclude = "cartItems")
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -8,11 +8,14 @@ import com.empresa.empresa.Models.Products.Products;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 @Entity
 @Table(name = "dbo_cartItems")
-@Data
+@Getter
+@Setter
+@ToString(exclude = "cart")
+@EqualsAndHashCode(exclude = "cart")
 public class CartItems {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

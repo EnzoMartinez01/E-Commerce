@@ -120,7 +120,7 @@ public class PaymentService {
                     cart.getCartItems().clear();
                     cartRepository.save(cart);
 
-                    emailService.sendPaymentApprovedEmail(email, fullName, reference);
+                    emailService.sendPaymentApprovedEmail(email, fullName, reference, payment);
 
                 } else if (payment.getStatus() == PaymentStatus.RECHAZADO) {
                     emailService.sendPaymentRejectedEmail(email, fullName, reference);

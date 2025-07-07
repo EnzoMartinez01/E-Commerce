@@ -1,11 +1,15 @@
 package com.empresa.empresa.Services.Mails;
 
+import com.empresa.empresa.Models.Payments.Payment;
+import com.empresa.empresa.Services.Payments.PaymentReceiptFileService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.xml.bind.JAXBException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
 import java.util.logging.Logger;
 
 @Service
@@ -13,9 +17,12 @@ public class EmailService {
     private static final Logger LOGGER = Logger.getLogger(EmailService.class.getName());
 
     private final JavaMailSender mailSender;
+    private final PaymentReceiptFileService paymentReceiptFileService;
 
-    public EmailService(JavaMailSender mailSender) {
+    public EmailService(JavaMailSender mailSender,
+                        PaymentReceiptFileService paymentReceiptFileService) {
         this.mailSender = mailSender;
+        this.paymentReceiptFileService = paymentReceiptFileService;
     }
 
     // Send verification email
@@ -82,7 +89,7 @@ public class EmailService {
     }
 
     // Send payment approval or rejection emails
-    public void sendPaymentApprovedEmail(String to, String fullName, String reference) {
+    public void sendPaymentApprovedEmail(String to, String fullName, String reference, Payment payment) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -103,9 +110,17 @@ public class EmailService {
                     + "</html>";
 
             helper.setText(htmlContent, true);
+
+            byte[] pdfBytes = paymentReceiptFileService.generatePdf(payment);
+            helper.addAttachment("receipt.pdf", () -> new ByteArrayInputStream(pdfBytes), "application/pdf");
+
+            String xmlContent = paymentReceiptFileService.generatePaymentReceiptXml(payment);
+            helper.addAttachment("receipt.xml", () -> new ByteArrayInputStream(xmlContent.getBytes()), "application/xml");
             mailSender.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

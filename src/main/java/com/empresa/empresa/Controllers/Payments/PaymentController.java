@@ -11,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/payments")
@@ -22,22 +24,30 @@ public class PaymentController {
     }
 
     @PostMapping("/registerPayment")
-    public ResponseEntity<String> registerPayment(
+    public ResponseEntity<Map<String, String>> registerPayment(
             @RequestParam Integer cartId,
             @RequestParam("reference") String reference,
             @RequestParam("file") MultipartFile file) {
+
         paymentService.registerPayment(cartId, reference, file);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Payment registered, waiting for approbation.");
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Payment registered, waiting for approbation.");
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+
     @PostMapping("/validatePayment")
-    public ResponseEntity<String> validatePayment(
+    public ResponseEntity<Map<String, String>> validatePayment(
             @RequestParam Integer paymentId,
             @RequestParam Boolean isValid,
             Principal principal
     ) {
         String username = principal.getName();
         paymentService.validatePayment(paymentId, isValid, username);
-        return ResponseEntity.ok("Payment validation processed successfully.");
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Payment validation processed successfully.");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
