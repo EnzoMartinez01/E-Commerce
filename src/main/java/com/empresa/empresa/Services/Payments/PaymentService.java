@@ -170,6 +170,7 @@ public class PaymentService {
 
                 // Condición para verificar estado del pago
                 if (payment.getStatus() == PaymentStatus.VERIFICADO) {
+                    emailService.sendPaymentApprovedEmail(email, fullName, reference, payment);
                     for (CartItems item : cart.getCartItems()) {
                         Products product = item.getProduct();
                         int quantity = item.getQuantity();
@@ -184,8 +185,6 @@ public class PaymentService {
 
                     cart.getCartItems().clear();
                     cartRepository.save(cart);
-
-                    emailService.sendPaymentApprovedEmail(email, fullName, reference, payment);
 
                 } else if (payment.getStatus() == PaymentStatus.RECHAZADO) {
                     emailService.sendPaymentRejectedEmail(email, fullName, reference);
