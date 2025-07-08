@@ -2,6 +2,7 @@ package com.empresa.empresa.Controllers.Payments;
 
 import com.empresa.empresa.Dto.Files.FileDownloadDto;
 import com.empresa.empresa.Dto.Payments.PaymentDto;
+import com.empresa.empresa.Models.Payments.PaymentStatus;
 import com.empresa.empresa.Models.Payments.UploadedPaymentFile;
 import com.empresa.empresa.Services.Payments.PaymentService;
 import com.empresa.empresa.Services.Payments.UploadedPaymentFileService;
@@ -32,11 +33,15 @@ public class PaymentController {
 
     @GetMapping("/getAllPayments")
     public ResponseEntity<Page<PaymentDto>> getAllPayments(
+            @RequestParam(required = false, defaultValue = "") String search,
+            @RequestParam(required = false) PaymentStatus status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        Page<PaymentDto> payments = paymentService.getAllPayments(page, size);
+
+        Page<PaymentDto> payments = paymentService.getPaymentsFiltered(search, status, page, size);
         return ResponseEntity.ok(payments);
     }
+
 
     @GetMapping("/getPayment/{paymentId}")
     public ResponseEntity<PaymentDto> getPaymentById(@PathVariable Integer paymentId) {

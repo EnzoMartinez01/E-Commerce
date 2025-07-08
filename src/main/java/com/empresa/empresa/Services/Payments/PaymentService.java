@@ -16,6 +16,7 @@ import com.empresa.empresa.Repositories.Products.ProductsRepository;
 import com.empresa.empresa.Services.Mails.EmailService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,9 +50,23 @@ public class PaymentService {
     }
 
     // Get all payments
-    public Page<PaymentDto> getAllPayments(int page, int size) {
-        return paymentRepository.findAll(PageRequest.of(page, size)).map(this::mapToDto);
+    public Page<PaymentDto> getPaymentsFiltered(String search, PaymentStatus status, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        if ((search == null || search.trim().isEmpty()) && status == null) {
+            return paymentRepository.findAll(pageable).map(this::mapToDto);
+        }
+
+        if (status == null) {
+            return paymentRepository.findByReferenceOrUsername(search.trim(), pageable)
+                    .map(this::mapToDto);
+        }
+
+        return paymentRepository.findByReferenceOrUsernameAndStatus(search.trim(), status, pageable)
+                .map(this::mapToDto);
     }
+
+
 
     // Get payments by ID
     public PaymentDto getPaymentById(Integer paymentId) {
