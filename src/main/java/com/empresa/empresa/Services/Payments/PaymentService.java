@@ -21,8 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -52,6 +52,14 @@ public class PaymentService {
     public Page<PaymentDto> getAllPayments(int page, int size) {
         return paymentRepository.findAll(PageRequest.of(page, size)).map(this::mapToDto);
     }
+
+    // Get payments by ID
+    public PaymentDto getPaymentById(Integer paymentId) {
+        Payment payment = paymentRepository.findById(paymentId)
+                .orElseThrow(() -> new RuntimeException("Payment not found with id: " + paymentId));
+        return mapToDto(payment);
+    }
+
 
     // Map Payment to DTO
     public PaymentDto mapToDto(Payment payment) {
@@ -151,6 +159,7 @@ public class PaymentService {
 
         paymentRepository.save(payment);
     }
+
 
     // Tarea para notificar por correo los pagos confirmados o rechazados / limpiar carrito / restar stock
     @Transactional

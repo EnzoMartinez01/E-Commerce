@@ -1,5 +1,6 @@
 package com.empresa.empresa.Services.Payments;
 
+import com.empresa.empresa.Dto.Files.FileDownloadDto;
 import com.empresa.empresa.Models.Payments.Payment;
 import com.empresa.empresa.Models.Payments.UploadedPaymentFile;
 import com.empresa.empresa.Repositories.Payments.UploadedPaymentFileRepository;
@@ -13,7 +14,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.UUID;
 
 @Service
@@ -46,10 +46,19 @@ public class UploadedPaymentFileService {
         }
     }
 
-    public byte[] downloadFile(Integer fileId) throws IOException {
-        UploadedPaymentFile file = uploadedPaymentFileRepository.findById(fileId)
-                .orElseThrow(() -> new RuntimeException("File not found with id: " + fileId));
+    public FileDownloadDto downloadFile(Integer paymentId) throws IOException {
+        UploadedPaymentFile file = uploadedPaymentFileRepository.findByPayment_Id(paymentId)
+                .orElseThrow(() -> new RuntimeException("File not found with PaymentId: " + paymentId));
 
-        return Files.readAllBytes(Paths.get(file.getFilePath()));
+        Path path = Paths.get(file.getFilePath());
+        byte[] fileData = Files.readAllBytes(path);
+        String mimeType = Files.probeContentType(path);
+
+        if (mimeType == null) {
+            mimeType = "application/octet-stream";
+        }
+
+        return new FileDownloadDto(file.getFileName(), mimeType, fileData);
     }
+
 }
