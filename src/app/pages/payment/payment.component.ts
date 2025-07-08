@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { PaymentService } from '../../core/services/payment/payment.service';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { CartService } from '../../core/services/cart/cart.service';
@@ -23,7 +23,8 @@ import { FileUploadModule } from 'primeng/fileupload';
     Divider,
     Button,
     InputTextModule,
-    FileUploadModule
+    FileUploadModule,
+    NgOptimizedImage
   ],
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css']
@@ -36,6 +37,7 @@ export class PaymentComponent implements OnInit {
   cartId: number = 0;
   fileTouched: boolean = false;
   loading: boolean = false;
+  qrImage = 'assets/media/qr.png';
 
   constructor(
     private fb: FormBuilder,

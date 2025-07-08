@@ -50,24 +50,39 @@
         <td>{{ pago.status }}</td>
         <td>
           <a
-            [href]="getVoucherUrl(pago)"
+            (click)="viewFile(pago)"
             target="_blank"
             class="text-blue-600 hover:underline"
           >Ver</a>
         </td>
         <td>
-          <div class="flex gap-2" *ngIf="pago.status === 'EN_REVISION'">
+          <div *ngIf="pago.status === 'EN_REVISION'; else estadoFinalizado" class="d-flex align-items-center gap-2">
             <p-button
               icon="pi pi-check"
-              class="p-button-success p-button-sm button-action"
-              (click)="validate(pago.idPayment, true)"
-            ></p-button>
+              class="button-action"
+              (click)="validate(pago.idPayment, true)">
+            </p-button>
             <p-button
               icon="pi pi-times"
-              class="p-button-danger p-button-sm button-action"
-              (click)="validate(pago.idPayment, false)"
-            ></p-button>
+              class="button-action"
+              (click)="validate(pago.idPayment, false)">
+            </p-button>
+            <p-button
+              icon="pi pi-eye"
+              class="button-action"
+              (click)="viewPayment(pago)">
+            </p-button>
           </div>
+
+          <ng-template #estadoFinalizado>
+            <span *ngIf="pago.status === 'VERIFICADO'" class="text-green-600 font-semibold text-success fw-bold">Pago verificado</span>
+            <span *ngIf="pago.status === 'RECHAZADO'" class="text-red-600 font-semibold text-danger fw-bold">Pago rechazado</span>
+            <p-button
+              icon="pi pi-eye"
+              class="button-action ms-2"
+              (click)="viewPayment(pago)">
+            </p-button>
+          </ng-template>
         </td>
       </tr>
     </ng-template>
@@ -77,3 +92,72 @@
     </ng-template>
   </p-table>
 </div>
+
+<p-dialog header="Detalles del Pago:" [(visible)]="viewDialog" [style]="{ width: '30rem' }">
+  <div class="flex flex-col gap-4">
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-32 label-view">Nombre completo:</label>
+      <span class="flex-auto">{{ selectedPayment?.fullName }}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-32 label-view">Usuario:</label>
+      <span class="flex-auto">{{ selectedPayment?.username }}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-32 label-view">Email:</label>
+      <span class="flex-auto break-words">{{ selectedPayment?.email }}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-32 label-view">DNI:</label>
+      <span class="flex-auto">{{ selectedPayment?.dni }}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-32 label-view">Referencia:</label>
+      <span class="flex-auto">{{ selectedPayment?.reference }}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-32 label-view">Tipo de envío:</label>
+      <span class="flex-auto">{{ selectedPayment?.typeShipment }}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-32 label-view">Monto total:</label>
+      <span class="flex-auto">S/ {{ selectedPayment?.totalAmount | number: '1.2-2' }}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-32 label-view">Monto pagado:</label>
+      <span class="flex-auto">S/ {{ selectedPayment?.amount | number: '1.2-2' }}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-32 label-view">Método de pago:</label>
+      <span class="flex-auto">{{ selectedPayment?.paymentMethod }}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-32 label-view">Estado:</label>
+      <span class="flex-auto">{{ selectedPayment?.status }}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-32 label-view">Fecha de pago:</label>
+      <span class="flex-auto">{{ selectedPayment?.datePayment | date: 'short' }}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-32 label-view">Voucher:</label>
+      <span class="flex-auto text-blue-500 break-words">
+        <a (click)="viewFile(selectedPayment)" target="_blank" class="hover:underline">
+          Ver Voucher
+        </a>
+      </span>
+    </div>
+  </div>
+</p-dialog>

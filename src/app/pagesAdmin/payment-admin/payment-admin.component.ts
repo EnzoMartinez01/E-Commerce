@@ -3,8 +3,10 @@ import { PaymentService } from '../../core/services/payment/payment.service';
 import { PaymentDto } from '../../Models/payment.model';
 import {FormsModule} from '@angular/forms';
 import {TableModule} from 'primeng/table';
-import {DecimalPipe} from '@angular/common';
+import {DatePipe, DecimalPipe, NgIf} from '@angular/common';
 import {Button} from 'primeng/button';
+import {Ripple} from 'primeng/ripple';
+import {Dialog} from 'primeng/dialog';
 
 @Component({
   selector: 'app-payment-admin',
@@ -15,7 +17,11 @@ import {Button} from 'primeng/button';
     FormsModule,
     TableModule,
     DecimalPipe,
-    Button
+    Button,
+    Ripple,
+    Dialog,
+    DatePipe,
+    NgIf
   ]
 })
 export class PaymentAdminComponent implements OnInit {
@@ -23,6 +29,9 @@ export class PaymentAdminComponent implements OnInit {
   filteredPayments: PaymentDto[] = [];
   filterReference: string = '';
   loading = true;
+  selectedPayment: PaymentDto = {} as PaymentDto;
+
+  viewDialog: boolean = false;
 
   constructor(private paymentService: PaymentService) {}
 
@@ -55,13 +64,7 @@ export class PaymentAdminComponent implements OnInit {
   }
 
   validate(id: number, valid: boolean): void {
-    const username = localStorage.getItem('username');
-    if (!username) {
-      console.error('Usuario no autenticado');
-      return;
-    }
-
-    this.paymentService.validatePayment(id, valid, username).subscribe({
+    this.paymentService.validatePayment(id, valid).subscribe({
       next: () => {
         console.log(`Pago ${id} ${valid ? 'verificado' : 'rechazado'} correctamente`);
         this.loadAllPayments();
@@ -72,7 +75,34 @@ export class PaymentAdminComponent implements OnInit {
     });
   }
 
-  getVoucherUrl(pago: any): string {
-    return `/uploads/payments/${pago.dni}/${pago.voucherFile}`;
+  viewFile(payment: PaymentDto): void {
+    this.paymentService.downloadVoucher(payment.idPayment).subscribe({
+      next: (response: Blob) => {
+        const file = new Blob([response], { type: response.type });
+
+        const fileURL = window.URL.createObjectURL(file);
+        window.open(fileURL, '_blank');
+      },
+      error: (err) => {
+        console.error('Error al visualizar el comprobante:', err);
+      }
+    });
+  }
+
+
+
+  // View Payment
+  viewPayment(payment: PaymentDto) {
+    this.selectedPayment = { ...payment };
+    this.viewDialog = true;
+
+    this.paymentService.getPaymentId(this.selectedPayment.idPayment).subscribe(
+      (data) => {
+        console.log('Pago obtenido:', data);
+      },
+      (error) => {
+        console.log('Error al obtener el pago:', error);
+      }
+    );
   }
 }

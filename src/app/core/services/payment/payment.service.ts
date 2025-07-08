@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -31,15 +31,73 @@ export class PaymentService {
     });
   }
 
-  validatePayment(paymentId: number, isValid: boolean, username: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/validatePayment`, {
-      paymentId,
-      isValid,
-      username
+  validatePayment(paymentId: number, isValid: boolean | null): Observable<any> {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Token no encontrado');
+    }
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    let params = new HttpParams()
+      .set('paymentId', paymentId.toString());
+
+    if (isValid !== null) {
+      params = params.set('isValid', isValid.toString());
+    }
+
+    return this.http.post(`${this.baseUrl}/validatePayment`, null, {
+      headers,
+      params
     });
   }
 
-  getAllPayments(page: number = 0, size: number = 10): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/getAllPayments?page=${page}&size=${size}`);
+  getAllPayments(page: number, size: number): Observable<any> {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Token no encontrado');
+    }
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<any>(`${this.baseUrl}/getAllPayments?page=${page}&size=${size}`, {params, headers});
   }
+
+  getPaymentId(paymentId: number): Observable<any> {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Token no encontrado');
+    }
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<any>(`${this.baseUrl}/getPayment/${paymentId}`, { headers });
+  }
+
+  downloadVoucher(paymentId: number): Observable<Blob> {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Token no encontrado');
+    }
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get(`${this.baseUrl}/downloadVoucher/${paymentId}`, {
+      headers,
+      responseType: 'blob'
+    });
+  }
+
 }
