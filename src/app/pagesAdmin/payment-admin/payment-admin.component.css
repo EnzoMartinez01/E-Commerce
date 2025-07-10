@@ -6,6 +6,14 @@
   margin-bottom: 20px;
 }
 
+.selects-containers {
+  width: 60%;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
 .input-search {
   width: 60%;
 }

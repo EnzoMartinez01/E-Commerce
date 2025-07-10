@@ -4,9 +4,9 @@ import { PaymentDto } from '../../Models/payment.model';
 import {FormsModule} from '@angular/forms';
 import {TableModule} from 'primeng/table';
 import {DatePipe, DecimalPipe, NgIf} from '@angular/common';
-import {Button} from 'primeng/button';
-import {Ripple} from 'primeng/ripple';
+import {Button, ButtonDirective} from 'primeng/button';
 import {Dialog} from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
   selector: 'app-payment-admin',
@@ -18,10 +18,11 @@ import {Dialog} from 'primeng/dialog';
     TableModule,
     DecimalPipe,
     Button,
-    Ripple,
     Dialog,
     DatePipe,
-    NgIf
+    NgIf,
+    ButtonDirective,
+    DropdownModule
   ]
 })
 export class PaymentAdminComponent implements OnInit {
@@ -33,6 +34,13 @@ export class PaymentAdminComponent implements OnInit {
   selectedPayment: PaymentDto = {} as PaymentDto;
 
   viewDialog: boolean = false;
+
+  statusOptions = [
+    { label: 'Todos los estados', value: '' },
+    { label: 'Pendiente', value: 'EN_REVISION' },
+    { label: 'Verificado', value: 'VERIFICADO' },
+    { label: 'Rechazado', value: 'RECHAZADO' },
+  ];
 
   constructor(private paymentService: PaymentService) {}
 

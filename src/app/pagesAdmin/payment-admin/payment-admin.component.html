@@ -10,13 +10,7 @@
   </div>
 
   <div class="selects-containers">
-    <select [(ngModel)]="selectedStatus" (change)="filterPayments()">
-      <option value="">Todos los estados</option>
-      <option value="PENDIENTE">Pendiente</option>
-      <option value="VERIFICADO">Verificado</option>
-      <option value="RECHAZADO">Rechazado</option>
-      <option value="EN_REVISION">En Revisión</option>
-    </select>
+    <p-dropdown [options]="statusOptions" [(ngModel)]="selectedStatus" placeholder="Estado" optionLabel="label" optionValue="value" (onChange)="filterPayments()"/>
   </div>
 </div>
 
@@ -59,11 +53,14 @@
         <td>{{ pago.paymentMethod }}</td>
         <td>{{ pago.status }}</td>
         <td>
-          <a
+          <button
+            pButton
+            type="button"
+            label="Ver Voucher"
+            class="button-action"
             (click)="viewFile(pago)"
-            target="_blank"
-            class="text-blue-600 hover:underline"
-          >Ver</a>
+            title="Ver archivo"
+          ></button>
         </td>
         <td>
           <div *ngIf="pago.status === 'EN_REVISION'; else estadoFinalizado" class="d-flex align-items-center gap-2">
