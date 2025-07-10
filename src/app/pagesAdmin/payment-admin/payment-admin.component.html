@@ -8,6 +8,16 @@
       class="input-search"
     />
   </div>
+
+  <div class="selects-containers">
+    <select [(ngModel)]="selectedStatus" (change)="filterPayments()">
+      <option value="">Todos los estados</option>
+      <option value="PENDIENTE">Pendiente</option>
+      <option value="VERIFICADO">Verificado</option>
+      <option value="RECHAZADO">Rechazado</option>
+      <option value="EN_REVISION">En Revisión</option>
+    </select>
+  </div>
 </div>
 
 <div class="table-container">

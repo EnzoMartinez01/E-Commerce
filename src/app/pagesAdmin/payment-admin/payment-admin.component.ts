@@ -28,6 +28,7 @@ export class PaymentAdminComponent implements OnInit {
   payments: PaymentDto[] = [];
   filteredPayments: PaymentDto[] = [];
   filterReference: string = '';
+  selectedStatus: string | null = null;
   loading = true;
   selectedPayment: PaymentDto = {} as PaymentDto;
 
@@ -40,9 +41,8 @@ export class PaymentAdminComponent implements OnInit {
   }
 
   loadAllPayments(): void {
-    this.paymentService.getAllPayments(0, 100).subscribe({
+    this.paymentService.getAllPayments(0, 100, this.filterReference, this.selectedStatus).subscribe({
       next: (res) => {
-        console.log('Respuesta completa del backend:', res);
         this.payments = res.content;
         this.filteredPayments = res.content;
         this.loading = false;
@@ -56,11 +56,7 @@ export class PaymentAdminComponent implements OnInit {
 
 
   filterPayments(): void {
-    const query = this.filterReference.toLowerCase().trim();
-    this.filteredPayments = this.payments.filter((pago) =>
-      pago.reference.toLowerCase().includes(query) ||
-      pago.username.toLowerCase().includes(query)
-    );
+    this.loadAllPayments();
   }
 
   validate(id: number, valid: boolean): void {

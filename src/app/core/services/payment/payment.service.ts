@@ -54,7 +54,12 @@ export class PaymentService {
     });
   }
 
-  getAllPayments(page: number, size: number): Observable<any> {
+  getAllPayments(
+    page: number,
+    size: number,
+    search: string | null = null,
+    status: string | null = null
+  ): Observable<any> {
     const token = sessionStorage.getItem('authToken');
     if (!token) {
       throw new Error('Token no encontrado');
@@ -68,8 +73,17 @@ export class PaymentService {
       .set('page', page.toString())
       .set('size', size.toString());
 
-    return this.http.get<any>(`${this.baseUrl}/getAllPayments?page=${page}&size=${size}`, {params, headers});
+    if (search) {
+      params = params.set('search', search);
+    }
+
+    if (status) {
+      params = params.set('status', status);
+    }
+
+    return this.http.get<any>(`${this.baseUrl}/getAllPayments`, { params, headers });
   }
+
 
   getPaymentId(paymentId: number): Observable<any> {
     const token = sessionStorage.getItem('authToken');
