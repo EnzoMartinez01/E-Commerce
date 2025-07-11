@@ -24,7 +24,6 @@ import { FileUploadModule } from 'primeng/fileupload';
     Button,
     InputTextModule,
     FileUploadModule,
-    NgOptimizedImage
   ],
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css']
@@ -34,6 +33,8 @@ export class PaymentComponent implements OnInit {
   selectedFile: File | null = null;
   total: number = 0;
   delivery: number = 0;
+  igv: number = 0;
+  subtotal: number = 0;
   cartId: number = 0;
   fileTouched: boolean = false;
   loading: boolean = false;
@@ -60,7 +61,9 @@ export class PaymentComponent implements OnInit {
             if (summary) {
               this.cartId = summary.idCart;
               const baseTotal = summary.total || 0;
-              this.total = resumen.total ?? (baseTotal + this.delivery);
+              this.subtotal = resumen.subtotal.toFixed(2);
+              this.igv = resumen.igv.toFixed(2);
+              this.total = resumen.total.toFixed(2) ?? (baseTotal + this.delivery).toFixed(2);
             } else {
               alert('No se encontró el carrito. Redirigiendo...');
               this.router.navigate(['/home']);
@@ -117,6 +120,8 @@ export class PaymentComponent implements OnInit {
           this.loading = false;
           if (response.status === 201) {
             alert('Pago enviado correctamente. Recibirás confirmación por correo.');
+            localStorage.removeItem('purchaseSummary');
+            localStorage.removeItem('cart')
             this.router.navigate(['/home']);
           } else {
             alert('Respuesta inesperada del servidor.');

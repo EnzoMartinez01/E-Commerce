@@ -23,6 +23,8 @@ export class PurchaseSummaryComponent implements OnInit {
   selectedAddress: any = null;
   cartItems: any[] = [];
   subtotal: number = 0;
+  total: number = 0;
+  igv: number = 0;
   idCart: number = 0;
   addresses: any[] = [];
   shippingCost = 20;
@@ -34,7 +36,6 @@ export class PurchaseSummaryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const backup = JSON.parse(localStorage.getItem('purchaseSummary') || '{}');
 
     this.authService.getUserInfoFromToken().subscribe({
       next: (user) => {
@@ -44,6 +45,8 @@ export class PurchaseSummaryComponent implements OnInit {
               const cart = res.content[0];
               this.cartItems = cart.cartItems;
               this.idCart = cart.id;
+              this.igv = cart.igv;
+              this.total = cart.total;
 
               console.log('Carrito recibido:', this.cartItems);
 
@@ -54,22 +57,16 @@ export class PurchaseSummaryComponent implements OnInit {
                 return acc + (price * quantity);
               }, 0);
             } else {
-              this.cartItems = backup.cartItems || [];
-              this.subtotal = backup.subtotal || 0;
-              this.idCart = backup.id || null;
+              alert('El carrito está vacio.')
             }
           },
           error: () => {
-            this.cartItems = backup.cartItems || [];
-            this.subtotal = backup.subtotal || 0;
-            this.idCart = backup.id || null;
+            console.log(this.cartService.getCartByUser(user));
           }
         });
       },
       error: () => {
-        this.cartItems = backup.cartItems || [];
-        this.subtotal = backup.subtotal || 0;
-        this.idCart = backup.id || null;
+        console.log('usuario no encontrado: ', this.authService.getUserInfoFromToken());
       }
     });
 
@@ -97,8 +94,9 @@ export class PurchaseSummaryComponent implements OnInit {
       typeShipment: this.tipoEntrega.toUpperCase(),
       address: this.tipoEntrega === 'domicilio' ? this.selectedAddress : null,
       subtotal: this.subtotal,
+      igv: this.igv,
       shippingCost: this.tipoEntrega === 'domicilio' ? this.shippingCost : 0,
-      total: this.tipoEntrega === 'domicilio' ? this.subtotal + this.shippingCost : this.subtotal
+      total: this.tipoEntrega === 'domicilio' ? this.total + this.shippingCost : this.total
     };
 
     localStorage.setItem('cart', JSON.stringify(order));

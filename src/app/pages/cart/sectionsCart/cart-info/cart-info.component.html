@@ -22,8 +22,9 @@
 
     <div class="resumen">
         <h2>Resumen del Carrito</h2>
-        <p>Subtotal: S/. {{ cart.total?.toFixed(2) }}</p>
+        <p>Subtotal: S/. {{ subtotal?.toFixed(2) }}</p>
         <p>Envío: <span class="envio">{{ cart.typeShipment }}</span></p>
+        <p>IGV: S/. {{ cart.igv?.toFixed(2) }}</p>
         <p class="total">Total: S/. {{ cart.total?.toFixed(2) }}</p>
         <button pButton label="Finalizar Compra" class="boton-finalizar" (click)="goToConfirmacion()"></button>
     </div>

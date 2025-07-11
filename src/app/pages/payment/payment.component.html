@@ -1,6 +1,8 @@
 <div class="payment-card">
   <h2 class="mb-3">Resumen del Pago</h2>
+  <p><strong>Subtotal:</strong> S/ {{ subtotal }}</p>
   <p><strong>Envío:</strong> S/ {{ delivery }}</p>
+  <p><strong>IGV:</strong> S/ {{ igv }}</p>
   <p><strong>Total a pagar:</strong> S/ {{ total }}</p>
 
   <p-divider></p-divider>
@@ -17,7 +19,7 @@
 
   <form *ngIf="paymentForm" [formGroup]="paymentForm" (ngSubmit)="submit()">
     <div class="field">
-      <label for="reference">Referencia de pago:</label>
+      <label for="reference">Número de Comprobante:</label>
       <input
         pInputText
         id="reference"
@@ -26,7 +28,7 @@
         placeholder="Ej: Numero de Comprobante"
       />
       <div *ngIf="paymentForm.get('reference')?.invalid && paymentForm.get('reference')?.touched" class="p-error">
-        La referencia es obligatoria.
+        El número de comprobante es obligatorio.
       </div>
     </div>
 

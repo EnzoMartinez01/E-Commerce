@@ -144,7 +144,6 @@ export class CartInfoComponent implements OnInit {
             (item.quantity ?? 1)
           ), 0
       );
-      this.cart.total = this.subtotal;
     } else {
       this.subtotal = 0;
       this.cart.total = 0;
