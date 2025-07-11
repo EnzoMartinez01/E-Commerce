@@ -10,6 +10,7 @@ import com.empresa.empresa.Models.Payments.Payment;
 import com.empresa.empresa.Models.Payments.PaymentStatus;
 import com.empresa.empresa.Models.Products.Products;
 import com.empresa.empresa.Repositories.Authentication.UsersRepository;
+import com.empresa.empresa.Repositories.Cart.CartItemRepository;
 import com.empresa.empresa.Repositories.Cart.CartRepository;
 import com.empresa.empresa.Repositories.Payments.PaymentRepository;
 import com.empresa.empresa.Repositories.Products.ProductsRepository;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,19 +36,22 @@ public class PaymentService {
     private final UsersRepository usersRepository;
     private final EmailService emailService;
     private final ProductsRepository productRepository;
+    private final CartItemRepository cartItemRepository;
 
     public PaymentService(PaymentRepository paymentRepository,
                           CartRepository cartRepository,
                           UploadedPaymentFileService fileService,
                           UsersRepository usersRepository,
                           EmailService emailService,
-                          ProductsRepository productRepository) {
+                          ProductsRepository productRepository,
+                          CartItemRepository cartItemRepository) {
         this.paymentRepository = paymentRepository;
         this.cartRepository = cartRepository;
         this.fileService = fileService;
         this.usersRepository = usersRepository;
         this.emailService = emailService;
         this.productRepository = productRepository;
+        this.cartItemRepository = cartItemRepository;
     }
 
     // Get all payments
@@ -208,12 +213,17 @@ public class PaymentService {
                         productRepository.save(product);
                     }
 
-                    cart.getCartItems().clear();
-                    cartRepository.save(cart);
-
                 } else if (payment.getStatus() == PaymentStatus.RECHAZADO) {
                     emailService.sendPaymentRejectedEmail(email, fullName, reference);
                 }
+
+                List<CartItems> itemsCopy = new ArrayList<>(cart.getCartItems());
+
+                for (CartItems item : itemsCopy) {
+                    cart.getCartItems().remove(item);
+                    cartItemRepository.delete(item);
+                }
+                cartRepository.saveAndFlush(cart);
 
                 payment.setEmailSent(true);
                 paymentRepository.save(payment);
