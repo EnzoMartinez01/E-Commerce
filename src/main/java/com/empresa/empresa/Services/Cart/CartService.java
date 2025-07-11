@@ -83,6 +83,7 @@ public class CartService {
         dto.setIdPaymentMethod(cart.getPaymentMethod().getId());
         dto.setPaymentMethod(cart.getPaymentMethod().getName());
         dto.setCartItems(cart.getCartItems().stream().map(this::mapToCartItemsDto).toList());
+        dto.setIgv(cart.getIgv());
         dto.setTotal(cart.getTotal());
         return dto;
     }
@@ -185,9 +186,11 @@ public class CartService {
                 cart.getCartItems().add(newItem);
             }
 
-            Double total = cart.getCartItems().stream().mapToDouble(CartItems::getSubTotal).sum();
+            double total = cart.getCartItems().stream().mapToDouble(CartItems::getSubTotal).sum();
             cart.setUsers(currentUser);
-            cart.setTotal(total);
+            double igv = total * 0.18;
+            cart.setIgv(igv);
+            cart.setTotal(total + igv);
             cart.setPaymentMethod(payment);
             cart.setTypeShipment(TypeShipment.PICKUP);
 

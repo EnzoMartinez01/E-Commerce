@@ -41,6 +41,8 @@ public class Cart {
     @JsonManagedReference
     private List<CartItems> cartItems = new ArrayList<>();
 
+    private Double igv;
+
     private Double total;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

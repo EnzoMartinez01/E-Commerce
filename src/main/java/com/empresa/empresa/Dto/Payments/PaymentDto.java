@@ -19,8 +19,8 @@ public class PaymentDto {
 
     // Cart Items
     private List<CartItemsDto> cartItems;
-
     // Cart
+    private Double igv;
     private String paymentMethod;
     private String typeShipment;
     private Double totalAmount;

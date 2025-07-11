@@ -84,6 +84,7 @@ public class PaymentService {
         dto.setEmail(payment.getCart().getUsers().getEmail());
         dto.setDni(payment.getCart().getUsers().getDni());
         dto.setUsername(payment.getCart().getUsers().getUsername());
+        dto.setIgv(payment.getCart().getIgv());
         dto.setCartItems(payment.getCart().getCartItems().stream().map(this::mapToCartItemsDto).toList());
         dto.setPaymentMethod(payment.getCart().getPaymentMethod().getName());
         dto.setTypeShipment(payment.getCart().getTypeShipment().name());

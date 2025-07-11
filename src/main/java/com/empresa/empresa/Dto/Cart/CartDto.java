@@ -20,5 +20,6 @@ public class CartDto {
    private String paymentMethod;
 
    private List<CartItemsDto> cartItems;
+   private Double igv;
    private Double total;
 }
